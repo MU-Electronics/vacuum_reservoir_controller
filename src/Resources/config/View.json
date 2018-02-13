@@ -1,0 +1,16 @@
+{
+  "designed_by": {
+    "phone": "0161 275 4641",
+    "address": "PSI, The University of Manchester",
+    "email": "chemelec@listserv.manchester.ac.uk",
+    "developer": "Sam Mottley",
+    "developer_email": "sam.mottley@manchester.ac.uk"
+  },
+  "designed_for": {
+    "name": "Alex Walton",
+    "company": "The University of Manchester",
+    "section": "Materials Chemistry",
+    "phone": "54136",
+    "email": "alex.walton@manchester.ac.uk"
+  }
+}

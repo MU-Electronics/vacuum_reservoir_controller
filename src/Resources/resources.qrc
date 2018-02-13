@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>views/main.qml</file>
+        <file>assets/images/logo-manchester.png</file>
+        <file>assets/images/UniOfManchesterLogo.svg</file>
+        <file>assets/images/favicon.ico</file>
+        <file>assets/images/favicon.svg</file>
+        <file>views/template/SideBar.qml</file>
+        <file>views/template/TitleBar.qml</file>
+        <file>assets/images/CommingSoon.jpg</file>
+        <file>views/parts/Mode_NotSupported.qml</file>
+        <file>config/Safety.json</file>
+        <file>config/General.json</file>
+        <file>config/Hardware.json</file>
+        <file>config/View.json</file>
+        <file>views/parts/AlertBox.qml</file>
+        <file>views/pages/Default.qml</file>
+    </qresource>
+</RCC>
