@@ -4,11 +4,26 @@ import QtQuick.Layouts 1.0
 import Fluid.Controls 1.0 as FluidControls
 import Fluid.Effects 1.0
 
+import "pages"
+
 FluidControls.ApplicationWindow {
-    width: 640
-    height: 480
-    title: qsTr("Hello World")
+
+    // Ensure there is no frame around the program
+    //flags: Qt.FramelessWindowHint
+
+    // Ensure the window is visable
     visible: true
+
+    // Ensure a minimum width and height
+    minimumWidth: 1280
+    minimumHeight: 725
+
+    title: qsTr("Electronic Services: Vacuum Reservoir Controller")
+
+    // Set the app bar properties
+    appBar.maxActionCount: 1
+
+
 
     initialPage: FluidControls.TabbedPage {
         title: qsTr("Tabbed Page")
@@ -25,6 +40,10 @@ FluidControls.ApplicationWindow {
         FluidControls.Tab {
             title: qsTr("First")
 
+            Label {
+                text: qsTr("First page")
+                anchors.centerIn: parent
+            }
         }
 
         FluidControls.Tab {
