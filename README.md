@@ -1,10 +1,9 @@
-# Per-project installation with qmake
+# Qt Project
 
-Fetch Fluid sources from the root directory of your project:
+This Qt projects pulls together multiple Qt projects thats depend on each other
 
-```sh
-git clone https://github.com/lirios/fluid.git
-```
+  * src: Main Qt program 
+  * vendor/fluid: collection of cross-platform QtQuick components for building fluid and dynamic applications
+  * vendor/qutipi-c++: C++ framework for the Quti Pi compute board with a CM3.
 
-Now create a project like `minimalqmake.pro` that includes both `fluid`
-and the actual code of your app (inside the `src` sub-directory).
+

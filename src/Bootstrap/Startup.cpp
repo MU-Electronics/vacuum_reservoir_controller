@@ -7,13 +7,10 @@
 #include <QQmlContext>
 #include <QtGlobal>
 
-// Include the template framework
-#include "iconsimageprovider.h"
-#include "iconthemeimageprovider.h"
-
 // Application includes
 #include "App/Application.h"
 
+// Debugger service
 #include "App/Services/Debugger.h"
 
 namespace Bootstrap
@@ -66,11 +63,6 @@ namespace Bootstrap
         // Setup the styling
         if (QQuickStyle::name().isEmpty())
             QQuickStyle::setStyle(QLatin1String("Material"));
-
-        // Load the template framework
-        m_engine.addImportPath(QLatin1String("qrc:/"));
-        m_engine.addImageProvider(QLatin1String("fluidicons"), new IconsImageProvider());
-        m_engine.addImageProvider(QLatin1String("fluidicontheme"), new IconThemeImageProvider());
     }
 
 

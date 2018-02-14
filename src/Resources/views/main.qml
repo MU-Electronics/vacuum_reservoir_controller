@@ -1,60 +1,39 @@
-import QtQuick 2.6
+import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
-import QtQuick.Controls.Universal 2.0
-import QtQuick.Layouts 1.3
-import Fluid.Controls 1.0
-import QtQuick.Window 2.2
+import QtQuick.Layouts 1.0
+import Fluid.Controls 1.0 as FluidControls
+import Fluid.Effects 1.0
 
-import "template"
-import "pages"
-
-ApplicationWindow {
-    // Id for application window
-    id: window
-
-    // Ensure there is no frame around the program
-    //flags: Qt.FramelessWindowHint
-
-    // Ensure the window is visable
+FluidControls.ApplicationWindow {
+    width: 640
+    height: 480
+    title: qsTr("Hello World")
     visible: true
 
-    // Ensure a minimum width and height
-    minimumWidth: 800
-    minimumHeight: 480
+    initialPage: FluidControls.TabbedPage {
+        title: qsTr("Tabbed Page")
 
-    // Ensure we are in full screen mode
-    visibility: "Maximized"
+        actions: [
+            FluidControls.Action {
+                iconName: "content/add"
+                text: qsTr("Add content")
+                toolTip: qsTr("Add content")
+                onTriggered: console.log("Example action...")
+            }
+        ]
 
-    // Title for the program
-    title: qsTr("JFET Services: Vacuum Reservior Controller")
+        FluidControls.Tab {
+            title: qsTr("First")
 
-    // Set the app bar properties
-    appBar.maxActionCount: 1
-
-    // Set the default colours
-    Material.primary: Material.LightBlue
-    Material.accent: Material.Blue
-    Universal.accent: Universal.Cobalt
-
-    // Draw the title bar
-    initialPage: TitleBar{}
-
-    // Draw the side bar
-    SideBar{
-        id: listPane
-    }
-
-    // Draw the stack / main view
-    StackView {
-        id: stackView
-        anchors {
-            left: listPane.right
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
         }
-        initialItem: Default{}
-    }
 
+        FluidControls.Tab {
+            title: qsTr("Second")
+
+            Label {
+                text: qsTr("Second page")
+                anchors.centerIn: parent
+            }
+        }
+    }
 }

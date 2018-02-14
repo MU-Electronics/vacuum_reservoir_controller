@@ -1,4 +1,4 @@
-[submodule "vendor/fluid"]
+[submodule "fluid"]
 	path = vendor/fluid
 	url = https://github.com/lirios/fluid
 	branch = master

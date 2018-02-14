@@ -4,7 +4,6 @@
 #include <QQmlApplicationEngine>
 #include "App/Application.h"
 
-//class QQuickItem;
 class QQmlApplicationEngine;
 
 namespace Bootstrap{

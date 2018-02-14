@@ -1,18 +1,7 @@
 // Qt includes
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <QFile>
 #include <QtDebug>
-#include <QTextStream>
-#include <QMutex>
-#include <QDateTime>
-#include <QStandardPaths>
-#include <QDir>
-#include <QLoggingCategory>
-
-// Include the template framework
-#include "iconsimageprovider.h"
-#include "iconthemeimageprovider.h"
 
 // Require app
 #include "Bootstrap/Startup.h"
