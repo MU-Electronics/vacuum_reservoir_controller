@@ -55,5 +55,6 @@ This folder contains a Qt project that is managed by Qutipi and is a set of C fu
 
 ## License
 
+Licensed under the [GNU Lesser General Public License (LGPL)](http://doc.qt.io/qt-5/lgpl.html) version 3.
 
-
+All rights reserved to change at any time.
