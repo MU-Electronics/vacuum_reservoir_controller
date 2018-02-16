@@ -66,7 +66,7 @@ macx {
 }
 
 win32 {
-    WINDEPLOYQT_OPTIONS = -qmldir $$OUT_PWD/../fluid/qml/Fluid
+    WINDEPLOYQT_OPTIONS = -qmldir $$OUT_PWD/../vendor/fluid/qml/Fluid
 }
 
 # Default rules for deployment.
