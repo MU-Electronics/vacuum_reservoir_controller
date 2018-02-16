@@ -1,3 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS += vendor/fluid src
+SUBDIRS += vendor/fluid vendor/qutipi-cpp src
+
+DISTFILES += \
+    readme.md

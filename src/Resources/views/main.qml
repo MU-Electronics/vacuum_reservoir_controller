@@ -15,42 +15,56 @@ FluidControls.ApplicationWindow {
     visible: true
 
     // Ensure a minimum width and height
-    minimumWidth: 1280
-    minimumHeight: 725
+    minimumWidth: 800
+    minimumHeight: 480
 
-    title: qsTr("Electronic Services: Vacuum Reservoir Controller")
+    title: qsTr("JFET Services: Vacuum Reservoir Controller")
 
     // Set the app bar properties
-    appBar.maxActionCount: 1
-
-
+    appBar.maxActionCount: 2
 
     initialPage: FluidControls.TabbedPage {
-        title: qsTr("Tabbed Page")
+        title: qsTr("JFET Services: Vacuum Reservoir Controller")
 
         actions: [
             FluidControls.Action {
-                iconName: "content/add"
-                text: qsTr("Add content")
-                toolTip: qsTr("Add content")
-                onTriggered: console.log("Example action...")
+                iconName: "action/settings"
+                text: qsTr("System Settings")
+                toolTip: qsTr("Advanced system settings")
+                onTriggered: console.log("Go to settings page")
+            },
+            FluidControls.Action {
+                iconName: "action/help"
+                text: qsTr("Help")
+                toolTip: qsTr("Help")
+                onTriggered: console.log("Show help dialog")
             }
         ]
 
         FluidControls.Tab {
-            title: qsTr("First")
+            title: qsTr("System Control")
 
             Label {
-                text: qsTr("First page")
+                text: qsTr("System Control")
                 anchors.centerIn: parent
             }
         }
 
         FluidControls.Tab {
-            title: qsTr("Second")
+            title: qsTr("Vacuum Data")
 
             Label {
-                text: qsTr("Second page")
+                text: qsTr("Vacuum Data")
+                anchors.centerIn: parent
+            }
+
+        }
+
+        FluidControls.Tab {
+            title: qsTr("Switch Pump")
+
+            Label {
+                text: qsTr("Switch Pump")
                 anchors.centerIn: parent
             }
         }

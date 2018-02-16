@@ -2,3 +2,7 @@
 	path = vendor/fluid
 	url = https://github.com/lirios/fluid
 	branch = master
+[submodule "qutipi-cpp"]
+	path = vendor/qutipi-cpp
+	url = https://github.com/QutiPi/qutipi-cpp
+	branch = master

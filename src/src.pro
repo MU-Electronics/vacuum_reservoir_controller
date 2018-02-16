@@ -31,10 +31,12 @@ RESOURCES += \
     Resources/resources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$OUT_PWD/../fluid/qml
+# QML_IMPORT_PATH = $$OUT_PWD/../fluid/qml
+QML_IMPORT_PATH = $$OUT_PWD/../vendor/fluid/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH = $$OUT_PWD/../fluid/qml
+# QML_DESIGNER_IMPORT_PATH = $$OUT_PWD/../fluid/qml/Fluid/Controls/plugins.qmltypes
+# QML_DESIGNER_IMPORT_PATH += $$OUT_PWD/../fluid/qml/Fluid/Controls
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -57,7 +59,8 @@ android {
 
 macx {
     # Bundle Fluid QML plugins with the application
-    APP_QML_FILES.files = $$OUT_PWD/../fluid/qml/Fluid
+    #APP_QML_FILES.files = $$OUT_PWD/../fluid/qml/Fluid
+    APP_QML_FILES.files = $$OUT_PWD/../vendor/fluid/qml/Fluid
     APP_QML_FILES.path = Contents/MacOS
     QMAKE_BUNDLE_DATA += APP_QML_FILES
 }
@@ -88,3 +91,12 @@ HEADERS += \
     App/Services/Debugger.h \
     App/View/Managers/Graphs/Graph.h \
     App/Services/Debuging.h
+
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/release/ -lqutipi-cpp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/debug/ -lqutipi-cpp
+else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
+
+INCLUDEPATH += $$PWD/../vendor/qutipi-cpp
+DEPENDPATH += $$PWD/../vendor/qutipi-cpp

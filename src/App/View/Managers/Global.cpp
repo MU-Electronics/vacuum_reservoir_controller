@@ -1,7 +1,11 @@
 #include "Global.h"
 
+// QutiPi C++
+#include "QutipiCpp.h"
+
 // Include external libs
 #include <QMap>
+#include <QDebug>
 
 namespace App { namespace View { namespace Managers
 {
@@ -23,7 +27,9 @@ namespace App { namespace View { namespace Managers
      */
     void Global::makeConnections()
     {
+        auto* Qutipi = new QutipiCpp();
 
+        qDebug() << Qutipi->helloWorld(192);
     }
 
 

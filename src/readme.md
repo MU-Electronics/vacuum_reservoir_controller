@@ -1,6 +1,8 @@
 # Main Program
 
-This Qt project contains the main application program.
+This Qt project contains the main application program for you project.
+
+Develop your custom program here; but remember you may using the functionality fo QutiPi and Fluid from within this project.
 
 
 # Qt Framework
