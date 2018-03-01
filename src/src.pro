@@ -100,3 +100,5 @@ else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
 
 INCLUDEPATH += $$PWD/../vendor/qutipi-cpp
 DEPENDPATH += $$PWD/../vendor/qutipi-cpp
+
+INCLUDEPATH += $$PWD/../vendor/qutipi-cpp/Targets/RaspberryPiCM3 \

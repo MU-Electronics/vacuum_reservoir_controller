@@ -27,9 +27,11 @@ namespace App { namespace View { namespace Managers
      */
     void Global::makeConnections()
     {
-        auto* Qutipi = new QutipiCpp();
+        auto* qutipi = new QutipiCpp();
 
-        qDebug() << Qutipi->helloWorld(192);
+        qDebug() << qutipi->helloWorld(192);
+
+        delete qutipi;
     }
 
 
