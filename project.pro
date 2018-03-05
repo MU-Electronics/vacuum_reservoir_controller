@@ -2,9 +2,6 @@
 # Project type includes sub dirs
 TEMPLATE = subdirs
 
-# Include the confiruation file
-include(config.pri)
-
 # Increase sub projects
 SUBDIRS += vendor/fluid vendor/qutipi-cpp src
 

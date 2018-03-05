@@ -1,8 +1,5 @@
 #include "Global.h"
 
-// QutiPi C++
-#include "QutipiCpp.h"
-
 // Include external libs
 #include <QMap>
 #include <QDebug>
@@ -12,7 +9,10 @@ namespace App { namespace View { namespace Managers
     Global::Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings, Experiment::Engine& experimentEngine)
         : QObject(parent),
           m_root(root),
-          m_settings(settings)
+          m_settings(settings),
+
+          // Define a digital pin
+          examplePin(new DigitalIn(5))
     {
 
     }
@@ -27,11 +27,7 @@ namespace App { namespace View { namespace Managers
      */
     void Global::makeConnections()
     {
-        auto* qutipi = new QutipiCpp();
-
-        qDebug() << qutipi->helloWorld(192);
-
-        delete qutipi;
+        qDebug() << examplePin.read();
     }
 
 

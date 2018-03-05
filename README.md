@@ -24,6 +24,15 @@ This project was intended to be used with Qt >= 5.9.0 which is the current LTS v
 
 The project is also intended to be used with a QutiPi board however any board with a Raspberry pi CM3 should be fine also.
 
+## Coding Standards
+
+This project is no too strict on coding standard however i encourage you to have a scan through http://www.possibility.com/Cpp/CppCodingStandard.html
+
+Noting the main difference betwen sytax for C vs C++, for example for function / method names
+
+  * C: gpio_init()
+  * C++: gpioInit()
+
 ## Folders
 
 Below is an explaination of the main folder within this repo
@@ -52,6 +61,16 @@ The version of Fluid used by QutiPi is V0.11.0 from the master branch. The lates
 #### qutipi-c++
 
 This folder contains a Qt project that is managed by Qutipi and is a set of C functions and C++ classes, which aids in using the functionality / control of QutiPi, additional ICs and modules.
+
+Update to the lastest version by following the below
+
+```bash
+cd vendor/qutipi-cpp
+git pull origin master
+cd ../../
+git add .
+git commit -a -m "Updated to the latest release of QutiPi-Cpp"
+```
 
 ## License
 

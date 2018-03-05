@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QVariantMap>
 
+#include <Drivers/DigitalIn.h>
+
 // View contract
 #include "Manager.h"
 
@@ -46,6 +48,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds the connection statuses for all the hardware
             QVariantMap m_hardwareConnection;
+
+            // Example digital pin input
+            DigitalIn examplePin;
 
     };
 }}}
