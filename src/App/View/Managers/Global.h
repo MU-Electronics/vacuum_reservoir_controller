@@ -50,7 +50,7 @@ namespace App { namespace View { namespace Managers
             QVariantMap m_hardwareConnection;
 
             // Example digital pin input
-            DigitalIn examplePin;
+            DigitalIn& examplePin;
 
     };
 }}}
