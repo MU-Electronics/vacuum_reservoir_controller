@@ -18,9 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 # Default rules for deployment.
-#qnx: target.path = /tmp/$${TARGET}/bin
-#else: unix:!android: target.path = /opt/$${TARGET}/bin
-#!isEmpty(target.path): INSTALLS += target
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /home/root/qutipi
+!isEmpty(target.path): INSTALLS += target
 
 
 
@@ -98,8 +98,6 @@ win32 {
 
 
 # Include the QutiPi prorject lubaray
-# TARGET = ../src
-
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/release/ -lqutipi-cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/debug/ -lqutipi-cpp
 else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
