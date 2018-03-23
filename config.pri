@@ -1,3 +1,3 @@
 
 # Which target should we compile for
-TARGETBOARD = RaspberryPiCM3
+TARGETBOARD = RaspberryPiCm3
