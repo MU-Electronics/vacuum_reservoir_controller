@@ -18,6 +18,14 @@ git clone --recurse-submodules https://github.com/QutiPi/qt-starter my_project
 
 You can now open the project.pro file in Qt Creator to start your new project.
 
+## Update submodules
+
+In the future if you want to update the fluid and quitpi-cpp packages you can run the below
+
+```bash
+git submodule update --remote --recursive
+```
+
 ## Requirements
 
 This project was intended to be used with Qt >= 5.9.0 which is the current LTS version as of writing.

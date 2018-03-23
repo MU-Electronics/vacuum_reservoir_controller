@@ -1,7 +1,7 @@
 // Qt includes
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <QtDebug>
+#include <QDebug>
 
 // Require app
 #include "Bootstrap/Startup.h"

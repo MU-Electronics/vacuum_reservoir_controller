@@ -6,7 +6,7 @@ TEMPLATE = app
 QT += qml quick quickcontrols2 widgets serialport charts
 
 # Ensure we're using C11 standard
-CONFIG += c++11
+CONFIG += c++11 static
 
 # Include the confiruation file
 include($$PWD/../config.pri)
@@ -101,6 +101,7 @@ win32 {
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/release/ -lqutipi-cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/debug/ -lqutipi-cpp
 else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp -lqutipi-cpp
+LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp -lqutipi-cpp
 INCLUDEPATH += $$PWD/../vendor/qutipi-cpp
 DEPENDPATH += $$PWD/../vendor/qutipi-cpp
 
