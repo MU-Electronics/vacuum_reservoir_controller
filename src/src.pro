@@ -18,9 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 
 
@@ -98,15 +98,23 @@ win32 {
 
 
 # Include the QutiPi prorject lubaray
+# TARGET = ../src
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/release/ -lqutipi-cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/debug/ -lqutipi-cpp
-else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp -lqutipi-cpp
-LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp -lqutipi-cpp
+else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
+else:macx: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
+
 INCLUDEPATH += $$PWD/../vendor/qutipi-cpp
 DEPENDPATH += $$PWD/../vendor/qutipi-cpp
 
-# Include the target board headers
-INCLUDEPATH += $$PWD/../vendor/qutipi-cpp/Targets/$${TARGETBOARD} \
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/release/libqutipi-cpp.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/debug/libqutipi-cpp.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/release/qutipi-cpp.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/debug/qutipi-cpp.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
+else:macx:PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
+
 
 
 
@@ -114,3 +122,4 @@ INCLUDEPATH += $$PWD/../vendor/qutipi-cpp/Targets/$${TARGETBOARD} \
 # Include the read me files and licensing files
 DISTFILES += \
     readme.md
+
