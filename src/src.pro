@@ -100,7 +100,7 @@ win32 {
 # Include the QutiPi prorject lubaray
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/release/ -lqutipi-cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/debug/ -lqutipi-cpp
-else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp/ -lqutipi-cpp
+else:unix: LIBS += -L$$OUT_PWD/../vendor/qutipi-cpp -lqutipi-cpp
 INCLUDEPATH += $$PWD/../vendor/qutipi-cpp
 DEPENDPATH += $$PWD/../vendor/qutipi-cpp
 
