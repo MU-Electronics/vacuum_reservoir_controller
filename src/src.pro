@@ -18,9 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /home/root/qutipi
-!isEmpty(target.path): INSTALLS += target
+target.path = /home/root/qutipi_remote
+INSTALLS += target
 
 
 

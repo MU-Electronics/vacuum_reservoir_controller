@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMap>
 #include <QVariantMap>
+#include <QTimer>
 
 #include <Drivers/DigitalIn.h>
 
@@ -39,6 +40,8 @@ namespace App { namespace View { namespace Managers
         signals:
 
         public slots:
+            void readAdc();
+
 
         private:
             QQmlApplicationEngine* m_root;
@@ -51,6 +54,8 @@ namespace App { namespace View { namespace Managers
 
             // Example digital pin input
             DigitalIn& examplePin;
+
+            QTimer &m_timer;
 
     };
 }}}

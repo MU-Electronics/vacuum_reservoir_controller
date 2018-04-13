@@ -24,7 +24,7 @@ FluidControls.ApplicationWindow {
     appBar.maxActionCount: 2
 
     initialPage: FluidControls.TabbedPage {
-        title: qsTr("JFET Services: Vacuum Reservoir Controller")
+        title: qsTr("JFET Services: Vacuum Reservoir Controllers")
 
         actions: [
             FluidControls.Action {
