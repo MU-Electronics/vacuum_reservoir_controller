@@ -8,7 +8,18 @@
 #include <QVariantMap>
 #include <QTimer>
 
+#include <Hal/gpio_api.h>
+#include <Hal/gpio_irq_api.h>
+#include <Hal/pin_map.h>
+#include <Hal/delay_api.h>
+#include <Hal/time_api.h>
+
 #include <Drivers/DigitalIn.h>
+#include <Drivers/DigitalOut.h>
+#include "Drivers/InterruptIn.h"
+
+#include <Hardware/ADC/MCP3424.h>
+
 
 // View contract
 #include "Manager.h"
@@ -37,11 +48,15 @@ namespace App { namespace View { namespace Managers
             // Make connections with outside world
             void makeConnections();
 
+            // Interrupt function
+            void handlerInter();
+
         signals:
 
         public slots:
             void readAdc();
-
+            void togglePort();
+            void testInterrupt();
 
         private:
             QQmlApplicationEngine* m_root;
@@ -53,9 +68,33 @@ namespace App { namespace View { namespace Managers
             QVariantMap m_hardwareConnection;
 
             // Example digital pin input
-            DigitalIn& examplePin;
+            QutiPi::Drivers::DigitalIn& m_inputPin1;
 
+            // MCP3424 control
+            QutiPi::Hardware::ADC::MCP3424::Device m_device;
+            QutiPi::Hardware::ADC::MCP3424* m_mcp3224;
+
+            // Interrupt pin
+            QutiPi::Drivers::InterruptIn m_interruptIn;
+
+            // Current port state
+            int m_portState = 1;
+            int m_portState2 = 0;
+            unsigned int interruptTime = 0;
+            std::vector<unsigned int> interruptAverage;
+
+            // Digital out pin
+            QutiPi::Drivers::DigitalOut& m_outputPin1;
+            QutiPi::Drivers::DigitalOut& m_outputPin2;
+            QutiPi::Drivers::DigitalOut& m_outputPin3;
+            QutiPi::Drivers::DigitalOut& m_outputPin4;
+            QutiPi::Drivers::DigitalOut& m_outputPin5;
+
+            // Timer
             QTimer &m_timer;
+
+            void setupMcp3424();
+            void setupInterrupts();
 
     };
 }}}

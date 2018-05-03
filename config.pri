@@ -1,3 +1,4 @@
 
 # Which target should we compile for
-TARGETBOARD = RaspberryPiCm3
+TARGETSOC = BCM2837
+TARGETBOARD = QutiPiV1

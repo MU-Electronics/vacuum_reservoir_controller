@@ -12,6 +12,9 @@
 // Debugging catergories
 #include "App/Services/Debuging.h"
 
+// Setup QutiPi framework
+#include <QutiPi.h>
+
 
 /**
  * Main applcation function
@@ -23,6 +26,9 @@
  */
 int main(int argc, char *argv[])
 {
+    // Setup QutiPi framework
+    qutipi_setup();
+
     // Fixes bug with Qt not including fluids qml components (windows)
     qputenv("QML2_IMPORT_PATH", "../vendor/fluid/qml");
 
@@ -35,7 +41,6 @@ int main(int argc, char *argv[])
     // Install the debugger
     if(App::Services::Debugger::getInstance().wasSuccess())
         qInstallMessageHandler(App::Services::Debugger::handlerAccessor);
-
     // Boot the applcation
     Bootstrap::Startup loader;
 
