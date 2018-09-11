@@ -20,6 +20,8 @@ namespace App { namespace Experiment
 
             ~Engine();
 
+            Engine(const Engine&) = delete;
+
             void makeConnections();
 
         private:

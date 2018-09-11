@@ -52,9 +52,11 @@ HEADERS += \
     App/Settings/Container.h \
     App/Services/SerialController.h \
     App/View/Managers/Global.h \
+    App/View/Managers/Manager.h \
     App/Services/Debugger.h \
     App/View/Managers/Graphs/Graph.h \
-    App/Services/Debuging.h
+    App/Services/Debuging.h \
+    App/View/ManagerFactory.h
 
 
 # Include the resource file

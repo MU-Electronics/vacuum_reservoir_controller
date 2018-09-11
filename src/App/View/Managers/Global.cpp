@@ -1,10 +1,6 @@
 #include "Global.h"
 
-
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <vector>
 
 
@@ -29,7 +25,7 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Global::Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings, Experiment::Engine& experimentEngine)
+    Global::Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
@@ -63,6 +59,12 @@ namespace App { namespace View { namespace Managers
 
         // Example of using delays
         delay(1, US);
+    }
+
+
+    Global::~Global()
+    {
+        qDebug() << "Deleting Global";
     }
 
 

@@ -9,6 +9,9 @@
 // Settings container
 #include "Settings/Container.h"
 
+// View manager factory
+#include "View/ManagerFactory.h"
+
 // View managers
 #include "View/Managers/Global.h"
 
@@ -37,9 +40,13 @@ namespace App
             // Hold the instance of expeirment engine
             Experiment::Engine& experiment_engine;
 
-            // View managers
-            View::Managers::Global& manager_global;
+            // View manager factory
+            View::ManagerFactory& manager_factory;
 
+            // View managers
+            // View::Managers::Global& manager_global;
+
+            void createManagers();
             void registerManagers();
             void registerQmlTypes();
             void registerAddtionalThreads();

@@ -43,7 +43,9 @@ namespace App { namespace View { namespace Managers
         AUTO_PROPERTY(int, currentNavigation)
 
         public:
-            Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings, Experiment::Engine &experimentEngine);
+            Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+
+            ~Global();
 
             // Make connections with outside world
             void makeConnections();

@@ -38,22 +38,22 @@ namespace App
         :   QObject(parent)
         ,   m_engine(engine)
 
-            // debugging instance
+            // Create instance of the settings container
+        ,   settings_container(*new Settings::Container)
 
-
-           // Create instance of the settings container
-        ,  settings_container(*new Settings::Container)
-
-            // Start objects that are to be threaded
+            // Create instances that are to be threaded
 
             // Include the expeirment engine
         ,    experiment_engine(*new Experiment::Engine(this, settings_container))
 
-            // Create instance for each view manager
-        ,   manager_global(*new View::Managers::Global(parent, engine, settings_container, experiment_engine))
+            // View manager factory
+        ,   manager_factory(*new View::ManagerFactory())
     {
         // Register qml types with qml
         registerQmlTypes();
+
+        // Create managers
+        createManagers();
 
         // Load all managers
         registerManagers();
@@ -88,6 +88,17 @@ namespace App
 
 
     /**
+     * Create instance for each view manager
+     *
+     * @brief Application::createManagers
+     */
+    void Application::createManagers()
+    {
+        manager_factory.create<View::Managers::Global>("Global", this,  m_engine, settings_container);
+    }
+
+
+    /**
      * Register all the view manager instances
      *
      * @brief Application::registerManagers
@@ -95,7 +106,7 @@ namespace App
     void Application::registerManagers()
     {
         // Set global manger
-        m_engine->rootContext()->setContextProperty("GlobalManager", &manager_global);
+        m_engine->rootContext()->setContextProperty("GlobalManager", manager_factory.get<View::Managers::Global>("Global"));
     }
 
 
@@ -107,8 +118,7 @@ namespace App
      */
     void Application::registerQmlTypes()
     {
-        // Rig diagram qml type
-        //qmlRegisterType<App::View::QmlTypes::RigDiagram>("App", 1, 0, "RigDiagram");
+
     }
 
 
@@ -142,7 +152,7 @@ namespace App
     void Application::connectViewToThreads()
     {
         // Make connections for global view manager
-        manager_global.makeConnections();
+        //manager_global.makeConnections();
     }
 
 

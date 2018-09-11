@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QDebug>
+
 // Debugging catergories
 #include "../../Services/Debuging.h"
 
@@ -7,8 +9,20 @@ namespace App { namespace View { namespace Managers
 {
     class Manager
     {
+        public:
 
-        virtual void makeConnections() = 0;
+            Manager()
+            {
+            }
+
+            ~Manager()
+            {
+            }
+
+
+            Manager(const Manager&) = delete;
+
+            virtual void makeConnections() = 0;
 
     };
 }}}
