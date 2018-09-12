@@ -37,16 +37,17 @@ FluidControls.ApplicationWindow {
                 iconName: "action/help"
                 text: qsTr("Help")
                 toolTip: qsTr("Help")
-                onTriggered: console.log("Show help dialog")
+                onTriggered: GlobalManager.test()
             }
         ]
 
         FluidControls.Tab {
             title: qsTr("System Control")
 
-            Label {
-                text: qsTr("System Control")
-                anchors.centerIn: parent
+            Default{
+                anchors.top: parent.top
+                height: 480 - parent.height
+                width: 800
             }
         }
 

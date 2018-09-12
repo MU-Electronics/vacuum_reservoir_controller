@@ -15,5 +15,7 @@
         <file>config/View.json</file>
         <file>views/parts/AlertBox.qml</file>
         <file>views/pages/Default.qml</file>
+        <file>views/parts/rig/Valve.qml</file>
+        <file>views/parts/rig/Barrel.qml</file>
     </qresource>
 </RCC>
