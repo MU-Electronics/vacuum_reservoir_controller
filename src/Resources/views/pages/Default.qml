@@ -8,8 +8,8 @@ import "../parts/rig"
 Item{
     id:rig
 
-    width: parent.width
-    height: parent.height
+    //width: parent.width
+    //height: parent.height
 
     property double rowsize: 101
 

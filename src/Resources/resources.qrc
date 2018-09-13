@@ -22,5 +22,6 @@
         <file>views/parts/rig/Comment.qml</file>
         <file>views/pages/parts/DefaultChamber.qml</file>
         <file>views/pages/PressureGraphs.qml</file>
+        <file>views/pages/SystemLogs.qml</file>
     </qresource>
 </RCC>

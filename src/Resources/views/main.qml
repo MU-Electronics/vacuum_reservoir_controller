@@ -25,12 +25,12 @@ FluidControls.ApplicationWindow {
 
     BusyIndicator {
         id: tabLoading
-        running: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading)) ? true : false
+        running: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading) || (systemLogsTab == Loader.Loading)) ? true : false
         width: 80
         height: 80
         x: 350
         y: 180
-        visible: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading)) ? true : false
+        visible: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading) || (systemLogsTab == Loader.Loading)) ? true : false
     }
 
     initialPage: FluidControls.TabbedPage {
@@ -82,9 +82,13 @@ FluidControls.ApplicationWindow {
         FluidControls.Tab {
             title: qsTr("System logs")
 
-            Label {
-                text: qsTr("List logs here")
-                anchors.centerIn: parent
+            Loader {
+                id: systemLogsTab
+                width: parent.width
+                source: "pages/SystemLogs.qml"
+                active: (mainTab.currentIndex === 2) ? true : false
+                asynchronous: true
+                visible: (status == Loader.Ready && mainTab.currentIndex == 2) ? true : false
             }
         }
     }
