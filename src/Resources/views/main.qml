@@ -23,7 +23,18 @@ FluidControls.ApplicationWindow {
     // Set the app bar properties
     appBar.maxActionCount: 2
 
+    BusyIndicator {
+        id: tabLoading
+        running: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading)) ? true : false
+        width: 80
+        height: 80
+        x: 350
+        y: 180
+        visible: ((defaultTab.status == Loader.Loading) || (pressureGraphsTab.status == Loader.Loading)) ? true : false
+    }
+
     initialPage: FluidControls.TabbedPage {
+        id: mainTab
         title: qsTr("JFET Services: Vacuum Reservoir Controllers")
 
         actions: [
@@ -44,28 +55,35 @@ FluidControls.ApplicationWindow {
         FluidControls.Tab {
             title: qsTr("System Control")
 
-            Default{
-                anchors.top: parent.top
-                height: 480 - parent.height
-                width: 800
+            Loader {
+                id: defaultTab
+                width: parent.width
+                source: "pages/Default.qml"
+                active: (mainTab.currentIndex === 0) ? true : false
+                asynchronous: true
+                visible: (status == Loader.Ready && mainTab.currentIndex == 0) ? true : false
             }
         }
 
         FluidControls.Tab {
-            title: qsTr("Vacuum Data")
+            title: qsTr("Pressure Graphs")
 
-            Label {
-                text: qsTr("Vacuum Data")
-                anchors.centerIn: parent
+            Loader {
+                id: pressureGraphsTab
+                width: parent.width
+                source: "pages/PressureGraphs.qml"
+                active: (mainTab.currentIndex === 1) ? true : false
+                asynchronous: true
+                visible: (status == Loader.Ready && mainTab.currentIndex == 1) ? true : false
             }
 
         }
 
         FluidControls.Tab {
-            title: qsTr("Switch Pump")
+            title: qsTr("System logs")
 
             Label {
-                text: qsTr("Switch Pump")
+                text: qsTr("List logs here")
                 anchors.centerIn: parent
             }
         }

@@ -14,6 +14,9 @@ Rectangle
     // Valve name
     property string name: "V?"
 
+    // Angle
+    property bool angle: true
+
     // Colours depend on valve state
     property string colour1: {
         if(valve.state === 1) // Open
@@ -62,6 +65,12 @@ Rectangle
     height: 28
     width: 31
     color: "transparent"
+
+    transform: Rotation {
+        origin.x: 0;
+        origin.y: 11;
+        angle: (valve.angle) ? 0 : 90;
+    }
 
 
     // Top Flang
@@ -209,12 +218,19 @@ Rectangle
             width: 45
             horizontalAlignment: Text.AlignHCenter
             text: valve.name
+            font.weight: Font.DemiBold
             font.pointSize: 9
             color: "#5b5b5b"
             anchors.right: parent.left;
-            anchors.rightMargin: 0
+            anchors.rightMargin: (valve.angle) ? 0 : -30;
             anchors.top: parent.top;
-            anchors.topMargin: -11
+            anchors.topMargin: (valve.angle) ? -11 : -5;
+
+            transform: Rotation {
+                origin.x: 0;
+                origin.y: 0;
+                angle: (valve.angle) ? 0 : 270;
+            }
 
             Text{
                 width: 40

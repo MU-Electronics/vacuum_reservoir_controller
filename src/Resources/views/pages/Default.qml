@@ -1,39 +1,248 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 
+import "parts"
 import "../parts/rig"
 
-
 Item{
+    id:rig
+
     width: parent.width
     height: parent.height
 
-    Valve{
-        // anchors.top: parent.top
-        x: 100
-        y: 100
-        state: 1
+    property double rowsize: 101
+
+    Popup {
+        id: popup
+        width: 400
+        height: 200
+        x: parent.width / 4
+        y: parent.height / 4
+        closePolicy: Popup.NoAutoClose
+        modal: true
+        visible: SystemValuesManager.initialising;
+
+        Text{
+            id: pleasewait
+            text: "System initialising, please wait..."
+            anchors.left: parent.Left
+            y: parent.height / 4
+            width: parent.width
+            height: 20
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pointSize : 15
+        }
+
+        BusyIndicator {
+            running: true
+            x: (parent.width / 2)-30
+
+            anchors.top: pleasewait.bottom
+            anchors.topMargin: 20
+        }
     }
 
-    Valve{
-        // anchors.top: parent.top
-        x: 200
-        y: 100
-        state: 2
+    Row
+    {
+        spacing: 30
+        width: parent.width
+        height: parent.height
+        anchors.left: parent.left;
+        anchors.leftMargin: 20
+
+        anchors.top: parent.top;
+        anchors.topMargin: 10
+
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["1_status"];
+            valve_name: SystemValuesManager.valveState["1_name"];
+
+            barrel_status: SystemValuesManager.barrelState["1_status"];
+            barrel_name: SystemValuesManager.barrelState["1_name"];
+
+            pressure_status: SystemValuesManager.pressureState["1_status"];
+            pressure_value: SystemValuesManager.pressureState["1_value"];
+            pressure_name: SystemValuesManager.pressureState["1_name"];
+
+            comment: SystemValuesManager.commentState["1_value"];
+        }
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["2_status"];
+            valve_name: SystemValuesManager.valveState["2_name"];
+
+            barrel_status: SystemValuesManager.barrelState["2_status"];
+            barrel_name: SystemValuesManager.barrelState["2_name"];
+
+            pressure_status: SystemValuesManager.pressureState["2_status"];
+            pressure_value: SystemValuesManager.pressureState["2_value"];
+            pressure_name: SystemValuesManager.pressureState["2_name"];
+
+            comment: SystemValuesManager.commentState["2_value"];
+        }
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["3_status"];
+            valve_name: SystemValuesManager.valveState["3_name"];
+
+            barrel_status: SystemValuesManager.barrelState["3_status"];
+            barrel_name: SystemValuesManager.barrelState["3_name"];
+
+            pressure_status: SystemValuesManager.pressureState["3_status"];
+            pressure_value: SystemValuesManager.pressureState["3_value"];
+            pressure_name: SystemValuesManager.pressureState["3_name"];
+
+            comment: SystemValuesManager.commentState["3_value"];
+        }
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["4_status"];
+            valve_name: SystemValuesManager.valveState["4_name"];
+
+            barrel_status: SystemValuesManager.barrelState["4_status"];
+            barrel_name: SystemValuesManager.barrelState["4_name"];
+
+            pressure_status: SystemValuesManager.pressureState["4_status"];
+            pressure_value: SystemValuesManager.pressureState["4_value"];
+            pressure_name: SystemValuesManager.pressureState["4_name"];
+
+            comment: SystemValuesManager.commentState["4_value"];
+        }
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["5_status"];
+            valve_name: SystemValuesManager.valveState["5_name"];
+
+            barrel_status: SystemValuesManager.barrelState["5_status"];
+            barrel_name: SystemValuesManager.barrelState["5_name"];
+
+            pressure_status: SystemValuesManager.pressureState["5_status"];
+            pressure_value: SystemValuesManager.pressureState["5_value"];
+            pressure_name: SystemValuesManager.pressureState["5_name"];
+
+            comment: SystemValuesManager.commentState["5_value"];
+        }
+
+        DefaultChamber
+        {
+            valve_status: SystemValuesManager.valveState["6_status"];
+            valve_name: SystemValuesManager.valveState["6_name"];
+
+            barrel_status: SystemValuesManager.barrelState["6_status"];
+            barrel_name: SystemValuesManager.barrelState["6_name"];
+
+            pressure_status: SystemValuesManager.pressureState["6_status"];
+            pressure_value: SystemValuesManager.pressureState["6_value"];
+            pressure_name: SystemValuesManager.pressureState["6_name"];
+
+            comment: SystemValuesManager.commentState["6_value"];
+        }
     }
 
-    Valve{
-        // anchors.top: parent.top
-        x: 300
-        y: 100
-        state: 3
+
+    // Valve joining pipe
+    Rectangle {
+        width: 665
+        height: 10
+        x: 83
+        y: 280
+        color: "#bebebd"
     }
 
-    Valve{
-        // anchors.top: parent.top
+    // Valve joing pipe drop down pipe
+    Rectangle {
+        width: 10
+        height: 75
         x: 400
-        y: 100
-        state: 4
+        y: 280
+        color: "#bebebd"
     }
+
+    // Pipe to join drop down pipe to pumps
+    Rectangle {
+        width: 600
+        height: 10
+        x: 100
+        y: 353
+        color: "#bebebd"
+    }
+
+    // Pump 1 valve
+    Valve{
+        x: 340
+        y: 332
+        state: SystemValuesManager.valveState["7_status"];
+        name: SystemValuesManager.valveState["7_name"];
+        angle: false
+    }
+
+    // Pump one pressure sensor
+    Pressure{
+        x:205
+        y:305
+        state: SystemValuesManager.pressureState["7_status"];
+        name: SystemValuesManager.pressureState["7_name"];
+        value: SystemValuesManager.pressureState["7_value"];
+
+        Rectangle {
+            width: 10
+            height: 15
+            anchors.top: parent.bottom;
+            anchors.left: parent.left
+            anchors.leftMargin: 32
+            color: "#bebebd"
+        }
+    }
+
+    Pump{
+        x:82
+        y:320
+        state: SystemValuesManager.pumpState["1_status"];
+        name: SystemValuesManager.pumpState["1_name"];
+    }
+
+    // Pump 2 valve
+    Valve{
+        x: 490
+        y: 332
+        state: SystemValuesManager.valveState["8_status"];
+        name: SystemValuesManager.valveState["8_name"];
+        angle: false
+    }
+
+    // Pump two pressure sensor
+    Pressure{
+        x:550
+        y:305
+        state: SystemValuesManager.pressureState["8_status"];
+        name: SystemValuesManager.pressureState["8_name"];
+        value: SystemValuesManager.pressureState["8_value"];
+
+        Rectangle {
+            width: 10
+            height: 15
+            anchors.top: parent.bottom;
+            anchors.left: parent.left
+            anchors.leftMargin: 32
+            color: "#bebebd"
+        }
+    }
+
+    Pump{
+        x:723
+        y:320
+        state: SystemValuesManager.pumpState["2_status"];
+        name: SystemValuesManager.pumpState["2_name"];
+        flip: false
+    }
+
+
 }

@@ -12,9 +12,6 @@
 // View manager factory
 #include "View/ManagerFactory.h"
 
-// View managers
-#include "View/Managers/Global.h"
-
 // Include the expeirment engine
 #include "Experiment/Engine.h"
 

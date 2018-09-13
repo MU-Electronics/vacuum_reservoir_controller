@@ -17,5 +17,10 @@
         <file>views/pages/Default.qml</file>
         <file>views/parts/rig/Valve.qml</file>
         <file>views/parts/rig/Barrel.qml</file>
+        <file>views/parts/rig/Pump.qml</file>
+        <file>views/parts/rig/Pressure.qml</file>
+        <file>views/parts/rig/Comment.qml</file>
+        <file>views/pages/parts/DefaultChamber.qml</file>
+        <file>views/pages/PressureGraphs.qml</file>
     </qresource>
 </RCC>
