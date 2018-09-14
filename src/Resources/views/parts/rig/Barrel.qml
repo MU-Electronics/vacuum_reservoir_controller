@@ -2,6 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 
+import "settings"
+import "../"
+
 Rectangle
 {
     id: barrel
@@ -14,6 +17,10 @@ Rectangle
 
     // Barrel name
     property string name: "B1"
+
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
 
     // Colours depend on barrel state
     property string colour1: {
@@ -63,6 +70,46 @@ Rectangle
     height: 80
     width: 100
     color: "transparent"
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            settingsloader.source = "../../parts/rig/settings/BarrelSettings.qml"
+            settingsloader.active = true
+            settingsloader.focus = true
+            settingsloader.visible = true
+        }
+    }
+
+    BusyPopup{
+        status: settingsloader.status
+        xpos: {
+            if(barrel.set == 1)
+            {
+                return 280;
+            }
+
+            return (280 - (131 * (barrel.set - 1)))
+        }
+        ypos: -10
+    }
+
+    Loader {
+        id: settingsloader
+        source: ""
+        active: false
+        asynchronous: true
+        visible: false
+        focus: false
+        onLoaded: {
+            item.set = barrel.set
+            if(barrel.settingx != 0)
+                item.settingx = barrel.settingx
+            if(barrel.settingy != 0)
+                item.settingy = barrel.settingy
+            item.open();
+        }
+    }
 
     // Top ring
     Rectangle

@@ -187,10 +187,53 @@ Item{
         color: "#bebebd"
     }
 
+
+    // Set number 7
+    Rectangle {
+        width: 16
+        height: 16
+        x: 70
+        y: 293
+        color: "transparent"
+        border.color: "#bebebd"
+        border.width: 2
+        radius: 8
+        Text{
+            text: "7"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            height: parent.height
+            width: parent.width
+            font.pointSize: 7
+            color: "#5b5b5b"
+        }
+        Rectangle
+        {
+            width: 300
+            height: 1
+            color: "#d5d5d4"
+            anchors.top: parent.top
+            anchors.topMargin: 7
+            anchors.left: parent.right
+            anchors.leftMargin: 0
+
+            Rectangle
+            {
+                width: 1
+                height: 20
+                color: "#d5d5d4"
+                anchors.top: parent.bottom
+                anchors.left: parent.right
+                anchors.topMargin: -5
+            }
+        }
+    }
+
     // Pump 1 valve
     Valve{
         x: 340
         y: 332
+        set: 7
         state: SystemValuesManager.valveState["7_status"];
         name: SystemValuesManager.valveState["7_name"];
         angle: false
@@ -200,6 +243,7 @@ Item{
     Pressure{
         x:205
         y:305
+        set: 7
         state: SystemValuesManager.pressureState["7_status"];
         name: SystemValuesManager.pressureState["7_name"];
         value: SystemValuesManager.pressureState["7_value"];
@@ -217,14 +261,62 @@ Item{
     Pump{
         x:82
         y:320
+        waitx: 255
+        waity: -200
+        set: 7
         state: SystemValuesManager.pumpState["1_status"];
         name: SystemValuesManager.pumpState["1_name"];
+    }
+
+
+
+
+    // Set number 8
+    Rectangle {
+        width: 16
+        height: 16
+        x: 744
+        y: 293
+        color: "transparent"
+        border.color: "#bebebd"
+        border.width: 2
+        radius: 8
+        Text{
+            text: "8"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            height: parent.height
+            width: parent.width
+            font.pointSize: 7
+            color: "#5b5b5b"
+        }
+        Rectangle
+        {
+            width: 321
+            height: 1
+            color: "#d5d5d4"
+            anchors.top: parent.top
+            anchors.topMargin: 7
+            anchors.right: parent.left
+            anchors.leftMargin: 0
+
+            Rectangle
+            {
+                width: 1
+                height: 20
+                color: "#d5d5d4"
+                anchors.top: parent.bottom
+                anchors.left: parent.left
+                anchors.topMargin: -5
+            }
+        }
     }
 
     // Pump 2 valve
     Valve{
         x: 490
         y: 332
+        set: 8
         state: SystemValuesManager.valveState["8_status"];
         name: SystemValuesManager.valveState["8_name"];
         angle: false
@@ -234,6 +326,11 @@ Item{
     Pressure{
         x:550
         y:305
+        settingx: -510
+        settingy: -275
+        waitx: -215
+        waity: -185
+        set: 8
         state: SystemValuesManager.pressureState["8_status"];
         name: SystemValuesManager.pressureState["8_name"];
         value: SystemValuesManager.pressureState["8_value"];
@@ -251,6 +348,11 @@ Item{
     Pump{
         x:723
         y:320
+        set: 8
+        settingx: -683
+        settingy: -290
+        waitx: -380
+        waity: -200
         state: SystemValuesManager.pumpState["2_status"];
         name: SystemValuesManager.pumpState["2_name"];
         flip: false

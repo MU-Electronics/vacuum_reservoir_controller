@@ -9,12 +9,19 @@ Popup {
 
     property int set: 1
 
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
+
     id: popup
     width: 720
     height: 320
     //contentWidth: view.implicitWidth
     //contentHeight: view.implicitHeight
     x: {
+        if(popup.settingx != 0)
+            return popup.settingx
+
         if(popup.set == 1)
         {
             return 20;
@@ -23,7 +30,12 @@ Popup {
         return (20 - (131 * (popup.set - 1)))
     }
 
-    y: 20
+    y: {
+        if(popup.settingy != 0)
+            return popup.settingy
+
+        return 20
+    }
     closePolicy: Popup.NoAutoClose
     modal: true
     visible: false;

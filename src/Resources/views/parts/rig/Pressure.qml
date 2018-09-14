@@ -2,6 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 
+import "settings"
+import "../"
+
 Rectangle
 {
     id: pressure
@@ -67,10 +70,63 @@ Rectangle
         return "#ffffff"
     }
 
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
+    property int waitx: 0
+    property int waity: 0
+
     color: pressure.colour1;
 
     border.width: 2
     border.color: pressure.colour2
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            settingsloader.source = "../../parts/rig/settings/PressureSettings.qml"
+            settingsloader.active = true
+            settingsloader.focus = true
+            settingsloader.visible = true
+        }
+    }
+
+    BusyPopup{
+        status: settingsloader.status
+        xpos: {
+            if(pressure.waitx != 0)
+                return pressure.waitx
+
+            if(pressure.set == 1)
+            {
+                return 320;
+            }
+
+            return (320 - (131 * (pressure.set - 1)))
+        }
+        ypos: {
+            if(pressure.waity != 0)
+                return pressure.waity
+            return 35;
+        }
+    }
+
+    Loader {
+        id: settingsloader
+        source: ""
+        active: false
+        asynchronous: true
+        visible: false
+        focus: false
+        onLoaded: {
+            item.set = pressure.set
+            if(pressure.settingx != 0)
+                item.settingx = pressure.settingx
+            if(pressure.settingy != 0)
+                item.settingy = pressure.settingy
+            item.open();
+        }
+    }
 
     Text{
         id: pressurename

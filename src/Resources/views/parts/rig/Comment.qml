@@ -15,6 +15,10 @@ Rectangle
     // Chamber set
     property int set: 1
 
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
+
     width: 75
     height: 52
 
@@ -55,6 +59,10 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = comment.set
+            if(comment.settingx != 0)
+                item.settingx = comment.settingx
+            if(comment.settingy != 0)
+                item.settingy = comment.settingy
             item.open();
         }
     }

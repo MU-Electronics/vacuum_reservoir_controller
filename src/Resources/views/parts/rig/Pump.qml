@@ -2,6 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 
+import "settings"
+import "../"
+
 Rectangle
 {
     id: pump
@@ -17,6 +20,12 @@ Rectangle
 
     // Angle
     property bool flip: true
+
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
+    property int waitx: 0
+    property int waity: 0
 
     // Colours depend on pump state
     property string colour1: {
@@ -81,6 +90,46 @@ Rectangle
     height: 70
     width: 100
     color: "transparent"
+
+
+
+    BusyPopup{
+        status: settingsloader.status
+        xpos: {
+            if(pump.waitx != 0)
+                return pump.waitx
+
+            if(pump.set == 7)
+            {
+                return 320;
+            }
+
+            return (320 - (600))
+        }
+        ypos: {
+            if(pump.waity != 0)
+                return pump.waity
+
+            return 100;
+        }
+    }
+
+    Loader {
+        id: settingsloader
+        source: ""
+        active: false
+        asynchronous: true
+        visible: false
+        focus: false
+        onLoaded: {
+            item.set = pump.set
+            if(pump.settingx != 0)
+                item.settingx = pump.settingx
+            if(pump.settingy != 0)
+                item.settingy = pump.settingy
+            item.open();
+        }
+    }
 
     Rectangle
     {
@@ -173,6 +222,16 @@ Rectangle
 
         anchors.left: (pump.flip) ? pumpmotor.left : undefined ;
         anchors.right: (!pump.flip) ? pumpmotor.right : undefined ;
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                settingsloader.source = "../../parts/rig/settings/PumpSettings.qml"
+                settingsloader.active = true
+                settingsloader.focus = true
+                settingsloader.visible = true
+            }
+        }
 
         Text{
             text: pump.name

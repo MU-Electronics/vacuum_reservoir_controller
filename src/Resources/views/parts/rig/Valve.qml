@@ -2,7 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 
-
+import "settings"
+import "../"
 
 Rectangle
 {
@@ -19,6 +20,12 @@ Rectangle
 
     // Angle
     property bool angle: true
+
+    // Settings location
+    property int settingx: 0
+    property int settingy: 0
+    property int waitx: 0
+    property int waity: 0
 
     // Colours depend on valve state
     property string colour1: {
@@ -73,6 +80,54 @@ Rectangle
         origin.x: 0;
         origin.y: 11;
         angle: (valve.angle) ? 0 : 90;
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            settingsloader.source = "../../parts/rig/settings/ValveSettings.qml"
+            settingsloader.active = true
+            settingsloader.focus = true
+            settingsloader.visible = true
+        }
+    }
+
+    BusyPopup{
+        status: settingsloader.status
+        xpos: {
+            if(valve.waitx != 0)
+                return valve.waitx
+
+            if(valve.set == 1)
+            {
+                return 270;
+            }
+
+            return (270 - (131 * (valve.set - 1)))
+        }
+        ypos: {
+            if(valve.waity != 0)
+                return valve.waity
+
+            return -110
+        }
+    }
+
+    Loader {
+        id: settingsloader
+        source: ""
+        active: false
+        asynchronous: true
+        visible: false
+        focus: false
+        onLoaded: {
+            item.set = valve.set
+            if(valve.settingx != 0)
+                item.settingx = valve.settingx
+            if(valve.settingy != 0)
+                item.settingy = valve.settingy
+            item.open();
+        }
     }
 
 
