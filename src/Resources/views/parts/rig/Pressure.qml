@@ -10,6 +10,9 @@ Rectangle
     height: 36
     radius: 10
 
+    // Chamber set
+    property int set: 1
+
     // State of sensor
     property int state: 1
 

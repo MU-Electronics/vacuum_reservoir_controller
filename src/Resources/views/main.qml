@@ -8,6 +8,8 @@ import "pages"
 
 FluidControls.ApplicationWindow {
 
+    id: window
+
     // Ensure there is no frame around the program
     //flags: Qt.FramelessWindowHint
 

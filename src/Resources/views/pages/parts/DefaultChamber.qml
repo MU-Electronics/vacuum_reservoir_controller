@@ -10,6 +10,9 @@ Rectangle {
     height: 67
     color: "transparent"
 
+    // Set
+    property int set: 1
+
     // Valve info
     property int valve_status: 1
     property string valve_name: "V?"
@@ -25,6 +28,47 @@ Rectangle {
 
     // Comment box
     property string comment: "No comment exists"
+
+    // Set number
+    Rectangle {
+        width: 16
+        height: 16
+        x: -17
+        y: 0
+        color: "transparent"
+        border.color: "#bebebd"
+        border.width: 2
+        radius: 8
+        Text{
+            text: rigunit.set
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            height: parent.height
+            width: parent.width
+            font.pointSize: 7
+            color: "#5b5b5b"
+        }
+        Rectangle
+        {
+            width: 1
+            height: 245
+            color: "#d5d5d4"
+            anchors.top: parent.bottom
+            //anchors.topMargin: -8
+            anchors.left: parent.left
+            anchors.leftMargin: 7
+
+            Rectangle
+            {
+                width: 20
+                height: 1
+                color: "#d5d5d4"
+                anchors.top: parent.bottom
+                anchors.left: parent.left
+                anchors.leftMargin: -5
+            }
+        }
+    }
 
     // Pipe from barrel to comment
     Rectangle {
@@ -60,23 +104,27 @@ Rectangle {
         Comment{
             width: rig.rowsize - 5
             info: rigunit.comment
+            set: rigunit.set
         }
         Pressure{
             state: rigunit.pressure_status
             value: rigunit.pressure_value
             name: rigunit.pressure_name
+            set: rigunit.set
         }
         Barrel{
             anchors.left: parent.left
             anchors.leftMargin: 43
             state: rigunit.barrel_status
             name: rigunit.barrel_name
+            set: rigunit.set
         }
         Valve{
             anchors.left: parent.left
             anchors.leftMargin: 54
             state: rigunit.valve_status
             name: rigunit.valve_name
+            set: rigunit.set
        }
     }
 

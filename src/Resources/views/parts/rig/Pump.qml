@@ -6,6 +6,9 @@ Rectangle
 {
     id: pump
 
+    // Chamber set
+    property int set: 1
+
     // State of pump
     property int state: 1
 

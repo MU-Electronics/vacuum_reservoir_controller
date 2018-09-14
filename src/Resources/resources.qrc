@@ -23,5 +23,12 @@
         <file>views/pages/parts/DefaultChamber.qml</file>
         <file>views/pages/PressureGraphs.qml</file>
         <file>views/pages/SystemLogs.qml</file>
+        <file>views/parts/rig/settings/BarrelSettings.qml</file>
+        <file>views/parts/rig/settings/CommentSettings.qml</file>
+        <file>views/parts/rig/settings/PressureSettings.qml</file>
+        <file>views/parts/rig/settings/PumpSettings.qml</file>
+        <file>views/parts/rig/settings/ValveSettings.qml</file>
+        <file>views/parts/rig/settings/AutoScroller.qml</file>
+        <file>views/parts/BusyPopup.qml</file>
     </qresource>
 </RCC>

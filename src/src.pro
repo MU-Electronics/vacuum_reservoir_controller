@@ -3,7 +3,11 @@
 TEMPLATE = app
 
 # Icnlude some useful Qt libs by default
-QT += qml quick quickcontrols2 widgets serialport charts
+QT += qml quick quickcontrols2 widgets serialport charts svg
+
+QTPLUGIN += qtvirtualkeyboardplugin
+
+
 
 # Ensure we're using C11 standard
 CONFIG += c++11 static

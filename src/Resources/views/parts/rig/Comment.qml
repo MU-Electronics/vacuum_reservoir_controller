@@ -2,12 +2,18 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 
+import "settings"
+import "../"
+
 Rectangle
 {
     id: comment
 
     // Comment name
     property string info: "none"
+
+    // Chamber set
+    property int set: 1
 
     width: 75
     height: 52
@@ -16,6 +22,42 @@ Rectangle
 
     border.width: 2
     border.color: "#afafae"
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            settingsloader.source = "../../parts/rig/settings/CommentSettings.qml"
+            settingsloader.active = true
+            settingsloader.focus = true
+            settingsloader.visible = true
+        }
+    }
+
+    BusyPopup{
+        status: settingsloader.status
+        xpos: {
+            if(comment.set == 1)
+            {
+                return 320;
+            }
+
+            return (320 - (131 * (comment.set - 1)))
+        }
+        ypos: 100
+    }
+
+    Loader {
+        id: settingsloader
+        source: ""
+        active: false
+        asynchronous: true
+        visible: false
+        focus: false
+        onLoaded: {
+            item.set = comment.set
+            item.open();
+        }
+    }
 
     Rectangle{
         id: commenttitle

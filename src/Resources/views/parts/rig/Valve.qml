@@ -8,6 +8,9 @@ Rectangle
 {
     id: valve
 
+    // Chamber set
+    property int set: 1
+
     // State of valve
     property int state: 2
 

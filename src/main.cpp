@@ -31,6 +31,8 @@ int main(int argc, char *argv[])
 
     // Fixes bug with Qt not including fluids qml components (windows)
     qputenv("QML2_IMPORT_PATH", "../vendor/fluid/qml");
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
 
     // Set
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

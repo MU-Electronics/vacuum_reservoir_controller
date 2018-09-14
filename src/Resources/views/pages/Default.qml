@@ -58,6 +58,8 @@ Item{
 
         DefaultChamber
         {
+            set: 1
+
             valve_status: SystemValuesManager.valveState["1_status"];
             valve_name: SystemValuesManager.valveState["1_name"];
 
@@ -73,6 +75,8 @@ Item{
 
         DefaultChamber
         {
+            set: 2
+
             valve_status: SystemValuesManager.valveState["2_status"];
             valve_name: SystemValuesManager.valveState["2_name"];
 
@@ -88,6 +92,8 @@ Item{
 
         DefaultChamber
         {
+            set: 3
+
             valve_status: SystemValuesManager.valveState["3_status"];
             valve_name: SystemValuesManager.valveState["3_name"];
 
@@ -103,6 +109,8 @@ Item{
 
         DefaultChamber
         {
+            set: 4
+
             valve_status: SystemValuesManager.valveState["4_status"];
             valve_name: SystemValuesManager.valveState["4_name"];
 
@@ -118,6 +126,8 @@ Item{
 
         DefaultChamber
         {
+            set: 5
+
             valve_status: SystemValuesManager.valveState["5_status"];
             valve_name: SystemValuesManager.valveState["5_name"];
 
@@ -133,6 +143,8 @@ Item{
 
         DefaultChamber
         {
+            set: 6
+
             valve_status: SystemValuesManager.valveState["6_status"];
             valve_name: SystemValuesManager.valveState["6_name"];
 

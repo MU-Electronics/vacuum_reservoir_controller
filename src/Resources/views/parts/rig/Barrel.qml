@@ -6,6 +6,9 @@ Rectangle
 {
     id: barrel
 
+    // Chamber set
+    property int set: 1
+
     // State of barrel
     property int state: 1
 
