@@ -25,6 +25,11 @@ namespace App { namespace View { namespace Managers
         // Show initialising screen
         initialising(false); // << false for debug
 
+        // Control status
+        m_control.insert("remote", false);
+        m_control.insert("manual_auto", true);
+        m_control.insert("touch_valve", false);
+
         // Valve values
         m_valve.insert("1_status", (int) Statuses::disabled); // Statuses::disabled
         m_valve.insert("1_name", "V1");

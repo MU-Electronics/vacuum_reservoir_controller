@@ -30,6 +30,7 @@ namespace App { namespace View { namespace Managers
         Q_PROPERTY(QVariantMap pressureState READ pressureState NOTIFY emit_pressureChanged)
         Q_PROPERTY(QVariantMap commentState READ commentState NOTIFY emit_commentChanged)
         Q_PROPERTY(QVariantMap pumpState READ pumpState NOTIFY emit_pumpChanged)
+        Q_PROPERTY(QVariantMap controlState READ controlState NOTIFY emit_controlChanged)
         AUTO_PROPERTY(bool, initialising)
 
         public:
@@ -46,6 +47,7 @@ namespace App { namespace View { namespace Managers
             QVariantMap pressureState() const { return m_pressure; }
             QVariantMap commentState() const { return m_comment; }
             QVariantMap pumpState() const { return m_pump; }
+            QVariantMap controlState() const { return m_control; }
 
         signals:
             void emit_valveChanged(QVariantMap);
@@ -53,6 +55,7 @@ namespace App { namespace View { namespace Managers
             void emit_pressureChanged(QVariantMap);
             void emit_commentChanged(QVariantMap);
             void emit_pumpChanged(QVariantMap);
+            void emit_controlChanged(QVariantMap);
 
         public slots:
             void test();
@@ -62,6 +65,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds the application settings
             Settings::Container m_settings;
+
+            // Holds all the control status data
+            QVariantMap m_control;
 
             // Holds all the vavle status data
             QVariantMap m_valve;
