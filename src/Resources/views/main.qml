@@ -80,13 +80,13 @@ FluidControls.ApplicationWindow {
             Materials.Material.theme: Materials.Material.Dark
 
             Label{
-                Materials.Material.theme: Materials.Material.foreground
+                Materials.Material.theme: Materials.Material.light
                 text: "Manual"
                 anchors.right: parent.left
                 anchors.rightMargin: 2
                 anchors.top: parent.top
                 anchors.topMargin: 14
-                renderType : parent.renderType
+                //renderType : parent.renderType
             }
         }
         CheckBox{
@@ -94,7 +94,7 @@ FluidControls.ApplicationWindow {
             visible: (modeSwitch.position) ? false : true;
             Materials.Material.accent: Materials.Material.Pink
             Materials.Material.theme: Materials.Material.Dark
-            text: "Touch valve control"
+            text: "Touch control"
             anchors.top: modeSwitch.bottom
             anchors.topMargin: -10
             anchors.left: modeSwitch.left

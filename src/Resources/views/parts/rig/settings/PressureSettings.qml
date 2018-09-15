@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.VirtualKeyboard 2.2
 import QtQuick.VirtualKeyboard.Settings 2.2
+import QtQuick.Controls.Material 2.2 as Materials
+
 
 
 Popup {
@@ -41,111 +43,147 @@ Popup {
     visible: false;
 
 
-    Text{
-        id: title
-        text: "Set pressure sensor settings for set " + popup.set
-        anchors.left: parent.Left
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        width: parent.width
-        height: 20
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        font.pointSize : 15
-    }
+    contentItem: Item
+    {
+        id:item
 
-    TextField {
-        id: contentContainer
-        width: parent.width
-        placeholderText: "Set " + popup.set + " comment..."
-        anchors.left: title.left
-        anchors.top: title.bottom
-        anchors.topMargin: 10
-        color: "#151515";
-    }
-
-    Button{
-        id: saveButton
-        anchors.left: title.left
-        anchors.leftMargin: 10
-        anchors.top: contentContainer.bottom
-        anchors.topMargin: 20
-        text: "Save"
-        onClicked: {
-            settingsloader.active = false
-            settingsloader.focus = false
-            settingsloader.source = ""
-            settingsloader.visible = false
+        Text{
+            id: title
+            text: "Pressure sensor settings (set " + popup.set + ")"
+            anchors.left: parent.Left
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            width: parent.width
+            height: 20
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pointSize : 15
         }
-    }
-    Button{
-        id: closeButton
-        anchors.left: saveButton.right
-        anchors.leftMargin: 10
-        anchors.top: contentContainer.bottom
-        anchors.topMargin: 20
-        text: "Close"
-        onClicked: {
-            settingsloader.active = false
-            settingsloader.focus = false
-            settingsloader.source = ""
-            settingsloader.visible = false
-        }
-    }
 
-    Item {
-            id: appContainer
-            width: 600 // 680
-            height: 200
-            anchors.left: popup.left
-            anchors.bottom: popup.bottom
-            anchors.bottomMargin: -100
-            //rotation: Screen.width < Screen.height ? 90 : 0
 
-            InputPanel {
-                id: inputPanel
-                z: 89
-                y: appContainer.height + 145
 
+        Rectangle{
+            id: sensors
+            width: parent.width + 20
+            height: 70
+            color: "#f9f9f9"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: title.bottom
+            anchors.topMargin: 20
+
+            Row
+            {
+                width: parent.width
                 anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 50
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
 
-                states: State {
-                    name: "visible"
-                    when: inputPanel.active
-                    PropertyChanges {
-                        target: inputPanel
-                        y: (appContainer.height + 145) - inputPanel.height
+                Label{
+                    text: "Pressure IO"
+                    width: 150
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                ComboBox {
+                    width:150
+                    model: ["P_IO1", "P_IO2", "P_IO3", "P_IO4", "P_IO5", "P_IO6", "P_IO7", "P_IO8"]
+                }
+
+                Item{
+                    width: 50
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f9f9f9"
                     }
                 }
-                transitions: Transition {
-                    id: inputPanelTransition
-                    from: ""
-                    to: "visible"
-                    reversible: true
-                    enabled: !VirtualKeyboardSettings.fullScreenMode
-                    ParallelAnimation {
-                        NumberAnimation {
-                            properties: "y"
-                            duration: 250
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                }
-                Binding {
-                    target: InputContext
-                    property: "animating"
-                    value: inputPanelTransition.running
-                }
-                AutoScroller {}
-            }
 
-            Binding {
-                target: VirtualKeyboardSettings
-                property: "fullScreenMode"
-                value: appContainer.height > 0 && (appContainer.width / appContainer.height) > (16.0 / 9.0)
+                Label{
+                    text: "Type"
+                    width: 150
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                ComboBox {
+                    width:150
+                    model: ["Edwards"]
+                }
             }
         }
 
+
+
+        Rectangle{
+            id: commands
+
+            width: popup.width
+            height: 70
+
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -12
+            anchors.left: parent.left
+            anchors.leftMargin: -12
+
+            color: "#eaeaea"
+
+            radius: 4
+
+            // Cover top radius
+            Rectangle{
+                width: parent.width
+                height: 4
+                anchors.top: parent.top
+                anchors.left: parent.left
+                color: "#eaeaea"
+            }
+
+            Button{
+                id: saveButton
+                Materials.Material.accent: Materials.Material.Pink
+                Materials.Material.theme: Materials.Material.Light
+                highlighted: true
+                anchors.right: closeButton.left
+                anchors.rightMargin: 20
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                text: "Save"
+                onClicked: {
+                    settingsloader.active = false
+                    settingsloader.focus = false
+                    settingsloader.source = ""
+                    settingsloader.visible = false
+                }
+            }
+            Button{
+                id: closeButton
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                text: "Close"
+                onClicked: {
+                    settingsloader.active = false
+                    settingsloader.focus = false
+                    settingsloader.source = ""
+                    settingsloader.visible = false
+                }
+            }
+        }
+
+    }
 }
