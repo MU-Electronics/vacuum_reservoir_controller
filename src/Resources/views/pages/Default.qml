@@ -233,6 +233,10 @@ Item{
     Valve{
         x: 340
         y: 332
+        settingx: -312
+        settingy: 310
+        waitx: -10
+        waity: -220
         set: 7
         state: SystemValuesManager.valveState["7_status"];
         name: SystemValuesManager.valveState["7_name"];
@@ -243,6 +247,10 @@ Item{
     Pressure{
         x:205
         y:305
+        settingx: -165
+        settingy: -275
+        waitx: 130
+        waity: -185
         set: 7
         state: SystemValuesManager.pressureState["7_status"];
         name: SystemValuesManager.pressureState["7_name"];
@@ -316,6 +324,10 @@ Item{
     Valve{
         x: 490
         y: 332
+        settingx: -312
+        settingy: 460
+        waitx: -160
+        waity: -220
         set: 8
         state: SystemValuesManager.valveState["8_status"];
         name: SystemValuesManager.valveState["8_name"];

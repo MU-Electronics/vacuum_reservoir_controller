@@ -111,6 +111,7 @@ namespace App { namespace View { namespace Managers
     void SystemValues::makeConnections()
     {
         // connect(&m_timer, &QTimer::timeout, this, &Global::togglePort);
+        qDebug() << "Systemvalvues make connections";
     }
 
     void SystemValues::test()

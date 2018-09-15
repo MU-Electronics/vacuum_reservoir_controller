@@ -155,8 +155,8 @@ namespace App
     void Application::connectViewToThreads()
     {
         // Make connections for global view manager
-        manager_factory.get<View::Managers::Global>("Global")->makeConnections();
-        manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections();
+       // manager_factory.get<View::Managers::Global>("Global")->makeConnections();
+        //manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections();
     }
 
 

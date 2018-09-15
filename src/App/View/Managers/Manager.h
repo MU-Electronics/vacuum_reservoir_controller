@@ -2,6 +2,7 @@
 
 #include <QDebug>
 
+
 // Debugging catergories
 #include "../../Services/Debuging.h"
 
@@ -22,7 +23,11 @@ namespace App { namespace View { namespace Managers
 
             Manager(const Manager&) = delete;
 
-            virtual void makeConnections() = 0;
+
+            virtual void makeConnections()
+            {
+
+            }
 
     };
 }}}

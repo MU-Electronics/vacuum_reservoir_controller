@@ -50,6 +50,7 @@ namespace App { namespace View { namespace Managers
     void Global::makeConnections()
     {
         // connect(&m_timer, &QTimer::timeout, this, &Global::togglePort);
+        qDebug() << "Global make connections";
     }
 
     void Global::test()

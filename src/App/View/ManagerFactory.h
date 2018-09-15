@@ -8,7 +8,6 @@
 // Manager base
 #include "Managers/Manager.h"
 
-
 /**
  * View Factory
  *
@@ -88,7 +87,6 @@ namespace App { namespace View
                 // Check exists
                 exists(view);
 
-                // Turn sensor
                 Managers::Manager* tempBase = m_managers[view].get();
                 return static_cast<T*>(tempBase);
             }
