@@ -31,6 +31,18 @@ namespace App { namespace View
 
             ManagerFactory(const ManagerFactory&) = delete;
 
+
+            /**
+             * Minimal version of c++ is 11 standard
+             * as such we'll impliment make_unique locally
+             */
+            template<typename T, typename... Args>
+            std::unique_ptr<T> make_unique(Args&&... args)
+            {
+                return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+            }
+
+
             /**
              * Create a new sensor instance
              *
@@ -39,8 +51,8 @@ namespace App { namespace View
             template<typename T, typename... Args>
             QString create(QString view, Args... args)
             {
-                // Create sensors as specified
-                m_managers[view] = std::make_unique<T>(args...);
+                // Create sensors as specified (std::make_unique c++14)
+                m_managers[view] = make_unique<T>(args...);
 
                 // Return the instance referance
                 return view;

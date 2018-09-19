@@ -10,13 +10,19 @@ QTPLUGIN += qtvirtualkeyboardplugin
 
 
 # Ensure we're using C11 standard
-CONFIG += c++11 static
+CONFIG += c++11 static exceptions
 
 # Include the confiruation file
 include($$PWD/../config.pri)
 
 # Warnings for deprecated Qt features
 DEFINES += QT_DEPRECATED_WARNINGS
+
+
+
+# Disable unused warning parameter
+QMAKE_CXXFLAGS_WARN_OFF -= -Wunused-parameter -Wall
+QMAKE_CFLAGS_WARN_OFF -= -Wunused-parameter -Wall
 
 
 
@@ -47,7 +53,6 @@ SOURCES += \
 
 # Include all the header files
 HEADERS += \
-    bootstrap/Startup.h \
     Bootstrap/Startup.h \
     App/Experiment/Engine.h \
     App/Services/Logger.h \
