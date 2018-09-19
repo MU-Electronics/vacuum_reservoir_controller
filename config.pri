@@ -1,10 +1,10 @@
 
 # Which target should we compile for
-TARGETSOC = Windowsdev
-TARGETBOARD = Blank
+TARGETSOC = BCM2837
+TARGETBOARD = QutiPiV1
 
 # Select the os for the target soc
-DEFINES += OS='WINDOWS'
+DEFINES += OS='LINUX'
 
 # Leave the following alone
 DEFINES += WINDOWS='WINDOWS'
