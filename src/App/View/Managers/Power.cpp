@@ -37,6 +37,7 @@ namespace App { namespace View { namespace Managers
 
     }
 
+
     /**
      * Connect signals from and to this class and the hardware & safety thread
      *
@@ -47,7 +48,6 @@ namespace App { namespace View { namespace Managers
     void Power::makeConnections()
     {
         // connect(&m_timer, &QTimer::timeout, this, &Global::togglePort);
-        mainPowerDropIntr();
 
     }
 
@@ -76,6 +76,10 @@ namespace App { namespace View { namespace Managers
      */
     void Power::shutDownIntr()
     {
+        // We are shutting down
+        qCInfo(general) << "Shut down has been requested via the front panel button.";
+
+        // Shutdown
         QProcess process;
         process.startDetached("shutdown -P now");
     }
@@ -95,8 +99,7 @@ namespace App { namespace View { namespace Managers
         // Create an offical log
         qCCritical(powerMain) << error;
 
-        // Notify the assigned email address
-
+        // @TODO Notify the assigned email address
     }
 
 }}}
