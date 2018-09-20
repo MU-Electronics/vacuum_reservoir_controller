@@ -17,6 +17,7 @@
 // View managers
 #include "View/Managers/Global.h"
 #include "View/Managers/SystemValues.h"
+#include "View/Managers/Power.h"
 
 namespace App
 {
@@ -97,6 +98,7 @@ namespace App
     {
         manager_factory.create<View::Managers::Global>("Global", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, settings_container);
+        manager_factory.create<View::Managers::Power>("Power", this,  m_engine, settings_container);
     }
 
 
@@ -110,6 +112,7 @@ namespace App
         // Set qml context
         m_engine->rootContext()->setContextProperty("GlobalManager", manager_factory.get<View::Managers::Global>("Global"));
         m_engine->rootContext()->setContextProperty("SystemValuesManager", manager_factory.get<View::Managers::SystemValues>("SystemValues"));
+        m_engine->rootContext()->setContextProperty("PowerManager", manager_factory.get<View::Managers::SystemValues>("Power"));
     }
 
 

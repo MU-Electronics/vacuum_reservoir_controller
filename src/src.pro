@@ -48,8 +48,9 @@ SOURCES += \
     App/View/Managers/Global.cpp \
     App/Services/Debugger.cpp \
     App/View/Managers/Graphs/Graph.cpp \
-    App/Services/Debugging.cpp \
-    App/View/Managers/SystemValues.cpp
+    App/View/Managers/SystemValues.cpp \
+    App/View/Managers/Power.cpp \
+    App/Services/Debuging.cpp
 
 # Include all the header files
 HEADERS += \
@@ -68,7 +69,8 @@ HEADERS += \
     App/Services/Debuging.h \
     App/View/ManagerFactory.h \
     App/View/Managers/SystemValues.h \
-    App/Utilities/Properties.h
+    App/Utilities/Properties.h \
+    App/View/Managers/Power.h
 
 
 # Include the resource file

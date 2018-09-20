@@ -50,14 +50,14 @@ int main(int argc, char *argv[])
     if (loader.success())
     {
         // State app loaded
-        qInfo() << "Application loaded";
+        qInfo(general) << "Application loaded";
 
         // Run event loop
         return app.exec();
     }
 
     // Log error
-    qCritical() << "Application could not load!";
+    qCritical(general) << "Application could not load!";
 
     // End app
     return -1;

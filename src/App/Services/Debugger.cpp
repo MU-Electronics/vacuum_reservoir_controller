@@ -100,44 +100,53 @@ namespace App { namespace Services
         QString message = "";
         QMap<QString, QString> messageArray;
 
-        // State debug message
-        messageArray.insert("0", "Debugger Message");
-
-        // Get the current date and time
-        messageArray.insert("1_Timestamp", QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"));
-
-        // Append the catergory
-        messageArray.insert("2_Category", QString::fromUtf8(context.category));
-
-        // Append the version number
-        messageArray.insert("3_Version", QString::number(context.version));
-
-        // Append the file
-        messageArray.insert("4_File", QString::fromUtf8(context.file));
-
-        // Append the function
-        messageArray.insert("5_Function", QString::fromUtf8(context.function));
-
-        // Append the line number
-        messageArray.insert("6_Line", QString::number(context.line));
-
         // Get error type
         switch (type)
         {
             case QtInfoMsg:
-                messageArray.insert("7_Type", "Information");
+                messageArray.insert("0", "Information Message");
                 break;
             case QtDebugMsg:
-                messageArray.insert("7_Type", "Debug");
+                messageArray.insert("0", "Debug Message");
                 break;
             case QtWarningMsg:
-                messageArray.insert("7_Type", "Warning");
+                messageArray.insert("0", "Warning Message");
                 break;
             case QtCriticalMsg:
-                messageArray.insert("7_Type", "Critical");
+                messageArray.insert("0", "Critical Message");
                 break;
             case QtFatalMsg:
-                messageArray.insert("7_Type", "Fatal");
+                messageArray.insert("0", "Fatal Message");
+        }
+
+        // Information message does not need debug info
+        if(type == QtInfoMsg || type == QtWarningMsg || type == QtCriticalMsg)
+        {
+            // Get the current date and time
+            messageArray.insert("1_Timestamp", QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"));
+
+            // Append the catergory
+            messageArray.insert("2_Category", QString::fromUtf8(context.category));
+        }
+        else if(type == QtDebugMsg || type == QtFatalMsg)
+        {
+            // Get the current date and time
+            messageArray.insert("1_Timestamp", QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"));
+
+            // Append the catergory
+            messageArray.insert("2_Category", QString::fromUtf8(context.category));
+
+            // Append the version number
+            messageArray.insert("3_Version", QString::number(context.version));
+
+            // Append the file
+            messageArray.insert("4_File", QString::fromUtf8(context.file));
+
+            // Append the function
+            messageArray.insert("5_Function", QString::fromUtf8(context.function));
+
+            // Append the line number
+            messageArray.insert("6_Line", QString::number(context.line));
         }
 
         // Append the message

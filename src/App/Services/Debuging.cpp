@@ -3,8 +3,11 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
+
+Q_LOGGING_CATEGORY(general, "general")
+
 // Define logging catergoies for view managers
-Q_LOGGING_CATEGORY(usbConnectionStatus, "usb.connection.status")
+Q_LOGGING_CATEGORY(powerMain, "power.main")
 
 
 
