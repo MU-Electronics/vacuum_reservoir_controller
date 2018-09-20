@@ -31,6 +31,7 @@ namespace App { namespace View { namespace Managers
 
         // States for qml
 
+
         public:
             Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
 
@@ -40,6 +41,9 @@ namespace App { namespace View { namespace Managers
             void makeConnections();
 
             // States
+
+            void shutDownIntr();
+            void mainPowerDropIntr();
 
         signals:
 
@@ -58,9 +62,6 @@ namespace App { namespace View { namespace Managers
             InterruptIn m_shutDown;
 
             void setupInterrupts();
-
-            void shutDown();
-            void mainPowerDrop();
 
     };
 }}}

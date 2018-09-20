@@ -18,6 +18,8 @@
 #include "View/Managers/Global.h"
 #include "View/Managers/SystemValues.h"
 #include "View/Managers/Power.h"
+#include "View/Managers/Errors.h"
+
 
 namespace App
 {
@@ -96,6 +98,7 @@ namespace App
      */
     void Application::createManagers()
     {
+        manager_factory.create<View::Managers::Errors>("Errors", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::Global>("Global", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::Power>("Power", this,  m_engine, settings_container);
@@ -110,9 +113,10 @@ namespace App
     void Application::registerManagers()
     {
         // Set qml context
+        m_engine->rootContext()->setContextProperty("ErrorsManager", manager_factory.get<View::Managers::Errors>("Errors"));
         m_engine->rootContext()->setContextProperty("GlobalManager", manager_factory.get<View::Managers::Global>("Global"));
         m_engine->rootContext()->setContextProperty("SystemValuesManager", manager_factory.get<View::Managers::SystemValues>("SystemValues"));
-        m_engine->rootContext()->setContextProperty("PowerManager", manager_factory.get<View::Managers::SystemValues>("Power"));
+        m_engine->rootContext()->setContextProperty("PowerManager", manager_factory.get<View::Managers::Power>("Power"));
     }
 
 
@@ -160,6 +164,8 @@ namespace App
         // Make connections for global view manager
        // manager_factory.get<View::Managers::Global>("Global")->makeConnections();
         //manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections();
+        manager_factory.get<View::Managers::Errors>("Errors")->makeConnections();
+        manager_factory.get<View::Managers::Power>("Power")->makeConnections();
     }
 
 

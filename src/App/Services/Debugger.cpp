@@ -166,7 +166,7 @@ namespace App { namespace Services
             }
             else if(messageIterator.key() == "0")
             {
-                message += "######## "+ messageIterator.value() + " ########\n";
+                message += messageIterator.value() + "\n";
             }
         }
 

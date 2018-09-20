@@ -7,6 +7,7 @@ import QtQuick.Controls.Material 2.2 as Materials
 
 
 import "pages"
+import "template"
 
 FluidControls.ApplicationWindow {
 
@@ -101,6 +102,8 @@ FluidControls.ApplicationWindow {
             anchors.leftMargin: -56
         }
     }
+
+    GlobalErrors{}
 
     initialPage: FluidControls.TabbedPage {
         id: mainTab

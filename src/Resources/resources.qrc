@@ -30,5 +30,6 @@
         <file>views/parts/rig/settings/ValveSettings.qml</file>
         <file>views/parts/rig/settings/AutoScroller.qml</file>
         <file>views/parts/BusyPopup.qml</file>
+        <file>views/template/GlobalErrors.qml</file>
     </qresource>
 </RCC>

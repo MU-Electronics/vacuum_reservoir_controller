@@ -7,6 +7,7 @@ Q_DECLARE_LOGGING_CATEGORY(general)
 // Define logging catergoies for view managers
 Q_DECLARE_LOGGING_CATEGORY(jsonFileService)
 Q_DECLARE_LOGGING_CATEGORY(powerMain)
+Q_DECLARE_LOGGING_CATEGORY(userAcknowledge)
 
 
 

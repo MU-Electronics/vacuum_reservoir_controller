@@ -47,7 +47,8 @@ namespace App { namespace View { namespace Managers
     void Power::makeConnections()
     {
         // connect(&m_timer, &QTimer::timeout, this, &Global::togglePort);
-        qDebug() << "Power make connections";
+        mainPowerDropIntr();
+
     }
 
 
@@ -60,11 +61,11 @@ namespace App { namespace View { namespace Managers
     {
         // Mains power drop out detection
         m_mainPowerDrop.mode(PullUp);
-        m_mainPowerDrop.fall(callback(this, &Power::mainPowerDrop));
+        m_mainPowerDrop.fall(callback(this, &Power::mainPowerDropIntr));
 
         // Shut down signal
         m_shutDown.mode(PullUp);
-        m_shutDown.fall(callback(this, &Power::shutDown));
+        m_shutDown.fall(callback(this, &Power::shutDownIntr));
     }
 
 
@@ -73,7 +74,7 @@ namespace App { namespace View { namespace Managers
      *
      * @brief Power::shutDown
      */
-    void Power::shutDown()
+    void Power::shutDownIntr()
     {
         QProcess process;
         process.startDetached("shutdown -P now");
@@ -86,9 +87,16 @@ namespace App { namespace View { namespace Managers
      *
      * @brief Power::mainPowerDrop
      */
-    void Power::mainPowerDrop()
+    void Power::mainPowerDropIntr()
     {
-        qCCritical(powerMain) << "Main 24V power supply has fluxuated below or above acceptable limits.";
+        // Issue
+        QString error = "Main 24V power supply has fluxuated below or above acceptable limits.";
+
+        // Create an offical log
+        qCCritical(powerMain) << error;
+
+        // Notify the assigned email address
+
     }
 
 }}}

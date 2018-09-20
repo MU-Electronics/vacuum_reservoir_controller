@@ -7,6 +7,7 @@
 Q_LOGGING_CATEGORY(general, "general")
 
 // Define logging catergoies for view managers
+Q_LOGGING_CATEGORY(userAcknowledge, "user.acknowledge")
 Q_LOGGING_CATEGORY(powerMain, "power.main")
 
 
