@@ -18,6 +18,8 @@
 #include <Drivers/DigitalOut.h>
 #include "Drivers/InterruptIn.h"
 
+#include <Drivers/Exceptions/I2CError.h>
+
 #include <Hardware/ADC/MCP3424.h>
 
 
@@ -54,13 +56,20 @@ namespace App { namespace View { namespace Managers
         signals:
 
         public slots:
-            void test();
+            void readGuage();
 
         private:
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
             Settings::Container m_settings;
+
+            // Timer
+            QTimer &m_timer;
+
+            // MCP3424 control
+            QutiPi::Hardware::ADC::MCP3424::Device m_device;
+            QutiPi::Hardware::ADC::MCP3424* m_mcp3224;
 
     };
 }}}

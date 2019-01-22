@@ -31,6 +31,7 @@ namespace App { namespace Settings
         // Get the current programs dir
         QString pathDir = getDir();
 
+
     }
 
 
@@ -43,18 +44,7 @@ namespace App { namespace Settings
     QString Container::getDir()
     {
         // This should work across platform, working windows need to check mac
-        QString path = QCoreApplication::applicationDirPath();
-
-        // I know the below works fine for mac
-        #ifdef __APPLE__
-            #include "TargetConditionals.h"
-            #ifdef TARGET_OS_MAC
-                // Instance of QDir at current path of program
-                QDir pathsRoot(QDir::currentPath());
-                pathsRoot.cdUp(); pathsRoot.cdUp(); pathsRoot.cdUp();
-                path = pathsRoot.path();
-            #endif
-        #endif
+        QString path = "/data/settings";
 
         // Return the path
         return path;

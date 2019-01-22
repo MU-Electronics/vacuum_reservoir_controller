@@ -28,7 +28,7 @@ namespace App { namespace View { namespace Managers
         ,   m_shutDown(GPIO_5)
     {
         // Configure all interrupts
-        setupInterrupts();
+        // setupInterrupts();
     }
 
 

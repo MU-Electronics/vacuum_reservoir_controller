@@ -30,6 +30,9 @@ namespace App { namespace View { namespace Managers
         m_visualErrorSettings["message"] = "";
         m_visualErrorSettings["status"] = false;
 
+        // Set the alert colour
+        m_visualErrorSettings["bg_colour"] = "#fff542";
+        m_visualErrorSettings["tx_colour"] = "#bab22e";
 
         // Errors to show on screen as popup
         m_visualErrors.insert("power.main", true);
