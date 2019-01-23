@@ -32,15 +32,11 @@ namespace App { namespace View { namespace Managers
 
         ,   m_timer(*new QTimer(this))
     {
-        // Configure the device    0x6a
-       m_device.address = 0x6c;
-       m_device.location = "/dev/i2c-1";
+        // Create Mcp3424 object 2: 0x6a
+        m_mcp3224 = new MCP3424("/dev/i2c-1", 0x6c);
 
-       // Create Mcp3424 object
-       m_mcp3224 = new MCP3424(m_device);
-
-       // Configure object and device
-       m_mcp3224->configure(MCP3424::Port::One, MCP3424::Bitrate::Twelve, MCP3424::Conversion::Continious, MCP3424::Gain::One);
+        // Configure object and device
+        m_mcp3224->configure(MCP3424::Port::One, MCP3424::Bitrate::Twelve, MCP3424::Conversion::Continious, MCP3424::Gain::One);
     }
 
 
@@ -75,6 +71,18 @@ namespace App { namespace View { namespace Managers
         {
             qDebug() << e.what();
         }
+    }
+
+
+    void Global::setGuageLED()
+    {
+
+    }
+
+
+    void Global::detectGuageTrip()
+    {
+
     }
 
 

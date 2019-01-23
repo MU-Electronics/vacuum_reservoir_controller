@@ -57,6 +57,8 @@ namespace App { namespace View { namespace Managers
 
         public slots:
             void readGuage();
+            void setGuageLED();
+            void detectGuageTrip();
 
         private:
             QQmlApplicationEngine* m_root;
@@ -68,7 +70,6 @@ namespace App { namespace View { namespace Managers
             QTimer &m_timer;
 
             // MCP3424 control
-            QutiPi::Hardware::ADC::MCP3424::Device m_device;
             QutiPi::Hardware::ADC::MCP3424* m_mcp3224;
 
     };
