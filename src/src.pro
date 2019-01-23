@@ -10,7 +10,7 @@ QTPLUGIN += qtvirtualkeyboardplugin
 
 
 # Ensure we're using C11 standard
-CONFIG += c++11 static exceptions
+CONFIG += c++14 static exceptions
 
 # Include the confiruation file
 include($$PWD/../config.pri)

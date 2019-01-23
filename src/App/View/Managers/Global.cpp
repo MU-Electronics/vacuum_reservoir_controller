@@ -10,6 +10,7 @@
 #include <QTimer>
 
 using namespace QutiPi::Hardware::ADC;
+using namespace QutiPi::Hardware::GPIO;
 using namespace QutiPi::Platform;
 using namespace QutiPi::Drivers;
 
@@ -37,6 +38,15 @@ namespace App { namespace View { namespace Managers
 
         // Configure object and device
         m_mcp3224->configure(MCP3424::Port::One, MCP3424::Bitrate::Twelve, MCP3424::Conversion::Continious, MCP3424::Gain::One);
+
+
+        // Create MCP23008 object
+        m_mcp23008 = new MCP23008("/dev/i2c-1", 0x20);
+
+        // Configure MCP23008 object
+        m_mcp23008->setDirection(MCP23008::Port::One, MCP23008::Direction::Output);
+        m_mcp23008->setPolarity(MCP23008::Port::One, MCP23008::Polarity::Same);
+        m_mcp23008->setPullUp(MCP23008::Port::One, MCP23008::PullUp::Disable);
     }
 
 
@@ -66,7 +76,6 @@ namespace App { namespace View { namespace Managers
             // Values
             qDebug() << "1: " << guage_1 << " 2: " << guage_2 << " 3: " << guage_3 << " 4: " << guage_4;
         }
-        //catch(...)
         catch(Exceptions::I2CError& e)
         {
             qDebug() << e.what();
@@ -76,6 +85,14 @@ namespace App { namespace View { namespace Managers
 
     void Global::setGuageLED()
     {
+        try
+        {
+            m_mcp23008->write(MCP23008::Port::One, MCP23008::State::High);
+        }
+        catch(Exceptions::I2CError& e)
+        {
+            qDebug() << e.what();
+        }
 
     }
 
@@ -96,8 +113,9 @@ namespace App { namespace View { namespace Managers
      */
     void Global::makeConnections()
     {
-        // When timer elapses run toggle port
+        // When timer elapses run
         connect(&m_timer, &QTimer::timeout, this, &Global::readGuage);
+        connect(&m_timer, &QTimer::timeout, this, &Global::setGuageLED);
 
        // Start timer
        m_timer.start(1000);

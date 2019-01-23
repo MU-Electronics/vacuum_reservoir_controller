@@ -21,6 +21,7 @@
 #include <Drivers/Exceptions/I2CError.h>
 
 #include <Hardware/ADC/MCP3424.h>
+#include <Hardware/GPIO/MCP23008.h>
 
 
 // View contract
@@ -71,6 +72,9 @@ namespace App { namespace View { namespace Managers
 
             // MCP3424 control
             QutiPi::Hardware::ADC::MCP3424* m_mcp3224;
+
+            // MCP23008 control
+            QutiPi::Hardware::GPIO::MCP23008* m_mcp23008;
 
     };
 }}}
