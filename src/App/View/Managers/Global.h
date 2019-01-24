@@ -4,18 +4,8 @@
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QString>
-#include <QMap>
-#include <QVariantMap>
 #include <QTimer>
 
-#include <Hal/gpio_api.h>
-#include <Hal/gpio_irq_api.h>
-#include <Hal/pin_map.h>
-#include <Hal/delay_api.h>
-#include <Hal/time_api.h>
-
-#include <Drivers/DigitalIn.h>
-#include <Drivers/DigitalOut.h>
 #include "Drivers/InterruptIn.h"
 
 #include <Drivers/Exceptions/I2CError.h>
@@ -53,13 +43,13 @@ namespace App { namespace View { namespace Managers
             // Make connections with outside world
             void makeConnections();
 
+            void guageTripTriggered();
 
         signals:
 
         public slots:
             void readGuage();
             void setGuageLED();
-            void detectGuageTrip();
 
         private:
             QQmlApplicationEngine* m_root;
@@ -75,6 +65,9 @@ namespace App { namespace View { namespace Managers
 
             // MCP23008 control
             QutiPi::Hardware::GPIO::MCP23008* m_mcp23008;
+
+            // Guage tripped interrupt
+            QutiPi::Drivers::InterruptIn m_guageTrip;
 
     };
 }}}

@@ -32,6 +32,8 @@ namespace App { namespace View { namespace Managers
         ,   m_settings(settings)
 
         ,   m_timer(*new QTimer(this))
+
+        ,   m_guageTrip(GPIO_15)
     {
         // Create Mcp3424 object 2: 0x6a
         m_mcp3224 = new MCP3424("/dev/i2c-1", 0x6c);
@@ -44,9 +46,14 @@ namespace App { namespace View { namespace Managers
         m_mcp23008 = new MCP23008("/dev/i2c-1", 0x20);
 
         // Configure MCP23008 object
-        m_mcp23008->setDirection(MCP23008::Port::One, MCP23008::Direction::Output);
-        m_mcp23008->setPolarity(MCP23008::Port::One, MCP23008::Polarity::Same);
-        m_mcp23008->setPullUp(MCP23008::Port::One, MCP23008::PullUp::Disable);
+        m_mcp23008->setDirection(MCP23008::Port::Two, MCP23008::Direction::Output);
+        m_mcp23008->setPolarity(MCP23008::Port::Two, MCP23008::Polarity::Same);
+        m_mcp23008->setPullUp(MCP23008::Port::Two, MCP23008::PullUp::Disable);
+
+
+        // Configure guage trip interrupt
+        m_guageTrip.mode(PullNone);
+        m_guageTrip.both(callback(this, &Global::guageTripTriggered));
     }
 
 
@@ -72,9 +79,8 @@ namespace App { namespace View { namespace Managers
             // Guage 3 voltage
             auto guage_4 = m_mcp3224->read(MCP3424::Port::Four, MCP3424::Type::VoltageSigleEnded);
 
-
             // Values
-            qDebug() << "1: " << guage_1 << " 2: " << guage_2 << " 3: " << guage_3 << " 4: " << guage_4;
+            // qDebug() << "1: " << guage_1 << " 2: " << guage_2 << " 3: " << guage_3 << " 4: " << guage_4;
         }
         catch(Exceptions::I2CError& e)
         {
@@ -87,7 +93,7 @@ namespace App { namespace View { namespace Managers
     {
         try
         {
-            m_mcp23008->write(MCP23008::Port::One, MCP23008::State::High);
+           m_mcp23008->write(MCP23008::Port::Two, MCP23008::State::High);
         }
         catch(Exceptions::I2CError& e)
         {
@@ -97,9 +103,9 @@ namespace App { namespace View { namespace Managers
     }
 
 
-    void Global::detectGuageTrip()
+    void Global::guageTripTriggered()
     {
-
+        qDebug() << "Valve trip logic changed: " << m_guageTrip.read();
     }
 
 
@@ -117,8 +123,8 @@ namespace App { namespace View { namespace Managers
         connect(&m_timer, &QTimer::timeout, this, &Global::readGuage);
         connect(&m_timer, &QTimer::timeout, this, &Global::setGuageLED);
 
-       // Start timer
-       m_timer.start(1000);
+        // Start timer
+        m_timer.start(1000);
     }
 
 }}}
