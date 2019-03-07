@@ -87,7 +87,7 @@ namespace App { namespace View { namespace Managers
             // Status types
             enum class Statuses: int
             {
-                steady = 1,
+                state1 = 1,
                 state2 = 2,
                 state3 = 3,
                 disabled = 4

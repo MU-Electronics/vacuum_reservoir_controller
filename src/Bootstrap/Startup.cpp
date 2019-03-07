@@ -30,6 +30,8 @@ namespace Bootstrap
     {
         // Set debugger QObject parent
         App::Services::Debugger::getInstance().setParent(this);
+        // m_engine.addImportPath("/usr/lib/qt5/qml/Fluid");
+        m_engine.addImportPath("fluid/qml/Fluid/Controls");
 
         // Configure the theme being used
         configTheme();

@@ -23,7 +23,7 @@ FluidControls.ApplicationWindow {
     minimumWidth: 800
     minimumHeight: 480
 
-    title: qsTr("JFET Services: Vacuum Reservoir Controller")
+    title: qsTr("Electronic Services: Vacuum Reservoir Controller")
 
     // Set the app bar properties
     appBar.maxActionCount: 2

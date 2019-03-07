@@ -26,14 +26,6 @@ QMAKE_CFLAGS_WARN_OFF -= -Wunused-parameter -Wall
 
 
 
-
-# Default rules for deployment.
-target.path = /home/root/qutipi_remote
-INSTALLS += target
-
-
-
-
 # Include all the source files
 SOURCES += \
     main.cpp \
@@ -84,7 +76,7 @@ RESOURCES += \
 
 # Additional import path used to resolve QML modules in Qt Creator's code model for Fluid GUI Library
 QML_IMPORT_PATH = $$OUT_PWD/../vendor/fluid/qml
-
+#QML2_IMPORT_PATH = $$OUT_PWD/../vendor/fluid/qml
 
 
 
@@ -133,6 +125,27 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
 else:macx:PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
 
 
+qtConfig(static) {
+    QMAKE_LIBDIR += \
+        $$OUT_PWD/../vendor/fluid/qml/Fluid/Core \
+        $$OUT_PWD/../vendor/fluid/qml/Fluid/Controls \
+        $$OUT_PWD/../vendor/fluid/qml/Fluid/Controls/Private \
+        $$OUT_PWD/../vendor/fluid/qml/Fluid/Templates
+    QTPLUGIN += \
+        qsvg \
+        fluidcoreplugin \
+        fluidcontrolsplugin \
+        fluidcontrolsprivateplugin \
+        fluidtemplatesplugin
+}
+
+
+
+# Default rules for deployment.
+fluiddocs.files = $$OUT_PWD/../vendor/fluid/
+fluiddocs.path = /home/root/qutipi_remote/vendor
+target.path = /home/root/qutipi_remote
+INSTALLS += target fluiddocs
 
 
 

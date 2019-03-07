@@ -1,3 +1,10 @@
 {
-
+    "chambers":
+    {
+        "1":
+        {
+            "status": "",
+            "comment": ""
+        }
+    }
 }

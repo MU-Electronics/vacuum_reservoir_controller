@@ -29,9 +29,10 @@ namespace App { namespace View { namespace Managers
         m_control.insert("remote", false);
         m_control.insert("manual_auto", true);
         m_control.insert("touch_valve", false);
+        emit_controlChanged(m_control);
 
         // Valve values
-        m_valve.insert("1_status", (int) Statuses::disabled); // Statuses::disabled
+        m_valve.insert("1_status", (int) Statuses::state2); // Statuses::disabled
         m_valve.insert("1_name", "V1");
         m_valve.insert("2_status", (int) Statuses::disabled);
         m_valve.insert("2_name", "V2");
@@ -47,6 +48,7 @@ namespace App { namespace View { namespace Managers
         m_valve.insert("7_name", "V7");
         m_valve.insert("8_status", (int) Statuses::disabled);
         m_valve.insert("8_name", "V8");
+        emit_valveChanged(m_valve);
 
         m_barrel.insert("1_status", (int) Statuses::disabled);
         m_barrel.insert("1_name", "B1");
@@ -60,8 +62,9 @@ namespace App { namespace View { namespace Managers
         m_barrel.insert("5_name", "B5");
         m_barrel.insert("6_status", (int) Statuses::disabled);
         m_barrel.insert("6_name", "B6");
+        emit_barrelChanged(m_barrel);
 
-        m_pressure.insert("1_status", (int) Statuses::disabled);
+        m_pressure.insert("1_status", (int) Statuses::state2);
         m_pressure.insert("1_name", "P1");
         m_pressure.insert("1_value", "0");
         m_pressure.insert("2_status", (int) Statuses::disabled);
@@ -85,6 +88,7 @@ namespace App { namespace View { namespace Managers
         m_pressure.insert("8_status", (int) Statuses::disabled);
         m_pressure.insert("8_name", "P8");
         m_pressure.insert("8_value", "0");
+        emit_pressureChanged(m_pressure);
 
         m_comment.insert("1_value", "");
         m_comment.insert("2_value", "");
@@ -92,11 +96,13 @@ namespace App { namespace View { namespace Managers
         m_comment.insert("4_value", "");
         m_comment.insert("5_value", "");
         m_comment.insert("6_value", "");
+        emit_commentChanged(m_comment);
 
         m_pump.insert("1_status", (int) Statuses::disabled);
         m_pump.insert("1_name", "Pump 1");
         m_pump.insert("2_status", (int) Statuses::disabled);
         m_pump.insert("2_name", "Pump 2");
+        emit_pumpChanged(m_pump);
     }
 
 

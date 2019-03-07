@@ -1,3 +1,12 @@
 {
+    "valves":
+    {
+        "maxium_open": 6,
+        "interval_opening": 500
+    },
 
+    "pressures":
+    {
+        "maxium_pressure": "0.5"
+    }
 }

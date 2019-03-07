@@ -7,6 +7,8 @@
 #include <QTimer>
 
 #include "Drivers/InterruptIn.h"
+#include "Drivers/DigitalOut.h"
+#include "Drivers/DigitalIn.h"
 
 #include <Drivers/Exceptions/I2CError.h>
 
@@ -60,14 +62,40 @@ namespace App { namespace View { namespace Managers
             // Timer
             QTimer &m_timer;
 
-            // MCP3424 control
-            QutiPi::Hardware::ADC::MCP3424* m_mcp3224;
+            // Guage board 1
+            QutiPi::Hardware::ADC::MCP3424* m_guageADC1;
+            QutiPi::Hardware::GPIO::MCP23008* m_guageGPIO1;
 
-            // MCP23008 control
-            QutiPi::Hardware::GPIO::MCP23008* m_mcp23008;
+            // Guage board 2
+            QutiPi::Hardware::ADC::MCP3424* m_guageADC2;
+            QutiPi::Hardware::GPIO::MCP23008* m_guageGPIO2;
 
-            // Guage tripped interrupt
-            QutiPi::Drivers::InterruptIn m_guageTrip;
+            // Pumps
+            QutiPi::Drivers::DigitalOut m_pump1;
+            QutiPi::Drivers::DigitalOut m_pump2;
+
+            // Input remote
+            QutiPi::Drivers::DigitalIn m_remote;
+
+            // Valves
+            QutiPi::Drivers::DigitalOut m_valve1;
+            QutiPi::Drivers::DigitalOut m_valve2;
+            QutiPi::Drivers::DigitalOut m_valve3;
+            QutiPi::Drivers::DigitalOut m_valve4;
+            QutiPi::Drivers::DigitalOut m_valve5;
+            QutiPi::Drivers::DigitalOut m_valve6;
+            QutiPi::Drivers::DigitalOut m_valve7;
+            QutiPi::Drivers::DigitalOut m_valve8;
+
+            // Guage tripped interrupts
+            QutiPi::Drivers::InterruptIn m_guageTrip1;
+            QutiPi::Drivers::InterruptIn m_guageTrip2;
+            QutiPi::Drivers::InterruptIn m_guageTrip3;
+            QutiPi::Drivers::InterruptIn m_guageTrip4;
+            QutiPi::Drivers::InterruptIn m_guageTrip5;
+            QutiPi::Drivers::InterruptIn m_guageTrip6;
+            QutiPi::Drivers::InterruptIn m_guageTrip7;
+            QutiPi::Drivers::InterruptIn m_guageTrip8;
 
     };
 }}}
