@@ -105,7 +105,7 @@ Popup {
                 }
 
                 Label{
-                    text: "Valve Type: Edwards APG100-XM"
+                    text: "Valve Type: Edwards LCPV25EKA"
                     width: 300
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft

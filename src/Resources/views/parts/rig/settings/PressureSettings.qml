@@ -83,7 +83,7 @@ Popup {
                 spacing: 2
 
                 Label{
-                    text: "Pressure IO"
+                    text: "Pressure Guage IO: Group " + popup.set
                     width: 150
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
@@ -111,8 +111,8 @@ Popup {
                 }
 
                 Label{
-                    text: "Type"
-                    width: 150
+                    text: "Pressure Guage Type: Edwards APG100-XM"
+                    width: 300
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -121,10 +121,6 @@ Popup {
                     font.pointSize: 11
                 }
 
-                ComboBox {
-                    width:150
-                    model: ["Edwards"]
-                }
             }
         }
 

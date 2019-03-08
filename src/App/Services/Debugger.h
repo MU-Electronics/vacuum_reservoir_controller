@@ -9,6 +9,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QLoggingCategory>
+#include <QVector>
 
 namespace App { namespace Services
 {
@@ -24,6 +25,9 @@ namespace App { namespace Services
             bool static wasSuccess();
             QString static log();
 
+            QVector<QString> listLogs();
+            QVector<QStringList> getLog(QString name);
+
         signals:
             void emit_logChanged(QMap<QString, QString> message);
 
@@ -36,7 +40,7 @@ namespace App { namespace Services
             bool success = false;
 
             // Stream to the log file
-            QTextStream *file;
+            // QTextStream *file;
             QTextStream *console;
 
             // Path locations to the log file

@@ -9,6 +9,8 @@
 #include <QDebug>
 #include <QTimer>
 
+#include "../../Services/Debugger.h"
+
 using namespace QutiPi::Hardware::ADC;
 using namespace QutiPi::Hardware::GPIO;
 using namespace QutiPi::Platform;
@@ -100,6 +102,9 @@ namespace App { namespace View { namespace Managers
         m_valve6.write(1); // Working
         m_valve7.write(0); // Working
         m_valve8.write(0); // Working
+
+
+        // Services::Debugger::getInstance().getLog();
     }
 
 
@@ -171,6 +176,13 @@ namespace App { namespace View { namespace Managers
 
         // Start timer
         m_timer.start(5000);
+        qInfo() << "Cool stuff";
+        qInfo() << "Other stuff";
+        QVector<QString> logs = Services::Debugger::getInstance().listLogs();
+        qDebug() << logs.first();
+
+        qDebug() << Services::Debugger::getInstance().getLog(logs.first());
+
     }
 
 }}}

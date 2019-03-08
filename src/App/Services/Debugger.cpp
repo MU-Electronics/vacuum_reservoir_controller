@@ -178,8 +178,14 @@ namespace App { namespace Services
         QMutexLocker lock(&mutex);
 
         // Output to log file
-        if(type != QtDebugMsg)
-            (*file) << message << "\n\n" << endl;
+        QFile* log = new QFile(logLocation + "/" + logFileName);
+        if(type != QtDebugMsg && log->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
+        {
+            QTextStream logStream(log);
+            logStream << message << "\n\n" << endl;
+            log->close();
+            delete log;
+        }
 
         // Output to console
         (*console) << message << "\n\n" << endl;
@@ -209,6 +215,102 @@ namespace App { namespace Services
 
         // Get the OS app data location
         logLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/logs";
+    }
+
+
+    /**
+     * List all avaliable logs
+     *
+     * @brief listLogs
+     * @return
+     */
+    QVector<QString> Debugger::listLogs()
+    {
+        // Define
+        QVector<QString> names;
+
+        // Get dir info
+        QDir dir(logLocation);
+
+        // Set filtering and sorting for file list
+        dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+        dir.setSorting(QDir::Name | QDir::Reversed);
+
+        // Get file info on log dir
+        QFileInfoList list = dir.entryInfoList();
+
+        // Loop through each log past 10
+        for (int i; i < list.size(); ++i)
+        {
+            // Get the file info on perticular log
+            QFileInfo fileInfo = list.at(i);
+
+            // Append log name
+            names.append(fileInfo.fileName());
+        }
+
+        // Return vector
+        return names;
+    }
+
+
+    /**
+     * Obtains log information
+     *
+     * @brief getLog
+     * @param name
+     * @return
+     */
+    QVector<QStringList> Debugger::getLog(QString name)
+    {
+        // Define
+        QVector<QStringList> logArray;
+        QTextStream *logfile;
+
+        // Log instance
+        QFile* log = new QFile(logLocation + "/" + name);
+
+        // Attempt to open logs
+        if (log->open(QIODevice::ReadOnly))
+        {
+            // Create log stream
+            logfile = new QTextStream(log);
+
+            // Read all info
+            while(!logfile->atEnd())
+            {
+                // Get line
+                QString line = logfile->readLine();
+
+                // New entry?
+                if(logArray.empty() || (line == "" && !logArray.last().empty()))
+                {
+                   QStringList temp;
+                   logArray.append(temp);
+                   continue;
+                }
+
+                // We dont want no comments
+                if(line == "")
+                    continue;
+
+                // Append message to last entry
+                logArray.last() << line;
+            }
+
+            // Last entry will be empty, remove it
+            logArray.pop_back();
+
+            // Close log file
+            log->close();
+            delete log;
+
+            // Return log
+            return logArray;
+        }
+
+        // Throw expection can't access file @todo
+        return logArray;
     }
 
 
@@ -260,7 +362,8 @@ namespace App { namespace Services
 
 
             // Create log file streaming instance
-            file = new QTextStream(log);
+            // file = new QTextStream(log);
+            delete log;
 
             // Create console streaming instance
             console = new QTextStream( stdout );
