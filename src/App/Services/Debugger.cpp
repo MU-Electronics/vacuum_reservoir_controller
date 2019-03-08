@@ -309,7 +309,7 @@ namespace App { namespace Services
             return logArray;
         }
 
-        // Throw expection can't access file @todo
+        // Throw exception can't access file @todo
         return logArray;
     }
 
