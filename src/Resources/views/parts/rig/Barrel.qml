@@ -103,6 +103,7 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = barrel.set
+            item.settingsLoaderAliase = settingsloader
             if(barrel.settingx != 0)
                 item.settingx = barrel.settingx
             if(barrel.settingy != 0)

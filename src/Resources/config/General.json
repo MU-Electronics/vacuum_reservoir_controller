@@ -3,8 +3,113 @@
     {
         "1":
         {
-            "status": "",
-            "comment": ""
+            "status": 1,
+
+            "comment": "Turbo 1",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        },
+        "2":
+        {
+            "status": 0,
+
+            "comment": "Inlet 2",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+
+        },
+        "3":
+        {
+            "status": 0,
+
+            "comment": "Turbo 3",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        },
+        "4":
+        {
+            "status": 0,
+
+            "comment": "Turbo 4",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        },
+        "5":
+        {
+            "status": 0,
+
+            "comment": "Turbo 5",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        },
+        "6":
+        {
+            "status": 0,
+
+            "comment": "Turbo 6",
+
+            "lower_set_point": 15,
+            "upper_set_point": 100,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        }
+    },
+
+    "valves":
+    {
+        "maxium_open": 1,
+        "interval_opening": 30
+    },
+
+    "pumps":
+    {
+        "1":
+        {
+            "auto_control": true,
+            "manual_control": true,
+
+            "lower_set_point": 15,
+            "upper_set_point": 50,
+
+            "warm_up": 10,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
+        },
+
+        "2":
+        {
+            "auto_control": true,
+            "manual_control": true,
+
+            "lower_set_point": 15,
+            "upper_set_point": 50,
+
+            "warm_up": 10,
+
+            "alarm_pressure": 300,
+            "alarm_time": 120
         }
     }
 }

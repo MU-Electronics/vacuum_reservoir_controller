@@ -86,6 +86,7 @@ Rectangle
         anchors.fill: parent
         onClicked: {
             settingsloader.source = "../../parts/rig/settings/ValveSettings.qml"
+            // settingsloader.source.loader = settingsloader;
             settingsloader.active = true
             settingsloader.focus = true
             settingsloader.visible = true
@@ -122,6 +123,7 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = valve.set
+            item.settingsLoaderAliase = settingsloader
             if(valve.settingx != 0)
                 item.settingx = valve.settingx
             if(valve.settingy != 0)

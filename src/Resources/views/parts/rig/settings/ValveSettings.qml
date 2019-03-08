@@ -14,6 +14,8 @@ Popup {
     property int settingx: 0
     property int settingy: 0
 
+    property var settingsLoaderAliase: 0
+
     id: popup
     width: 720
     height: 320
@@ -80,19 +82,14 @@ Popup {
                 spacing: 2
 
                 Label{
-                    text: "Valve IO"
-                    width: 150
+                    text: "Valve IO: Group " + popup.set
+                    width: 300
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.top: parent.top
                     anchors.topMargin: 15
                     font.pointSize: 11
-                }
-
-                ComboBox {
-                    width:150
-                    model: ["V_IO1", "V_IO2", "V_IO3", "V_IO4", "V_IO5", "V_IO6", "V_IO7", "V_IO8"]
                 }
 
                 Item{
@@ -108,8 +105,8 @@ Popup {
                 }
 
                 Label{
-                    text: "Type"
-                    width: 150
+                    text: "Valve Type: Edwards APG100-XM"
+                    width: 300
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -118,10 +115,6 @@ Popup {
                     font.pointSize: 11
                 }
 
-                ComboBox {
-                    width:150
-                    model: ["Edwards"]
-                }
             }
         }
 
@@ -162,10 +155,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
             Button{
@@ -176,10 +169,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
         }

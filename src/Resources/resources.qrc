@@ -9,7 +9,6 @@
         <file>views/template/TitleBar.qml</file>
         <file>assets/images/CommingSoon.jpg</file>
         <file>views/parts/Mode_NotSupported.qml</file>
-        <file>config/Safety.json</file>
         <file>config/General.json</file>
         <file>config/Hardware.json</file>
         <file>config/View.json</file>

@@ -120,6 +120,7 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = pressure.set
+            item.settingsLoaderAliase = settingsloader
             if(pressure.settingx != 0)
                 item.settingx = pressure.settingx
             if(pressure.settingy != 0)

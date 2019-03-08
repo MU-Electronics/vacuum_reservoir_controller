@@ -14,6 +14,8 @@ Popup {
     property int settingx: 0
     property int settingy: 0
 
+    property var settingsLoaderAliase: 0
+
     id: popup
     width: 720
     height: 320
@@ -142,8 +144,8 @@ Popup {
                 spacing: 2
 
                 Label{
-                    text: "Alarm IO"
-                    width: 150
+                    text: "Alarm set point (mbar)"
+                    width: 170
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -152,9 +154,11 @@ Popup {
                     font.pointSize: 11
                 }
 
-                ComboBox {
-                    width:150
-                    model: ["A_IO1", "A_IO2", "A_IO3", "A_IO4", "A_IO5", "A_IO6", "A_IO7", "A_IO8"]
+                SpinBox {
+                    width: 150
+                    value: 150
+                    from:1
+                    to:500
                 }
 
                 Item{
@@ -170,8 +174,8 @@ Popup {
                 }
 
                 Label{
-                    text: "Alarm (mbar)"
-                    width: 150
+                    text: "Alarm time (sec)"
+                    width: 140
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -181,10 +185,10 @@ Popup {
                 }
 
                 SpinBox {
-                    width: 150
-                    value: 150
+                    width: 180
+                    value: 1000
                     from:1
-                    to:500
+                    to: 1000
                 }
             }
         }
@@ -211,8 +215,8 @@ Popup {
                 spacing: 2
 
                 Label{
-                    text: "Lower (mbar)"
-                    width: 150
+                    text: "Lower set point (mbar)"
+                    width: 170
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -224,8 +228,8 @@ Popup {
                 SpinBox {
                     width: 150
                     value: 15
-                    from:1
-                    to:500
+                    from: 1
+                    to: 800
                 }
 
                 Item{
@@ -241,8 +245,8 @@ Popup {
                 }
 
                 Label{
-                    text: "Upper (mbar)"
-                    width: 150
+                    text: "Upper set point (mbar)"
+                    width: 170
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -255,7 +259,7 @@ Popup {
                     width: 150
                     value: 50
                     from:1
-                    to:500
+                    to: 800
                 }
             }
         }
@@ -298,10 +302,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
             Button{
@@ -312,10 +316,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
         }

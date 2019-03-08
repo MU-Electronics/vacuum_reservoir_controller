@@ -97,7 +97,7 @@ namespace App { namespace View { namespace Managers
         m_valve3.write(0); // Working
         m_valve4.write(0); // Working
         m_valve5.write(0); // Working
-        m_valve6.write(1); // Not working
+        m_valve6.write(1); // Working
         m_valve7.write(0); // Working
         m_valve8.write(0); // Working
     }

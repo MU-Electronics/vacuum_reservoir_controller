@@ -123,6 +123,7 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = pump.set
+            item.settingsLoaderAliase = settingsloader
             if(pump.settingx != 0)
                 item.settingx = pump.settingx
             if(pump.settingy != 0)

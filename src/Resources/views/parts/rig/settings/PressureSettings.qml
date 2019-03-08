@@ -15,6 +15,8 @@ Popup {
     property int settingx: 0
     property int settingy: 0
 
+    property var settingsLoaderAliase: 0
+
     id: popup
     width: 720
     height: 320
@@ -163,10 +165,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
             Button{
@@ -177,10 +179,10 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
-                    settingsloader.active = false
-                    settingsloader.focus = false
-                    settingsloader.source = ""
-                    settingsloader.visible = false
+                    settingsLoaderAliase.active = false
+                    settingsLoaderAliase.focus = false
+                    settingsLoaderAliase.source = ""
+                    settingsLoaderAliase.visible = false
                 }
             }
         }

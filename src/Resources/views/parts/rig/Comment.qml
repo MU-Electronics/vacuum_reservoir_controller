@@ -59,6 +59,7 @@ Rectangle
         focus: false
         onLoaded: {
             item.set = comment.set
+            item.settingsLoaderAliase = settingsloader
             if(comment.settingx != 0)
                 item.settingx = comment.settingx
             if(comment.settingy != 0)

@@ -1,12 +1,15 @@
 {
-    "designed_by": {
+    "designed_by":
+    {
         "phone": "0161 275 4641",
         "address": "PSI, The University of Manchester",
         "email": "electronics@manchester.ac.uk",
         "developer": "Sam Mottley",
         "developer_email": "sam.mottley@manchester.ac.uk"
     },
-    "designed_for": {
+
+    "designed_for":
+    {
         "name": "Alex Walton",
         "company": "The University of Manchester",
         "section": "Materials Chemistry",
