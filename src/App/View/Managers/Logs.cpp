@@ -78,8 +78,6 @@ namespace App { namespace View { namespace Managers
             listModel.insert(listModel.begin(), item);
         }
 
-        qDebug() << listModel;
-
         // Update view
         logData(listModel);
 

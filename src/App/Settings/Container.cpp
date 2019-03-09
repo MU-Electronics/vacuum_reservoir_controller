@@ -1,8 +1,9 @@
 #include "Container.h"
 
 // External deps
+#include <QDebug>
 #include <QDir>
-#include <QCoreApplication>
+#include <QStandardPaths>
 
 namespace App { namespace Settings
 {
@@ -31,7 +32,7 @@ namespace App { namespace Settings
         // Get the current programs dir
         QString pathDir = getDir();
 
-
+        qDebug() << pathDir;
     }
 
 
@@ -44,7 +45,11 @@ namespace App { namespace Settings
     QString Container::getDir()
     {
         // This should work across platform, working windows need to check mac
-        QString path = "/data/settings";
+        QString path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/vacuum_reservoir_controller/";
+
+        // Check it exists and if not create it
+        if(!QDir(path).exists())
+            QDir().mkdir(path);
 
         // Return the path
         return path;

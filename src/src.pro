@@ -84,6 +84,7 @@ QML_IMPORT_PATH = $$OUT_PWD/../vendor/fluid/qml
 
 
 
+
 # Android specific actions
 android {
     # Bundle Fluid QML plugins with the application
@@ -129,6 +130,11 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
 else:macx:PRE_TARGETDEPS += $$OUT_PWD/../vendor/qutipi-cpp/libqutipi-cpp.a
 
 
+
+
+
+
+# Configs from fluid framework
 qtConfig(static) {
     QMAKE_LIBDIR += \
         $$OUT_PWD/../vendor/fluid/qml/Fluid/Core \
@@ -145,11 +151,19 @@ qtConfig(static) {
 
 
 
-# Default rules for deployment.
+# Deploy fluid docs
 fluiddocs.files = $$OUT_PWD/../vendor/fluid/
 fluiddocs.path = /home/root/qutipi_remote/vendor
+
+# Deploy setting files
+settingsfiles.files = $$PWD/Resources/config
+settingsfiles.path = /home/root/.config/vacuum_reservoir_controller/
+
+# Deploy main program location
 target.path = /home/root/qutipi_remote
-INSTALLS += target fluiddocs
+
+# Register deployments
+INSTALLS += target fluiddocs settingsfiles
 
 
 
