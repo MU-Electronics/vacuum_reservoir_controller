@@ -178,10 +178,10 @@ namespace App { namespace View { namespace Managers
         m_timer.start(5000);
         qInfo() << "Cool stuff";
         qInfo() << "Other stuff";
-        QVector<QString> logs = Services::Debugger::getInstance().listLogs();
-        qDebug() << logs.first();
+        //QVector<QString> logs = Services::Debugger::getInstance().listLogs();
+        //qDebug() << logs.first();
 
-        qDebug() << Services::Debugger::getInstance().getLog(logs.first());
+        //qDebug() << Services::Debugger::getInstance().getLog(logs.first());
 
     }
 

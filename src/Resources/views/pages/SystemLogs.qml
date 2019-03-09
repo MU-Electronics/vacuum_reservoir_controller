@@ -21,7 +21,7 @@ Item
             topMargin: -5
         }
 
-        width: 200
+        width: 230
         height: 400
 
         Material.background: Material.color(Material.Grey, Material.Shade300)
@@ -32,21 +32,21 @@ Item
             id: listLogPane
 
             anchors.fill: parent
-            currentIndex: 0
+            currentIndex: LogsManager.currentLog
 
-            model: ListModel {
-                ListElement { title: qsTr("Current"); }
-                ListElement { title: qsTr("10/09/2018"); }
-            }
+            model: LogsManager.logList
 
             header: FluidControls.Subheader {
-               text: qsTr("Select Logs")
+               text: qsTr("Select Log")
             }
 
             delegate: FluidControls.ListItem{
-                text: model.title
+                text: modelData["name"]
                 highlighted: ListView.isCurrentItem
-
+                onClicked: {
+                    LogsManager.selectLog(modelData["filename"])
+                    LogsManager.currentLog = index;
+                }
             }
 
             ScrollBar.vertical: ScrollBar {}
@@ -59,10 +59,29 @@ Item
         anchors.top: parent.top
         anchors.topMargin: 10
 
-        Row {
-            Text {
-                text: "log entry here"
+        width: 800 - 10 - logList.width
+        height: 400
+
+        ListView
+        {
+            id: logViewer
+
+            anchors.fill: parent
+
+            model: LogsManager.logData
+
+            header: FluidControls.Subheader {
+               text: "Viewing Log: " + LogsManager.viewingLog
             }
+
+            delegate: FluidControls.ListItem{
+                text: modelData["type"] + " at " + modelData["timestamp"] + " in " + modelData["category"]
+                subText: modelData["message"]
+                height: 88
+                maximumLineCount: 4
+            }
+
+            ScrollBar.vertical: ScrollBar {}
         }
     }
 }

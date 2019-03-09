@@ -43,7 +43,8 @@ SOURCES += \
     App/View/Managers/SystemValues.cpp \
     App/View/Managers/Power.cpp \
     App/Services/Debuging.cpp \
-    App/View/Managers/Errors.cpp
+    App/View/Managers/Errors.cpp \
+    App/View/Managers/Logs.cpp
 
 # Include all the header files
 HEADERS += \
@@ -64,7 +65,8 @@ HEADERS += \
     App/View/Managers/SystemValues.h \
     App/Utilities/Properties.h \
     App/View/Managers/Power.h \
-    App/View/Managers/Errors.h
+    App/View/Managers/Errors.h \
+    App/View/Managers/Logs.h
 
 
 # Include the resource file
