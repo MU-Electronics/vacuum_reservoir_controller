@@ -24,8 +24,8 @@ namespace App { namespace View { namespace Managers
         ,   m_settings(settings)
 
             // Interrupts
-        ,   m_mainPowerDrop(GPIO_6)
-        ,   m_shutDown(GPIO_5)
+        //,   m_mainPowerDrop(GPIO_6)
+        //,   m_shutDown(GPIO_5)
     {
         // Configure all interrupts
         // setupInterrupts();
@@ -60,12 +60,12 @@ namespace App { namespace View { namespace Managers
     void Power::setupInterrupts()
     {
         // Mains power drop out detection
-        m_mainPowerDrop.mode(PullUp);
-        m_mainPowerDrop.fall(callback(this, &Power::mainPowerDropIntr));
+       // m_mainPowerDrop.mode(PullUp);
+       // m_mainPowerDrop.fall(callback(this, &Power::mainPowerDropIntr));
 
         // Shut down signal
-        m_shutDown.mode(PullUp);
-        m_shutDown.fall(callback(this, &Power::shutDownIntr));
+       // m_shutDown.mode(PullUp);
+       // m_shutDown.fall(callback(this, &Power::shutDownIntr));
     }
 
 
@@ -77,11 +77,11 @@ namespace App { namespace View { namespace Managers
     void Power::shutDownIntr()
     {
         // We are shutting down
-        qCInfo(general) << "Shut down has been requested via the front panel button.";
+        //qCInfo(general) << "Shut down has been requested via the front panel button.";
 
         // Shutdown
-        QProcess process;
-        process.startDetached("shutdown -P now");
+       // QProcess process;
+       // process.startDetached("shutdown -P now");
     }
 
 
@@ -97,7 +97,7 @@ namespace App { namespace View { namespace Managers
         QString error = "Main 24V power supply has fluxuated below or above acceptable limits.";
 
         // Create an offical log
-        qCCritical(powerMain) << error;
+        //qCCritical(powerMain) << error;
 
         // @TODO Notify the assigned email address
     }

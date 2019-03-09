@@ -20,6 +20,7 @@
 #include "View/Managers/Power.h"
 #include "View/Managers/Errors.h"
 #include "View/Managers/Logs.h"
+#include "View/Managers/Control.h"
 
 namespace App
 {
@@ -103,6 +104,7 @@ namespace App
         manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::Power>("Power", this,  m_engine, settings_container);
         manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, settings_container);
+        manager_factory.create<View::Managers::Control>("Control", this,  m_engine, settings_container);
 
     }
 
@@ -120,6 +122,7 @@ namespace App
         m_engine->rootContext()->setContextProperty("SystemValuesManager", manager_factory.get<View::Managers::SystemValues>("SystemValues"));
         m_engine->rootContext()->setContextProperty("PowerManager", manager_factory.get<View::Managers::Power>("Power"));
         m_engine->rootContext()->setContextProperty("LogsManager", manager_factory.get<View::Managers::Logs>("Logs"));
+        m_engine->rootContext()->setContextProperty("ControlManager", manager_factory.get<View::Managers::Control>("Control"));
 
     }
 
@@ -171,6 +174,8 @@ namespace App
         manager_factory.get<View::Managers::Errors>("Errors")->makeConnections();
         manager_factory.get<View::Managers::Power>("Power")->makeConnections();
         manager_factory.get<View::Managers::Logs>("Logs")->makeConnections();
+        manager_factory.get<View::Managers::Control>("Control")->makeConnections();
+
     }
 
 

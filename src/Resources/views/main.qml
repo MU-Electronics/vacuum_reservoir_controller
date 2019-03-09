@@ -89,9 +89,14 @@ FluidControls.ApplicationWindow {
                 anchors.topMargin: 14
                 //renderType : parent.renderType
             }
+
+            onClicked: {
+                SystemValuesManager.setControlState("manual_auto", modeSwitch.checked);
+            }
         }
         CheckBox{
-            checked: SystemValuesManager.controlState["touch_valve"]
+            id: touchControlSwitch
+            checked: SystemValuesManager.controlState["touch_control"]
             visible: (modeSwitch.position) ? false : true;
             Materials.Material.accent: Materials.Material.Pink
             Materials.Material.theme: Materials.Material.Dark
@@ -100,6 +105,10 @@ FluidControls.ApplicationWindow {
             anchors.topMargin: -10
             anchors.left: modeSwitch.left
             anchors.leftMargin: -56
+
+            onClicked: {
+                SystemValuesManager.setControlState("touch_control", touchControlSwitch.checked);
+            }
         }
     }
 

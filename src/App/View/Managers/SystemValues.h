@@ -58,7 +58,9 @@ namespace App { namespace View { namespace Managers
             void emit_controlChanged(QVariantMap);
 
         public slots:
-            void test();
+            bool showSettings();
+            bool allowTouchControl(int group);
+            void setControlState(QString type, bool state);
 
         private:
             QQmlApplicationEngine* m_root;

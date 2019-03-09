@@ -39,7 +39,6 @@ namespace App { namespace View { namespace Managers
 
     }
 
-
     void Logs::selectLog(QString file)
     {
         // Get log
@@ -133,7 +132,6 @@ namespace App { namespace View { namespace Managers
             QString firstLog = logList().first().toMap().value("filename").toString();
             selectLog(firstLog);
         });
-
     }
 
 }}}

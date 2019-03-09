@@ -84,18 +84,13 @@ Popup {
 
                 Label{
                     text: "Pressure Guage IO: Group " + popup.set
-                    width: 150
+                    width: 300
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.top: parent.top
                     anchors.topMargin: 15
                     font.pointSize: 11
-                }
-
-                ComboBox {
-                    width:150
-                    model: ["P_IO1", "P_IO2", "P_IO3", "P_IO4", "P_IO5", "P_IO6", "P_IO7", "P_IO8"]
                 }
 
                 Item{

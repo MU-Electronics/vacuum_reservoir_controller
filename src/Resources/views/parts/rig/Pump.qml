@@ -227,10 +227,17 @@ Rectangle
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                settingsloader.source = "../../parts/rig/settings/PumpSettings.qml"
-                settingsloader.active = true
-                settingsloader.focus = true
-                settingsloader.visible = true
+                if(SystemValuesManager.showSettings())
+                {
+                    settingsloader.source = "../../parts/rig/settings/PumpSettings.qml"
+                    settingsloader.active = true
+                    settingsloader.focus = true
+                    settingsloader.visible = true
+                }
+                else if(SystemValuesManager.allowTouchControl(pump.set))
+                {
+
+                }
             }
         }
 

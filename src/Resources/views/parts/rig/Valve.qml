@@ -85,11 +85,28 @@ Rectangle
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            settingsloader.source = "../../parts/rig/settings/ValveSettings.qml"
-            // settingsloader.source.loader = settingsloader;
-            settingsloader.active = true
-            settingsloader.focus = true
-            settingsloader.visible = true
+            if(SystemValuesManager.showSettings())
+            {
+                settingsloader.source = "../../parts/rig/settings/ValveSettings.qml"
+                settingsloader.active = true
+                settingsloader.focus = true
+                settingsloader.visible = true
+            }
+            else if(SystemValuesManager.allowTouchControl(valve.set))
+            {
+                var valveState = false;
+
+                if(valve.state == 1)      // Open to close
+                {
+                    valveState = false;
+                }
+                else if(valve.state == 2) // Close to open
+                {
+                    valveState = true;
+                }
+
+                ControlManager.setValve(valve.set, valveState);
+            }
         }
     }
 

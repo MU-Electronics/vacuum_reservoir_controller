@@ -25,31 +25,28 @@ using namespace QutiPi::Drivers;
 namespace App { namespace View { namespace Managers
 {
 
-    class Power : public QObject, public App::View::Managers::Manager
+    class Control : public QObject, public App::View::Managers::Manager
     {
         Q_OBJECT
 
-        // States for qml
-
-
         public:
-            Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
 
-            ~Power();
+            ~Control();
 
             // Make connections with outside world
             void makeConnections();
 
-            // States
-
-            void shutDownIntr();
-            void mainPowerDropIntr();
 
         signals:
 
 
         public slots:
+            void setValve(int group, bool status);
+            void setPump(int group, bool status);
 
+            void enableAutoControl();
+            void disableAutoControl();
 
         private:
             QQmlApplicationEngine* m_root;
@@ -57,11 +54,6 @@ namespace App { namespace View { namespace Managers
             // Holds the application settings
             Settings::Container m_settings;
 
-            // Interrupts
-            //InterruptIn m_mainPowerDrop;
-          // InterruptIn m_shutDown;
-
-            void setupInterrupts();
 
     };
 }}}

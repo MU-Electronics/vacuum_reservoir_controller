@@ -144,37 +144,10 @@ Popup {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 2
 
-                Label{
-                    text: "Alarm IO"
-                    width: 80
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
-                }
-
-                ComboBox {
-                    width:100
-                    model: ["A_IO1", "A_IO2", "A_IO3", "A_IO4", "A_IO5", "A_IO6", "A_IO7", "A_IO8"]
-                }
-
-                Item{
-                    width: 20
-                    height: 50
-                    Rectangle{
-                        width:2
-                        height: 50
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#f9f9f9"
-                    }
-                }
 
                 Label{
                     text: "Alarm (mbar)"
-                    width: 100
+                    width: 165
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -203,8 +176,8 @@ Popup {
                 }
 
                 Label{
-                    text: "Type"
-                    width: 50
+                    text: "Alarm time (sec)"
+                    width: 160
                     Materials.Material.accent: Materials.Material.foreground
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
@@ -213,9 +186,11 @@ Popup {
                     font.pointSize: 11
                 }
 
-                ComboBox {
-                    width:140
-                    model: ["Scroll", "Diaphram"]
+                SpinBox {
+                    width: 200
+                    value: 150
+                    from:1
+                    to:1000
                 }
             }
         }

@@ -74,10 +74,14 @@ Rectangle
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            settingsloader.source = "../../parts/rig/settings/BarrelSettings.qml"
-            settingsloader.active = true
-            settingsloader.focus = true
-            settingsloader.visible = true
+            if(SystemValuesManager.showSettings())
+            {
+                console.log("showing");
+                settingsloader.source = "../../parts/rig/settings/BarrelSettings.qml"
+                settingsloader.active = true
+                settingsloader.focus = true
+                settingsloader.visible = true
+            }
         }
     }
 
