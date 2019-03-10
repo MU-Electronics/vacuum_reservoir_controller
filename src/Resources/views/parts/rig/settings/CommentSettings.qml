@@ -58,7 +58,7 @@ Popup {
         }
         Label{
             id: info
-            text: "Add a comment to hint where the current set is connected to. Maximum 20 characters."
+            text: "Add a comment to hint where the current set is connected; maximum 25 characters."
             anchors.left: title.Left
             anchors.top: title.top
             anchors.topMargin: 45
@@ -77,7 +77,8 @@ Popup {
             anchors.top: info.bottom
             anchors.topMargin: 0
             color: "#151515";
-            maximumLength: 20
+            maximumLength: 25
+            text: SystemValuesManager.commentState[popup.set + "_value"]
         }
 
         Rectangle{
@@ -115,6 +116,11 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
+                    // Save comment
+                        // popup.set
+                        // contentContainer.text
+
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""

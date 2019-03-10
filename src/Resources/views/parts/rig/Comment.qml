@@ -20,7 +20,7 @@ Rectangle
     property int settingy: 0
 
     width: 75
-    height: 52
+    height: 56
 
     color: "#dadada"
 
@@ -86,6 +86,7 @@ Rectangle
             height: parent.height
             width: parent.width
             font.weight: Font.DemiBold
+            font.pixelSize: 12
         }
     }
 
@@ -97,5 +98,6 @@ Rectangle
         padding: 3
         wrapMode: Text.WordWrap
         color: "#585858"
+        font.pixelSize: 12
     }
 }

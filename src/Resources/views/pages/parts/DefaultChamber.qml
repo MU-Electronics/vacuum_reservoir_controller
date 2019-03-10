@@ -94,15 +94,15 @@ Rectangle {
     // Pipe from barrel to valve
     Rectangle {
         width: 10
-        height: 75
+        height: 79
         x: 63
-        y: 195
+        y: 191
         color: "#bebebd"
     }
 
     Column
     {
-        spacing: 15
+        spacing: 11
 
         Comment{
             width: rig.rowsize - 5
