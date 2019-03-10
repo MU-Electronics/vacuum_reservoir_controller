@@ -24,6 +24,7 @@ namespace App { namespace View { namespace Managers
         ,   m_settings(settings)
 
     {
+
     }
 
 
@@ -42,6 +43,9 @@ namespace App { namespace View { namespace Managers
      */
     void Control::makeConnections()
     {
+
+        qDebug() << m_settings->general()->chamber(1);
+
     }
 
 

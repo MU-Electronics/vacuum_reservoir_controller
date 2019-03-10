@@ -83,7 +83,7 @@
 
     "pumps":
     {
-        "7":
+        "1":
         {
             "auto_control": true,
             "manual_control": true,
@@ -97,7 +97,7 @@
             "alarm_time": 120
         },
 
-        "8":
+        "2":
         {
             "auto_control": true,
             "manual_control": true,

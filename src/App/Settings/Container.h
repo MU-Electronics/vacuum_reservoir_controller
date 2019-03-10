@@ -5,6 +5,10 @@
 #include <QMap>
 #include <QVariantMap>
 #include <QString>
+#include <QSharedPointer>
+
+// Setting objects
+#include "General.h"
 
 namespace App { namespace Settings
 {
@@ -16,13 +20,15 @@ namespace App { namespace Settings
             Container(QObject *parent = nullptr);
             ~Container();
 
-            void test()
-            {
+            // Getters for setting objects
+            QSharedPointer<General> general();
 
-            }
        private:
             void loadSettings();
             QString getDir();
+
+            // Settings objects
+            General* m_general;
     };
 }}
 

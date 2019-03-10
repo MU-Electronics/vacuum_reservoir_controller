@@ -29,6 +29,18 @@ namespace App { namespace Settings
 
 
     /**
+     * Return instance of General setting object
+     *
+     * @brief Container::general
+     * @return
+     */
+    QSharedPointer<General> Container::general()
+    {
+        return QSharedPointer<General>(m_general);
+    }
+
+
+    /**
      * Load the json setting files into the setting objects
      *
      * @brief Container::loadSettings
@@ -40,6 +52,7 @@ namespace App { namespace Settings
 
         // Load setting objects
             // General
+            m_general = new General(this, getDir() + "General.json");
             // Hardware
             // View
     }
@@ -54,7 +67,7 @@ namespace App { namespace Settings
     QString Container::getDir()
     {
         // This should work across platform, working windows need to check mac
-        QString path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/vacuum_reservoir_controller/";
+        QString path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/vacuum_reservoir_controller/config/";
 
         // Check it exists and if not create it
         if(!QDir(path).exists())
