@@ -3,7 +3,8 @@
     {
         "1":
         {
-            "enabled": true,
+            "auto_control_enabled": true,
+            "manual_control_enabled": true,
 
             "comment": "Turbo 1",
 
@@ -15,7 +16,8 @@
         },
         "2":
         {
-            "enabled": false,
+            "auto_control_enabled": false,
+            "manual_control_enabled": true,
 
             "comment": "Inlet 2",
 
@@ -27,7 +29,8 @@
         },
         "3":
         {
-            "enabled": false,
+            "auto_control_enabled": false,
+            "manual_control_enabled": true,
 
             "comment": "Turbo 3",
 
@@ -39,7 +42,8 @@
         },
         "4":
         {
-            "enabled": false,
+            "auto_control_enabled": false,
+            "manual_control_enabled": true,
 
             "comment": "Turbo 4",
 
@@ -51,7 +55,8 @@
         },
         "5":
         {
-            "enabled": false,
+            "auto_control_enabled": false,
+            "manual_control_enabled": true,
 
             "comment": "Turbo 5",
 
@@ -63,7 +68,8 @@
         },
         "6":
         {
-            "enabled": false,
+            "auto_control_enabled": false,
+            "manual_control_enabled": false,
 
             "comment": "Turbo 6",
 

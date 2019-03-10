@@ -195,63 +195,49 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_5 = general->chamber(5);
         auto generalChamber_6 = general->chamber(6);
 
+        // System state
+        QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
+
         // Disable / Off values
-        m_valve.insert("1_enabled", generalChamber_1["enabled"]);
-        m_valve.insert("2_enabled", generalChamber_2["enabled"]);
-        m_valve.insert("3_enabled", generalChamber_3["enabled"]);
-        m_valve.insert("4_enabled", generalChamber_4["enabled"]);
-        m_valve.insert("5_enabled", generalChamber_5["enabled"]);
-        m_valve.insert("6_enabled", generalChamber_6["enabled"]);
+        m_valve.insert("1_enabled", generalChamber_1[enableKey]);
+        m_valve.insert("2_enabled", generalChamber_2[enableKey]);
+        m_valve.insert("3_enabled", generalChamber_3[enableKey]);
+        m_valve.insert("4_enabled", generalChamber_4[enableKey]);
+        m_valve.insert("5_enabled", generalChamber_5[enableKey]);
+        m_valve.insert("6_enabled", generalChamber_6[enableKey]);
 
+        m_pressure.insert("1_enabled", generalChamber_1[enableKey]);
+        m_pressure.insert("2_enabled", generalChamber_2[enableKey]);
+        m_pressure.insert("3_enabled", generalChamber_3[enableKey]);
+        m_pressure.insert("4_enabled", generalChamber_4[enableKey]);
+        m_pressure.insert("5_enabled", generalChamber_5[enableKey]);
+        m_pressure.insert("6_enabled", generalChamber_6[enableKey]);
 
-        m_pressure.insert("1_enabled", generalChamber_1["enabled"]);
-        m_pressure.insert("2_enabled", generalChamber_2["enabled"]);
-        m_pressure.insert("3_enabled", generalChamber_3["enabled"]);
-        m_pressure.insert("4_enabled", generalChamber_4["enabled"]);
-        m_pressure.insert("5_enabled", generalChamber_5["enabled"]);
-        m_pressure.insert("6_enabled", generalChamber_6["enabled"]);
-
-        m_barrel.insert("1_enabled", generalChamber_1["enabled"]);
-        m_barrel.insert("2_enabled", generalChamber_2["enabled"]);
-        m_barrel.insert("3_enabled", generalChamber_3["enabled"]);
-        m_barrel.insert("4_enabled", generalChamber_4["enabled"]);
-        m_barrel.insert("5_enabled", generalChamber_5["enabled"]);
-        m_barrel.insert("6_enabled", generalChamber_6["enabled"]);
+        m_barrel.insert("1_enabled", generalChamber_1[enableKey]);
+        m_barrel.insert("2_enabled", generalChamber_2[enableKey]);
+        m_barrel.insert("3_enabled", generalChamber_3[enableKey]);
+        m_barrel.insert("4_enabled", generalChamber_4[enableKey]);
+        m_barrel.insert("5_enabled", generalChamber_5[enableKey]);
+        m_barrel.insert("6_enabled", generalChamber_6[enableKey]);
 
 
         // Get Pump settings
         auto generalPump_1 = general->pumps(1);
         auto generalPump_2 = general->pumps(2);
 
-        // Status of pump 1
-        if(m_control["manual_auto"] == false)  // Manual
-        {
-             m_pump.insert("1_enabled", generalPump_1["manual_control_enabled"]);
-             m_pump.insert("2_enabled", generalPump_2["manual_control_enabled"]);
+        // Status of pump groups
+         m_pump.insert("1_enabled", generalPump_1[enableKey]);
+         m_pump.insert("2_enabled", generalPump_2[enableKey]);
+         m_pressure.insert("7_enabled", generalPump_1[enableKey]);
+         m_pressure.insert("8_enabled", generalPump_2[enableKey]);
+         m_valve.insert("7_enabled", generalPump_1[enableKey]);
+         m_valve.insert("8_enabled", generalPump_2[enableKey]);
 
-             m_pressure.insert("7_enabled", generalPump_1["manual_control_enabled"]);
-             m_pressure.insert("8_enabled", generalPump_2["manual_control_enabled"]);
-
-             m_valve.insert("7_enabled", generalPump_1["manual_control_enabled"]);
-             m_valve.insert("8_enabled", generalPump_2["manual_control_enabled"]);
-        }
-        else
-        {
-             m_pump.insert("1_enabled", generalPump_1["auto_control_enabled"]);
-             m_pump.insert("2_enabled", generalPump_2["auto_control_enabled"]);
-
-             m_pressure.insert("7_enabled", generalPump_1["auto_control_enabled"]);
-             m_pressure.insert("8_enabled", generalPump_2["auto_control_enabled"]);
-
-             m_valve.insert("7_enabled", generalPump_1["auto_control_enabled"]);
-             m_valve.insert("8_enabled", generalPump_2["auto_control_enabled"]);
-        }
 
         // Update the interface
         emit_pressureChanged(m_pressure);
         emit_barrelChanged(m_barrel);
         emit_valveChanged(m_valve);
-        emit_commentChanged(m_comment);
         emit_pumpChanged(m_pump);
     }
 
@@ -275,15 +261,27 @@ namespace App { namespace View { namespace Managers
     /**
      * When touch control should be allowed
      *
-     * @TODO check settings to see if group disabled
-     *
      * @brief SystemValues::allowTouchControl
      * @return
      */
     bool SystemValues::allowTouchControl(int group)
     {
+        // System state
+        QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
+
+        // Chambed group
+        bool chamber = false;
+        if(group < 7)
+        {
+            chamber = m_settings->general()->chamber(group)[enableKey].toBool();
+        }
+        else if(group > 7) // Pump group
+        {
+            chamber = m_settings->general()->pumps(group)[enableKey].toBool();
+        }
+
         // Only allow when touch control enabled
-        if(m_control["manual_auto"] == false && m_control["touch_control"] == true && m_control["remote"] == false)
+        if(m_control["manual_auto"] == false && m_control["touch_control"] == true && m_control["remote"] == false && chamber)
             return true;
 
         return false;
@@ -301,6 +299,9 @@ namespace App { namespace View { namespace Managers
     {
         // Set control
         m_control[type] = state;
+
+        // Update view
+        setGeneralSettingEnables();
 
         // Tell everyone we've updated
         emit_controlChanged(m_control);
