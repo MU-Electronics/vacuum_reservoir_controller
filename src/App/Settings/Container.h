@@ -8,12 +8,18 @@
 
 namespace App { namespace Settings
 {
-    class Container
+    class Container: public QObject
     {
+        Q_OBJECT
 
         public:
-            Container(QObject *parent = 0);
+            Container(QObject *parent = nullptr);
+            ~Container();
 
+            void test()
+            {
+
+            }
        private:
             void loadSettings();
             QString getDir();

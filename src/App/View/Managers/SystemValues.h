@@ -34,7 +34,7 @@ namespace App { namespace View { namespace Managers
         AUTO_PROPERTY(bool, initialising)
 
         public:
-            SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~SystemValues();
 
@@ -66,7 +66,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
             // Holds all the control status data
             QVariantMap m_control;

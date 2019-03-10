@@ -18,13 +18,12 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Control::Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
+    Control::Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
 
     {
-
     }
 
 

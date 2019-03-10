@@ -16,9 +16,15 @@ namespace App { namespace Settings
      * @param parent
      */
     Container::Container(QObject *parent)
+        :   QObject(parent)
     {
         // Configure the setting
         loadSettings();
+    }
+
+    Container::~Container()
+    {
+
     }
 
 
@@ -32,7 +38,10 @@ namespace App { namespace Settings
         // Get the current programs dir
         QString pathDir = getDir();
 
-        qDebug() << pathDir;
+        // Load setting objects
+            // General
+            // Hardware
+            // View
     }
 
 

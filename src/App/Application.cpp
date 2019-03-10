@@ -99,12 +99,12 @@ namespace App
      */
     void Application::createManagers()
     {
-        manager_factory.create<View::Managers::Errors>("Errors", this,  m_engine, settings_container);
-        manager_factory.create<View::Managers::Global>("Global", this,  m_engine, settings_container);
-        manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, settings_container);
-        manager_factory.create<View::Managers::Power>("Power", this,  m_engine, settings_container);
-        manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, settings_container);
-        manager_factory.create<View::Managers::Control>("Control", this,  m_engine, settings_container);
+        manager_factory.create<View::Managers::Errors>("Errors", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::Global>("Global", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::Power>("Power", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::Control>("Control", this,  m_engine, &settings_container);
 
     }
 

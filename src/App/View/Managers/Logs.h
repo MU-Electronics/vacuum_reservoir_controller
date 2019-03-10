@@ -32,7 +32,7 @@ namespace App { namespace View { namespace Managers
         AUTO_PROPERTY(QString, viewingLog)
 
         public:
-            Logs(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Logs(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~Logs();
 
@@ -50,7 +50,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
             void getLogs();
 

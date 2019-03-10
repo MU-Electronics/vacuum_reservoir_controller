@@ -33,7 +33,7 @@ namespace App { namespace View { namespace Managers
 
 
         public:
-            Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~Power();
 
@@ -55,7 +55,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
             // Interrupts
             //InterruptIn m_mainPowerDrop;

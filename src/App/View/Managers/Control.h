@@ -30,7 +30,7 @@ namespace App { namespace View { namespace Managers
         Q_OBJECT
 
         public:
-            Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~Control();
 
@@ -52,7 +52,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
 
     };

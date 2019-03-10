@@ -38,7 +38,7 @@ namespace App { namespace View { namespace Managers
         AUTO_PROPERTY(int, currentNavigation)
 
         public:
-            Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~Global();
 
@@ -57,7 +57,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
             // Timer
             QTimer &m_timer;

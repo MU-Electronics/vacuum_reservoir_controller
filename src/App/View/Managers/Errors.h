@@ -37,7 +37,7 @@ namespace App { namespace View { namespace Managers
         Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY emit_debugMessagesChanged)
 
         public:
-            Errors(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings);
+            Errors(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
 
             ~Errors();
 
@@ -65,7 +65,7 @@ namespace App { namespace View { namespace Managers
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container* m_settings;
 
             // Visaul errors
             QMap<QString, bool> m_visualErrors;

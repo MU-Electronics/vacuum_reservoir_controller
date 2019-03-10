@@ -9,7 +9,7 @@
 
 namespace App { namespace Experiment
 {
-    Engine::Engine(QObject *parent, Settings::Container settings)
+    Engine::Engine(QObject *parent, Settings::Container& settings)
         :   QObject(parent)
         ,   m_settings(settings)
     {

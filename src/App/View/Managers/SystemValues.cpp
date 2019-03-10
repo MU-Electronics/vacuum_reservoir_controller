@@ -17,7 +17,7 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    SystemValues::SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
+    SystemValues::SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)

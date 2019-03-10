@@ -18,7 +18,7 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Power::Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
+    Power::Power(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)

@@ -16,7 +16,7 @@ namespace App { namespace Experiment
         Q_OBJECT
 
         public:
-            Engine(QObject *parent, Settings::Container settings);
+            Engine(QObject *parent, Settings::Container& settings);
 
             ~Engine();
 
@@ -26,7 +26,7 @@ namespace App { namespace Experiment
 
         private:
             // Holds the application settings
-            Settings::Container m_settings;
+            Settings::Container& m_settings;
 
     };
 }}

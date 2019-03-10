@@ -28,7 +28,7 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Global::Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
+    Global::Global(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)

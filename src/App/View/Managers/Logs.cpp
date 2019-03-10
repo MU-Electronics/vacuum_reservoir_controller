@@ -23,7 +23,7 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Logs::Logs(QObject *parent, QQmlApplicationEngine *root, Settings::Container settings)
+    Logs::Logs(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
