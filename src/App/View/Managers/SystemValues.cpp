@@ -130,8 +130,21 @@ namespace App { namespace View { namespace Managers
      */
     void SystemValues::makeConnections()
     {
-        // auto i = m_settings->general()->chamber(1)["comment"];
-        // qDebug() << i["comment"];
+        // When the general settings object is updated, refresh the gui
+        connect(m_settings->general().data(), &Settings::General::emit_saved, this, &SystemValues::refreshGeneralSettings);
+    }
+
+
+    /**
+     * Refresh general settings in object and hence gui
+     *
+     * @brief SystemValues::refreshGeneralSettings
+     */
+    void SystemValues::refreshGeneralSettings()
+    {
+        setGeneralSettingEnables();
+        setGeneralSettingComments();
+        setGeneralSettingParamters();
     }
 
 
@@ -242,6 +255,10 @@ namespace App { namespace View { namespace Managers
         m_pump.insert("2_alarm_pressure", generalPump_2["alarm_pressure"]);
         m_pump.insert("2_alarm_time", generalPump_2["alarm_time"]);
 
+
+        // Update the interface
+        emit_barrelChanged(m_barrel);
+        emit_pumpChanged(m_pump);
     }
 
 
@@ -310,7 +327,13 @@ namespace App { namespace View { namespace Managers
 
         // Status of pump groups
          m_pump.insert("1_enabled", generalPump_1[enableKey]);
+         m_pump.insert("1_auto", generalPump_1["auto_control_enabled"]);
+         m_pump.insert("1_manual", generalPump_1["manual_control_enabled"]);
+
          m_pump.insert("2_enabled", generalPump_2[enableKey]);
+         m_pump.insert("2_auto", generalPump_2["auto_control_enabled"]);
+         m_pump.insert("2_manual", generalPump_2["manual_control_enabled"]);
+
          m_pressure.insert("7_enabled", generalPump_1[enableKey]);
          m_pressure.insert("8_enabled", generalPump_2[enableKey]);
          m_valve.insert("7_enabled", generalPump_1[enableKey]);

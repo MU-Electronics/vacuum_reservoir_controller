@@ -112,8 +112,6 @@ FluidControls.ApplicationWindow {
         }
     }
 
-    GlobalErrors{}
-
     initialPage: FluidControls.TabbedPage {
         id: mainTab
         title: qsTr("Electronic Services: Vacuum Reservoir Controllers")

@@ -68,6 +68,7 @@ namespace App { namespace View { namespace Managers
             void setControlState(QString type, bool state);
             void setStates();
 
+            void refreshGeneralSettings();
             void setGeneralSettingEnables();
             void setGeneralSettingComments();
             void setGeneralSettingParamters();

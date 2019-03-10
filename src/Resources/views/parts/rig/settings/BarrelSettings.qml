@@ -316,11 +316,9 @@ Popup {
                 text: "Save"
                 onClicked: {
                     // Save info
-                        // popup.set
-                        // barrelAutoState.currentIndex     barrelManualState.currentIndex
-                        // barrelAlarmSetPointState.value	barrelAlarmTimeState.value
-                        // barrelLowerSetPoint.value        barrelUpperSetPointstate.value
-
+                    SettingsUpdaterManager.updateBarrelSettings(popup.set, barrelAutoState.currentIndex, barrelManualState.currentIndex,
+                                                                barrelAlarmSetPointState.value, barrelAlarmTimeState.value,
+                                                                barrelLowerSetPoint.value, barrelUpperSetPointstate.value);
 
                     // Close popup
                     settingsLoaderAliase.active = false
@@ -337,6 +335,7 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""

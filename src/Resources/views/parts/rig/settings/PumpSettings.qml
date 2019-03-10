@@ -8,7 +8,11 @@ import QtQuick.Controls.Material 2.2 as Materials
 
 Popup {
 
+    id: popup
+
     property int set: 1
+
+    property int pumpId: popup.set - 6
 
     // Settings location
     property int settingx: 0
@@ -16,7 +20,6 @@ Popup {
 
     property var settingsLoaderAliase: 0
 
-    id: popup
     width: 720
     height: 320
     //contentWidth: view.implicitWidth
@@ -93,7 +96,7 @@ Popup {
                     id: pumpAutoState
                     width:150
                     model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.set + "_auto"]) ? 0 : 1
+                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_auto"]) ? 0 : 1
                 }
 
                 Item{
@@ -123,7 +126,7 @@ Popup {
                     id: pumpManualState
                     width:150
                     model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.set + "_manual"]) ? 0 : 1
+                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_manual"]) ? 0 : 1
                 }
             }
         }
@@ -163,7 +166,7 @@ Popup {
                 SpinBox {
                     id: pumpAlarmState
                     width: 150
-                    value: SystemValuesManager.pumpState[popup.set + "_alarm_pressure"]
+                    value: SystemValuesManager.pumpState[popup.pumpId + "_alarm_pressure"]
                     from:1
                     to:500
                 }
@@ -194,7 +197,7 @@ Popup {
                 SpinBox {
                     id: pumpAlarmTimeState
                     width: 200
-                    value: SystemValuesManager.pumpState[popup.set + "_alarm_time"]
+                    value: SystemValuesManager.pumpState[popup.pumpId + "_alarm_time"]
                     from:1
                     to:1000
                 }
@@ -236,7 +239,7 @@ Popup {
                 SpinBox {
                     id: lowerPumpSetPoint
                     width: 120
-                    value: SystemValuesManager.pumpState[popup.set + "_lower_set_point"]
+                    value: SystemValuesManager.pumpState[popup.pumpId + "_lower_set_point"]
                     from:1
                     to:800
                 }
@@ -268,9 +271,9 @@ Popup {
                     id: pumpUpperSetPointState
                     width: 120
                     value: {
-                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpState[popup.set + "_upper_set_point"])
+                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpState[popup.pumpId + "_upper_set_point"])
                             return lowerPumpSetPoint.value + 50
-                        return SystemValuesManager.pumpState[popup.set + "_upper_set_point"]
+                        return SystemValuesManager.pumpState[popup.pumpId + "_upper_set_point"]
                     }
                     from: lowerPumpSetPoint.value + 50
                     to:900
@@ -302,7 +305,7 @@ Popup {
                 SpinBox {
                     id: pumpWarmupState
                     width: 130
-                    value: SystemValuesManager.pumpState[popup.set + "_warm_up"]
+                    value: SystemValuesManager.pumpState[popup.pumpId + "_warm_up"]
                     from:1
                     to:100
                 }
@@ -348,11 +351,9 @@ Popup {
                 text: "Save"
                 onClicked: {
                     // Save values
-                        // popup.set
-                        // pumpAutoState.currentIndex    pumpManualState.currentIndex
-                        // pumpAlarmState.value         pumpAlarmTimeState.value
-                        // lowerPumpSetPoint.value  pumpUpperSetPointState.value  pumpWarmupState.value
-
+                    SettingsUpdaterManager.updatePumpSettings(popup.set, pumpAutoState.currentIndex, pumpManualState.currentIndex,
+                                                              pumpAlarmState.value, pumpAlarmTimeState.value,
+                                                              lowerPumpSetPoint.value, pumpUpperSetPointState.value, pumpWarmupState.value);
                     // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false

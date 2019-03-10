@@ -18,9 +18,9 @@
 #include "View/Managers/Global.h"
 #include "View/Managers/SystemValues.h"
 #include "View/Managers/Power.h"
-#include "View/Managers/Errors.h"
 #include "View/Managers/Logs.h"
 #include "View/Managers/Control.h"
+#include "View/Managers/SettingsUpdater.h"
 
 namespace App
 {
@@ -99,13 +99,12 @@ namespace App
      */
     void Application::createManagers()
     {
-        manager_factory.create<View::Managers::Errors>("Errors", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Global>("Global", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Power>("Power", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Control>("Control", this,  m_engine, &settings_container);
-
+        manager_factory.create<View::Managers::SettingsUpdater>("SettingsUpdater", this,  m_engine, &settings_container);
     }
 
 
@@ -117,13 +116,12 @@ namespace App
     void Application::registerManagers()
     {
         // Set qml context
-        m_engine->rootContext()->setContextProperty("ErrorsManager", manager_factory.get<View::Managers::Errors>("Errors"));
         m_engine->rootContext()->setContextProperty("GlobalManager", manager_factory.get<View::Managers::Global>("Global"));
         m_engine->rootContext()->setContextProperty("SystemValuesManager", manager_factory.get<View::Managers::SystemValues>("SystemValues"));
         m_engine->rootContext()->setContextProperty("PowerManager", manager_factory.get<View::Managers::Power>("Power"));
         m_engine->rootContext()->setContextProperty("LogsManager", manager_factory.get<View::Managers::Logs>("Logs"));
         m_engine->rootContext()->setContextProperty("ControlManager", manager_factory.get<View::Managers::Control>("Control"));
-
+        m_engine->rootContext()->setContextProperty("SettingsUpdaterManager", manager_factory.get<View::Managers::SettingsUpdater>("SettingsUpdater"));
     }
 
 
@@ -171,11 +169,10 @@ namespace App
         // Make connections for global view manager
         manager_factory.get<View::Managers::Global>("Global")->makeConnections();
         manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections();
-        manager_factory.get<View::Managers::Errors>("Errors")->makeConnections();
         manager_factory.get<View::Managers::Power>("Power")->makeConnections();
         manager_factory.get<View::Managers::Logs>("Logs")->makeConnections();
         manager_factory.get<View::Managers::Control>("Control")->makeConnections();
-
+        manager_factory.get<View::Managers::SettingsUpdater>("SettingsUpdater")->makeConnections();
     }
 
 

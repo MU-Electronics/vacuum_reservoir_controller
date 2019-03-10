@@ -117,8 +117,7 @@ Popup {
                 text: "Save"
                 onClicked: {
                     // Save comment
-                        // popup.set
-                        // contentContainer.text
+                    SettingsUpdaterManager.updateCommentSettings(popup.set, contentContainer.text);
 
                     // Close popup
                     settingsLoaderAliase.active = false
@@ -135,6 +134,7 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""
