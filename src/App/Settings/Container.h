@@ -28,7 +28,7 @@ namespace App { namespace Settings
             QString getDir();
 
             // Settings objects
-            General* m_general;
+             QSharedPointer<General> m_general;
     };
 }}
 

@@ -14,14 +14,17 @@ Rectangle {
     property int set: 1
 
     // Valve info
+    property bool valve_enabled: false
     property int valve_status: 1
     property string valve_name: "V?"
 
     // Barrel info
+    property bool barrel_enabled: false
     property int barrel_status: 1
     property string barrel_name: "B?"
 
     // Pressure sensor info
+    property bool pressure_enabled: false
     property double pressure_status: 1
     property double pressure_value: 0.00
     property string pressure_name: "P?"
@@ -107,6 +110,7 @@ Rectangle {
             set: rigunit.set
         }
         Pressure{
+            enabled: rigunit.pressure_enabled
             state: rigunit.pressure_status
             value: rigunit.pressure_value
             name: rigunit.pressure_name
@@ -115,6 +119,7 @@ Rectangle {
         Barrel{
             anchors.left: parent.left
             anchors.leftMargin: 43
+            enabled: rigunit.barrel_enabled
             state: rigunit.barrel_status
             name: rigunit.barrel_name
             set: rigunit.set
@@ -122,6 +127,7 @@ Rectangle {
         Valve{
             anchors.left: parent.left
             anchors.leftMargin: 54
+            enabled: rigunit.valve_enabled
             state: rigunit.valve_status
             name: rigunit.valve_name
             set: rigunit.set

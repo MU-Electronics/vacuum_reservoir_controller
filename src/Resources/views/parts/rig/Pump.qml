@@ -12,6 +12,9 @@ Rectangle
     // Chamber set
     property int set: 1
 
+    // Is enabled
+    property bool enabled: false
+
     // State of pump
     property int state: 1
 
@@ -29,14 +32,17 @@ Rectangle
 
     // Colours depend on pump state
     property string colour1: {
-        if(pump.state === 1) // Pump on
-            return "#cb1c29"
+        if(pump.enabled)
+        {
+            if(pump.state === 1) // Pump on
+                return "#cb1c29"
 
-        if(pump.state === 2) // Pump off
-            return "#55965e"
+            if(pump.state === 2) // Pump off
+                return "#55965e"
 
-        if(pump.state === 3) // Pump failed
-            return "#c7a028"
+            if(pump.state === 3) // Pump failed
+                return "#c7a028"
+        }
 
         // Disabled id: 4
         return "#cac8c8"
@@ -44,14 +50,17 @@ Rectangle
 
     // Colours depend on pump state
     property string colour2: {
-        if(pump.state === 1) // Pump on
-            return "#f12131"
+        if(pump.enabled)
+        {
+            if(pump.state === 1) // Pump on
+                return "#f12131"
 
-        if(pump.state === 2) // Pump off
-            return "#6bc077"
+            if(pump.state === 2) // Pump off
+                return "#6bc077"
 
-        if(pump.state === 3) // Pump failed
-            return "#edc64e"
+            if(pump.state === 3) // Pump failed
+                return "#edc64e"
+        }
 
         // Disabled id: 4
         return "#dbdbdb"
@@ -59,14 +68,17 @@ Rectangle
 
     // Colours depend on pump state
     property string tcolour: {
-        if(pump.state === 1) // Pump on
-            return "#ffffff"
+        if(pump.enabled)
+        {
+            if(pump.state === 1) // Pump on
+                return "#ffffff"
 
-        if(pump.state === 2) // Pump off
-            return "#ffffff"
+            if(pump.state === 2) // Pump off
+                return "#ffffff"
 
-        if(pump.state === 3) // Pump failed
-            return "#ffffff"
+            if(pump.state === 3) // Pump failed
+                return "#ffffff"
+        }
 
         // Disabled id: 4
         return "#6d6d6d"
@@ -74,14 +86,17 @@ Rectangle
 
     // Colours depend on pump state
     property string tcolour2: {
-        if(pump.state === 1) // Pump on
-            return "#cb1c29"
+        if(pump.enabled)
+        {
+            if(pump.state === 1) // Pump on
+                return "#cb1c29"
 
-        if(pump.state === 2) // Pump off
-            return "#55965e"
+            if(pump.state === 2) // Pump off
+                return "#55965e"
 
-        if(pump.state === 3) // Pump failed
-            return "#c7a028"
+            if(pump.state === 3) // Pump failed
+                return "#c7a028"
+        }
 
         // Disabled id: 4
         return "#797979"
@@ -141,14 +156,17 @@ Rectangle
 
         Text{
             text: {
-                if(pump.state === 1)
-                    return "On"
+                if(pump.enabled)
+                {
+                    if(pump.state === 1)
+                        return "On"
 
-                if(pump.state === 2)
-                    return "Off"
+                    if(pump.state === 2)
+                        return "Off"
 
-                if(pump.state === 3)
-                    return "ERROR"
+                    if(pump.state === 3)
+                        return "ERROR"
+                }
 
                 return "Disabled"
             }

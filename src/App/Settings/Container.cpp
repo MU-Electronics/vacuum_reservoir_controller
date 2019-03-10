@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
+#include <QScopedPointer>
 
 namespace App { namespace Settings
 {
@@ -36,7 +37,8 @@ namespace App { namespace Settings
      */
     QSharedPointer<General> Container::general()
     {
-        return QSharedPointer<General>(m_general);
+        QSharedPointer<General> pointer(m_general);
+        return pointer;
     }
 
 
@@ -52,7 +54,7 @@ namespace App { namespace Settings
 
         // Load setting objects
             // General
-            m_general = new General(this, getDir() + "General.json");
+            m_general = QSharedPointer<General>(new General(this, getDir() + "General.json"));
             // Hardware
             // View
     }

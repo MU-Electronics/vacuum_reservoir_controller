@@ -16,6 +16,9 @@ Rectangle
     // Chamber set
     property int set: 1
 
+    // Is enabled
+    property bool enabled: false
+
     // State of sensor
     property int state: 1
 
@@ -27,14 +30,17 @@ Rectangle
 
     // Colours depend on sensor state
     property string colour1: {
-        if(pressure.state === 1) // Sensor ok
-            return "#dacf07"
+        if(pressure.enabled)
+        {
+            if(pressure.state === 1) // Sensor ok
+                return "#dacf07"
 
-        if(pressure.state === 2) // Sensor range
-            return "#cb1c29"
+            if(pressure.state === 2) // Sensor range
+                return "#cb1c29"
 
-        if(pressure.state === 3) // Sensor Error
-            return "#c7a028"
+            if(pressure.state === 3) // Sensor Error
+                return "#c7a028"
+        }
 
         // Disabled id: 4
         return "#c5c4c4"
@@ -42,14 +48,17 @@ Rectangle
 
     // Colours depend on sensor state
     property string colour2: {
-        if(pressure.state === 1) // Sensor ok
-            return "#c9be06"
+        if(pressure.enabled)
+        {
+            if(pressure.state === 1) // Sensor ok
+                return "#c9be06"
 
-        if(pressure.state === 2) // Sensor Range
-            return "#bb1a26"
+            if(pressure.state === 2) // Sensor Range
+                return "#bb1a26"
 
-        if(pressure.state === 3) // Sensor Error
-            return "#edc64e"
+            if(pressure.state === 3) // Sensor Error
+                return "#edc64e"
+        }
 
         // Disabled id: 4
         return "#bebdbd"
@@ -57,14 +66,17 @@ Rectangle
 
     // Colours depend on pump state
     property string tcolour: {
-        if(pressure.state === 1) // Sensor ok
-            return "#ffffff"
+        if(pressure.enabled)
+        {
+            if(pressure.state === 1) // Sensor ok
+                return "#ffffff"
 
-        if(pressure.state === 2) // Sensor Range
-            return "#ffffff"
+            if(pressure.state === 2) // Sensor Range
+                return "#ffffff"
 
-        if(pressure.state === 3) // Sensor Error
-            return "#ffffff"
+            if(pressure.state === 3) // Sensor Error
+                return "#ffffff"
+        }
 
         // Disabled id: 4
         return "#ffffff"
@@ -148,7 +160,7 @@ Rectangle
     }
 
     Text{
-        text: (pressure.state !== 4) ? pressure.value + " mbar" : "disabled";
+        text: (pressure.enabled === true) ? pressure.value + " mbar" : "disabled";
         width: parent.width
         height: 15
         horizontalAlignment: Text.AlignHCenter

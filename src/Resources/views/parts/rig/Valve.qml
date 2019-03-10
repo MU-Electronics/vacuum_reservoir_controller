@@ -12,6 +12,9 @@ Rectangle
     // Chamber set
     property int set: 1
 
+    // Is enabled
+    property bool enabled: false
+
     // State of valve
     property int state: 2
 
@@ -29,14 +32,17 @@ Rectangle
 
     // Colours depend on valve state
     property string colour1: {
-        if(valve.state === 1) // Open
-            return "#cb1c29"
+        if(valve.enabled)
+        {
+            if(valve.state === 1) // Open
+                return "#cb1c29"
 
-        if(valve.state === 2) // Closed
-            return "#55965e"
+            if(valve.state === 2) // Closed
+                return "#55965e"
 
-        if(valve.state === 3) // Error
-            return "#c7a028"
+            if(valve.state === 3) // Error
+                return "#c7a028"
+        }
 
         // Disabled id: 4
         return "#cac8c8"
@@ -44,14 +50,17 @@ Rectangle
 
     // Colours depend on valve state
     property string colour2: {
-        if(valve.state === 1) // Open
-            return "#f12131"
+        if(valve.enabled)
+        {
+            if(valve.state === 1) // Open
+                return "#f12131"
 
-        if(valve.state === 2) // Closed
-            return "#6bc077"
+            if(valve.state === 2) // Closed
+                return "#6bc077"
 
-        if(valve.state === 3) // Error
-            return "#edc64e"
+            if(valve.state === 3) // Error
+                return "#edc64e"
+        }
 
         // Disabled id: 4
         return "#b0afaf"
@@ -59,14 +68,17 @@ Rectangle
 
     // Colours depend on valve state
     property string tcolour: {
-        if(valve.state === 1) // Open
-            return "#cb1c29"
+        if(valve.enabled)
+        {
+            if(valve.state === 1) // Open
+                return "#cb1c29"
 
-        if(valve.state === 2) // Closed
-            return "#55965e"
+            if(valve.state === 2) // Closed
+                return "#55965e"
 
-        if(valve.state === 3) // Error
-            return "#c7a028"
+            if(valve.state === 3) // Error
+                return "#c7a028"
+        }
 
         // Disabled id: 4
         return "#797979"
@@ -312,15 +324,17 @@ Rectangle
             Text{
                 width: 40
                 text: {
-                    if(valve.state === 1)
-                        return "opened"
+                    if(valve.enabled)
+                    {
+                        if(valve.state === 1)
+                            return "opened"
 
-                    if(valve.state === 2)
-                        return "closed"
+                        if(valve.state === 2)
+                            return "closed"
 
-                    if(valve.state === 3)
-                        return "ERROR"
-
+                        if(valve.state === 3)
+                            return "ERROR"
+                    }
                     return "disabled"
                 }
                 font.pointSize: 8

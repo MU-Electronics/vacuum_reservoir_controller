@@ -61,6 +61,11 @@ namespace App { namespace View { namespace Managers
             bool showSettings();
             bool allowTouchControl(int group);
             void setControlState(QString type, bool state);
+            void setStates();
+
+            void setGeneralSettingEnables();
+            void setGeneralSettingComments();
+            void setGeneralSettingParamters();
 
         private:
             QQmlApplicationEngine* m_root;
@@ -95,6 +100,41 @@ namespace App { namespace View { namespace Managers
                 disabled = 4
             };
 
+            // Valve states
+            enum class ValveStatus: int
+            {
+                open = 1,
+                closed = 2,
+                error = 3,
+                disabled = 0
+            };
+
+            // Pump states
+            enum class PumpStatus: int
+            {
+                on = 1,
+                off = 2,
+                error = 3,
+                disabled = 0
+            };
+
+            // Pressure states
+            enum class PressureStatus: int
+            {
+                ok = 1,
+                range = 2,
+                error = 3,
+                disabled = 0
+            };
+
+            // Barrel states
+            enum class BarrelStatus: int
+            {
+                withinTolerance = 1,
+                requiresToppingUp = 2,
+                beingToppedUp = 3,
+                disabled = 0
+            };
     };
 }}}
 

@@ -12,6 +12,9 @@ Rectangle
     // Chamber set
     property int set: 1
 
+    // Is enabled
+    property bool enabled: false
+
     // State of barrel
     property int state: 1
 
@@ -24,14 +27,17 @@ Rectangle
 
     // Colours depend on barrel state
     property string colour1: {
-        if(barrel.state === 1) // Within pressure tolerance
-            return "#eee204"
+        if(barrel.enabled)
+        {
+            if(barrel.state === 1) // Within pressure tolerance
+                return "#eee204"
 
-        if(barrel.state === 2) // Requires topping up
-            return "#cb1c29"
+            if(barrel.state === 2) // Requires topping up
+                return "#cb1c29"
 
-        if(barrel.state === 3) // Being topped up
-            return "#d38915"
+            if(barrel.state === 3) // Being topped up
+                return "#d38915"
+        }
 
         // Disabled id: 4
         return "#cac8c8"
@@ -39,14 +45,17 @@ Rectangle
 
     // Colours depend on barrel state
     property string colour2: {
-        if(barrel.state === 1) // Within pressure tolerance
-            return "#fff200"
+        if(barrel.enabled)
+        {
+            if(barrel.state === 1) // Within pressure tolerance
+                return "#fff200"
 
-        if(barrel.state === 2) // Requires topping up
-            return "#de1e2c"
+            if(barrel.state === 2) // Requires topping up
+                return "#de1e2c"
 
-        if(barrel.state === 3) // Being topped up
-            return "#f09d1b"
+            if(barrel.state === 3) // Being topped up
+                return "#f09d1b"
+        }
 
         // Disabled id: 4
         return "#dbdbdb"
@@ -54,14 +63,17 @@ Rectangle
 
     // Colours depend on barrel state
     property string tcolour: {
-        if(barrel.state === 1) // Within pressure tolerance
-            return "#6a6503"
+        if(barrel.enabled)
+        {
+            if(barrel.state === 1) // Within pressure tolerance
+                return "#6a6503"
 
-        if(barrel.state === 2) // Requires topping up
-            return "#560d13"
+            if(barrel.state === 2) // Requires topping up
+                return "#560d13"
 
-        if(barrel.state === 3) // Being topped up
-            return "#67430b"
+            if(barrel.state === 3) // Being topped up
+                return "#67430b"
+        }
 
         // Disabled id: 4
         return "#6d6d6d"
@@ -242,14 +254,17 @@ Rectangle
             width: 60
             height: 25
             text: {
-                if(barrel.state === 1)
-                    return "Within"
+                if(barrel.enabled)
+                {
+                    if(barrel.state === 1)
+                        return "Within"
 
-                if(barrel.state === 2)
-                    return "Attention"
+                    if(barrel.state === 2)
+                        return "Attention"
 
-                if(barrel.state === 3)
-                    return "Top Up"
+                    if(barrel.state === 3)
+                        return "Top Up"
+                }
 
                 return "Disabled"
             }

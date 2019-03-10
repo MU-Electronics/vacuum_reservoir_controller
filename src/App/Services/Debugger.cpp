@@ -240,7 +240,7 @@ namespace App { namespace Services
         QFileInfoList list = dir.entryInfoList();
 
         // Loop through each log past 10
-        for (int i; i < list.size(); ++i)
+        for (int i = 0; i < list.size(); ++i)
         {
             // Get the file info on perticular log
             QFileInfo fileInfo = list.at(i);

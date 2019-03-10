@@ -60,12 +60,15 @@ Item{
         {
             set: 1
 
+            valve_enabled: SystemValuesManager.valveState["1_enabled"];
             valve_status: SystemValuesManager.valveState["1_status"];
             valve_name: SystemValuesManager.valveState["1_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["1_enabled"];
             barrel_status: SystemValuesManager.barrelState["1_status"];
             barrel_name: SystemValuesManager.barrelState["1_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["1_enabled"];
             pressure_status: SystemValuesManager.pressureState["1_status"];
             pressure_value: SystemValuesManager.pressureState["1_value"];
             pressure_name: SystemValuesManager.pressureState["1_name"];
@@ -77,12 +80,15 @@ Item{
         {
             set: 2
 
+            valve_enabled: SystemValuesManager.valveState["2_enabled"];
             valve_status: SystemValuesManager.valveState["2_status"];
             valve_name: SystemValuesManager.valveState["2_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["2_enabled"];
             barrel_status: SystemValuesManager.barrelState["2_status"];
             barrel_name: SystemValuesManager.barrelState["2_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["2_enabled"];
             pressure_status: SystemValuesManager.pressureState["2_status"];
             pressure_value: SystemValuesManager.pressureState["2_value"];
             pressure_name: SystemValuesManager.pressureState["2_name"];
@@ -94,12 +100,15 @@ Item{
         {
             set: 3
 
+            valve_enabled: SystemValuesManager.valveState["3_enabled"];
             valve_status: SystemValuesManager.valveState["3_status"];
             valve_name: SystemValuesManager.valveState["3_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["3_enabled"];
             barrel_status: SystemValuesManager.barrelState["3_status"];
             barrel_name: SystemValuesManager.barrelState["3_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["3_enabled"];
             pressure_status: SystemValuesManager.pressureState["3_status"];
             pressure_value: SystemValuesManager.pressureState["3_value"];
             pressure_name: SystemValuesManager.pressureState["3_name"];
@@ -111,12 +120,15 @@ Item{
         {
             set: 4
 
+            valve_enabled: SystemValuesManager.valveState["4_enabled"];
             valve_status: SystemValuesManager.valveState["4_status"];
             valve_name: SystemValuesManager.valveState["4_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["4_enabled"];
             barrel_status: SystemValuesManager.barrelState["4_status"];
             barrel_name: SystemValuesManager.barrelState["4_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["4_enabled"];
             pressure_status: SystemValuesManager.pressureState["4_status"];
             pressure_value: SystemValuesManager.pressureState["4_value"];
             pressure_name: SystemValuesManager.pressureState["4_name"];
@@ -128,12 +140,15 @@ Item{
         {
             set: 5
 
+            valve_enabled: SystemValuesManager.valveState["5_enabled"];
             valve_status: SystemValuesManager.valveState["5_status"];
             valve_name: SystemValuesManager.valveState["5_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["5_enabled"];
             barrel_status: SystemValuesManager.barrelState["5_status"];
             barrel_name: SystemValuesManager.barrelState["5_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["5_enabled"];
             pressure_status: SystemValuesManager.pressureState["5_status"];
             pressure_value: SystemValuesManager.pressureState["5_value"];
             pressure_name: SystemValuesManager.pressureState["5_name"];
@@ -145,12 +160,15 @@ Item{
         {
             set: 6
 
+            valve_enabled: SystemValuesManager.valveState["6_enabled"];
             valve_status: SystemValuesManager.valveState["6_status"];
             valve_name: SystemValuesManager.valveState["6_name"];
 
+            barrel_enabled: SystemValuesManager.barrelState["6_enabled"];
             barrel_status: SystemValuesManager.barrelState["6_status"];
             barrel_name: SystemValuesManager.barrelState["6_name"];
 
+            pressure_enabled: SystemValuesManager.pressureState["6_enabled"];
             pressure_status: SystemValuesManager.pressureState["6_status"];
             pressure_value: SystemValuesManager.pressureState["6_value"];
             pressure_name: SystemValuesManager.pressureState["6_name"];
@@ -238,6 +256,7 @@ Item{
         waitx: -10
         waity: -220
         set: 7
+        enabled: SystemValuesManager.valveState["7_enabled"];
         state: SystemValuesManager.valveState["7_status"];
         name: SystemValuesManager.valveState["7_name"];
         angle: false
@@ -252,6 +271,7 @@ Item{
         waitx: 130
         waity: -185
         set: 7
+        enabled: SystemValuesManager.pressureState["7_enabled"];
         state: SystemValuesManager.pressureState["7_status"];
         name: SystemValuesManager.pressureState["7_name"];
         value: SystemValuesManager.pressureState["7_value"];
@@ -272,6 +292,7 @@ Item{
         waitx: 255
         waity: -200
         set: 7
+        enabled: SystemValuesManager.pumpState["1_enabled"];
         state: SystemValuesManager.pumpState["1_status"];
         name: SystemValuesManager.pumpState["1_name"];
     }
@@ -329,6 +350,7 @@ Item{
         waitx: -160
         waity: -220
         set: 8
+        enabled: SystemValuesManager.valveState["8_enabled"];
         state: SystemValuesManager.valveState["8_status"];
         name: SystemValuesManager.valveState["8_name"];
         angle: false
@@ -343,6 +365,7 @@ Item{
         waitx: -215
         waity: -185
         set: 8
+        enabled: SystemValuesManager.pressureState["8_enabled"];
         state: SystemValuesManager.pressureState["8_status"];
         name: SystemValuesManager.pressureState["8_name"];
         value: SystemValuesManager.pressureState["8_value"];
@@ -365,6 +388,7 @@ Item{
         settingy: -290
         waitx: -380
         waity: -200
+        enabled: SystemValuesManager.pumpState["2_enabled"];
         state: SystemValuesManager.pumpState["2_status"];
         name: SystemValuesManager.pumpState["2_name"];
         flip: false
