@@ -10,12 +10,12 @@
 
 namespace App { namespace Settings
 {
-    class General : public QObject, private Services::JsonFile
+    class Hardware : public QObject, private Services::JsonFile
     {
         Q_OBJECT
 
         public:
-            General(QObject *parent, QString location);
+            Hardware(QObject *parent, QString location);
 
             void save();
 

@@ -9,6 +9,8 @@
 
 // Setting objects
 #include "General.h"
+#include "Hardware.h"
+#include "View.h"
 
 namespace App { namespace Settings
 {
@@ -22,13 +24,17 @@ namespace App { namespace Settings
 
             // Getters for setting objects
             QSharedPointer<General> general();
+            QSharedPointer<Hardware> hardware();
+            QSharedPointer<View> view();
 
        private:
             void loadSettings();
             QString getDir();
 
             // Settings objects
-             QSharedPointer<General> m_general;
+            QSharedPointer<General> m_general;
+            QSharedPointer<Hardware> m_hardware;
+            QSharedPointer<View> m_view;
     };
 }}
 

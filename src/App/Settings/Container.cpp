@@ -43,6 +43,32 @@ namespace App { namespace Settings
 
 
     /**
+     * Return instance of Hardware setting object
+     *
+     * @brief Container::hardware
+     * @return
+     */
+    QSharedPointer<Hardware> Container::hardware()
+    {
+        QSharedPointer<Hardware> pointer(m_hardware);
+        return pointer;
+    }
+
+
+    /**
+     * Return instance of View setting object
+     *
+     * @brief Container::view
+     * @return
+     */
+    QSharedPointer<View> Container::view()
+    {
+        QSharedPointer<View> pointer(m_view);
+        return pointer;
+    }
+
+
+    /**
      * Load the json setting files into the setting objects
      *
      * @brief Container::loadSettings
@@ -56,7 +82,9 @@ namespace App { namespace Settings
             // General
             m_general = QSharedPointer<General>(new General(this, getDir() + "General.json"));
             // Hardware
+            m_hardware = QSharedPointer<Hardware>(new Hardware(this, getDir() + "Hardware.json"));
             // View
+            m_view = QSharedPointer<View>(new View(this, getDir() + "View.json"));
     }
 
 

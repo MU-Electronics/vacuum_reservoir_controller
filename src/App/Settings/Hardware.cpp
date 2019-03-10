@@ -1,4 +1,4 @@
-#include "General.h"
+#include "Hardware.h"
 
 // External deps
 #include <QDebug>
@@ -9,10 +9,10 @@ namespace App { namespace Settings
     /**
      * Contructor
      *
-     * @brief General::General
+     * @brief Hardware::Hardware
      * @param parent
      */
-    General::General(QObject *parent, QString location)
+    Hardware::Hardware(QObject *parent, QString location)
         :   QObject(parent)
         ,   JsonFile()
     {
@@ -24,9 +24,9 @@ namespace App { namespace Settings
     /**
      * Extneral method to trigger an updating of json file
      *
-     * @brief General::save
+     * @brief Hardware::save
      */
-    void General::save()
+    void Hardware::save()
     {
         // Trigger private method update
         update();
@@ -43,10 +43,10 @@ namespace App { namespace Settings
     /**
      * Action to take on read of json data
      *
-     * @brief General::read
+     * @brief Hardware::read
      * @param json
      */
-    void General::read(const QJsonObject &json)
+    void Hardware::read(const QJsonObject &json)
     {
 
     }
@@ -55,10 +55,10 @@ namespace App { namespace Settings
     /**
      * Action to take on writing of json data
      *
-     * @brief General::write
+     * @brief Hardware::write
      * @param json
      */
-    void General::write(QJsonObject &json) const
+    void Hardware::write(QJsonObject &json) const
     {
 
     }

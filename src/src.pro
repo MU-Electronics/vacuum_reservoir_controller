@@ -46,7 +46,9 @@ SOURCES += \
     App/View/Managers/Logs.cpp \
     App/View/Managers/Control.cpp \
     App/Settings/General.cpp \
-    App/View/Managers/SettingsUpdater.cpp
+    App/View/Managers/SettingsUpdater.cpp \
+    App/Settings/Hardware.cpp \
+    App/Settings/View.cpp
 
 # Include all the header files
 HEADERS += \
@@ -70,7 +72,9 @@ HEADERS += \
     App/View/Managers/Logs.h \
     App/View/Managers/Control.h \
     App/Settings/General.h \
-    App/View/Managers/SettingsUpdater.h
+    App/View/Managers/SettingsUpdater.h \
+    App/Settings/Hardware.h \
+    App/Settings/View.h
 
 
 # Include the resource file
