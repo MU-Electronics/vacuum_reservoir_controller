@@ -17,6 +17,9 @@
 // Experiment Engine with state machine methods
 #include "../../Experiment/Engine.h"
 
+// QutiPi drivers
+#include <Drivers/InterruptIn.h>
+
 namespace App { namespace View { namespace Managers
 {
 
@@ -48,6 +51,8 @@ namespace App { namespace View { namespace Managers
             QVariantMap commentState() const { return m_comment; }
             QVariantMap pumpState() const { return m_pump; }
             QVariantMap controlState() const { return m_control; }
+
+            void emergancyStopIntr();
 
         signals:
             void emit_valveChanged(QVariantMap);
@@ -90,6 +95,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds all comments
             QVariantMap m_comment;
+
+            // Emergancy stop
+            QutiPi::Drivers::InterruptIn m_emergancyStop;
 
             // Status types
             enum class Statuses: int

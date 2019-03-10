@@ -90,8 +90,10 @@ Popup {
                 }
 
                 ComboBox {
+                    id: pumpAutoState
                     width:150
                     model: ["Enable", "Disable"]
+                    currentIndex: (SystemValuesManager.pumpState[popup.set + "_auto"]) ? 0 : 1
                 }
 
                 Item{
@@ -118,8 +120,10 @@ Popup {
                 }
 
                 ComboBox {
+                    id: pumpManualState
                     width:150
                     model: ["Enable", "Disable"]
+                    currentIndex: (SystemValuesManager.pumpState[popup.set + "_manual"]) ? 0 : 1
                 }
             }
         }
@@ -157,8 +161,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: pumpAlarmState
                     width: 150
-                    value: 150
+                    value: SystemValuesManager.pumpState[popup.set + "_alarm_pressure"]
                     from:1
                     to:500
                 }
@@ -187,8 +192,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: pumpAlarmTimeState
                     width: 200
-                    value: 150
+                    value: SystemValuesManager.pumpState[popup.set + "_alarm_time"]
                     from:1
                     to:1000
                 }
@@ -228,10 +234,11 @@ Popup {
                 }
 
                 SpinBox {
+                    id: lowerPumpSetPoint
                     width: 120
-                    value: 15
+                    value: SystemValuesManager.pumpState[popup.set + "_lower_set_point"]
                     from:1
-                    to:500
+                    to:800
                 }
 
                 Item{
@@ -258,10 +265,15 @@ Popup {
                 }
 
                 SpinBox {
+                    id: pumpUpperSetPointState
                     width: 120
-                    value: 50
-                    from:1
-                    to:500
+                    value: {
+                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpState[popup.set + "_upper_set_point"])
+                            return lowerPumpSetPoint.value + 50
+                        return SystemValuesManager.pumpState[popup.set + "_upper_set_point"]
+                    }
+                    from: lowerPumpSetPoint.value + 50
+                    to:900
                 }
 
                 Item{
@@ -288,8 +300,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: pumpWarmupState
                     width: 130
-                    value: 10
+                    value: SystemValuesManager.pumpState[popup.set + "_warm_up"]
                     from:1
                     to:100
                 }
@@ -334,6 +347,13 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
+                    // Save values
+                        // popup.set
+                        // pumpAutoState.currentIndex    pumpManualState.currentIndex
+                        // pumpAlarmState.value         pumpAlarmTimeState.value
+                        // lowerPumpSetPoint.value  pumpUpperSetPointState.value  pumpWarmupState.value
+
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""
@@ -348,6 +368,7 @@ Popup {
                 anchors.topMargin: 10
                 text: "Close"
                 onClicked: {
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""

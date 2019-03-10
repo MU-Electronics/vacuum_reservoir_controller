@@ -8,6 +8,8 @@ import QtQuick.Controls.Material 2.2 as Materials
 
 Popup {
 
+    id: popup
+
     property int set: 1
 
     // Settings location
@@ -16,7 +18,6 @@ Popup {
 
     property var settingsLoaderAliase: 0
 
-    id: popup
     width: 720
     height: 320
     //contentWidth: view.implicitWidth
@@ -89,8 +90,10 @@ Popup {
                 }
 
                 ComboBox {
+                    id: barrelAutoState
                     width:150
                     model: ["Enable", "Disable"]
+                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_auto"]) ? 0 : 1
                 }
 
                 Item{
@@ -117,8 +120,10 @@ Popup {
                 }
 
                 ComboBox {
+                    id: barrelManualState
                     width:150
                     model: ["Enable", "Disable"]
+                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_manual"]) ? 0 : 1
                 }
             }
         }
@@ -155,8 +160,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: barrelAlarmSetPointState
                     width: 150
-                    value: 150
+                    value: SystemValuesManager.barrelState[popup.set + "_alarm_pressure"]
                     from:1
                     to:500
                 }
@@ -185,8 +191,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: barrelAlarmTimeState
                     width: 180
-                    value: 1000
+                    value: SystemValuesManager.barrelState[popup.set + "_alarm_time"]
                     from:1
                     to: 1000
                 }
@@ -226,8 +233,9 @@ Popup {
                 }
 
                 SpinBox {
+                    id: barrelLowerSetPoint
                     width: 150
-                    value: 15
+                    value: SystemValuesManager.barrelState[popup.set + "_lower_set_point"]
                     from: 1
                     to: 800
                 }
@@ -256,10 +264,15 @@ Popup {
                 }
 
                 SpinBox {
+                    id: barrelUpperSetPointstate
                     width: 150
-                    value: 50
-                    from:1
-                    to: 800
+                    value: {
+                        if(barrelLowerSetPoint.value + 50 > SystemValuesManager.barrelState[popup.set + "_upper_set_point"])
+                            return barrelLowerSetPoint.value + 50
+                        return SystemValuesManager.barrelState[popup.set + "_upper_set_point"]
+                    }
+                    from: barrelLowerSetPoint.value + 50
+                    to: 900
                 }
             }
         }
@@ -302,6 +315,14 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
+                    // Save info
+                        // popup.set
+                        // barrelAutoState.currentIndex     barrelManualState.currentIndex
+                        // barrelAlarmSetPointState.value	barrelAlarmTimeState.value
+                        // barrelLowerSetPoint.value        barrelUpperSetPointstate.value
+
+
+                    // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false
                     settingsLoaderAliase.source = ""

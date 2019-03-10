@@ -95,7 +95,7 @@
             "manual_control_enabled": true,
 
             "lower_set_point": 15,
-            "upper_set_point": 50,
+            "upper_set_point": 150,
 
             "warm_up": 10,
 
@@ -109,7 +109,7 @@
             "manual_control_enabled": false,
 
             "lower_set_point": 15,
-            "upper_set_point": 50,
+            "upper_set_point": 100,
 
             "warm_up": 10,
 

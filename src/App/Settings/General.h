@@ -22,7 +22,7 @@ namespace App { namespace Settings
             // Getters
             QVariantMap chamber(int id);
             QVariantMap valves();
-            QVariantMap pumps(int id);
+            QVariantMap pump(int id);
 
         signals:
             void emit_saved();

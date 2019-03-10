@@ -87,7 +87,7 @@ namespace App { namespace Settings
      * @param id
      * @return
      */
-    QVariantMap General::pumps(int id)
+    QVariantMap General::pump(int id)
     {
         switch(id)
         {

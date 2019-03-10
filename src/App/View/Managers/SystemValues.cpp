@@ -21,15 +21,24 @@ namespace App { namespace View { namespace Managers
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
+
+        ,   m_emergancyStop(GPIO_30)
     {
         // Show initialising screen
         initialising(false); // << false for debug
+
+        // Setup emergancy stop interrupt
+        m_emergancyStop.mode(PullNone);
+        m_emergancyStop.rise(callback(this, &SystemValues::emergancyStopIntr));
+
 
         // Control status
         m_control.insert("remote", false);
         m_control.insert("manual_auto", false);
         m_control.insert("touch_control", false);
+        m_control.insert("emergancy_stop_triggered", false);
         emit_controlChanged(m_control);
+
 
         // Valve values
         m_valve.insert("1_status", int(ValveStatus::closed)); // Statuses::disabled
@@ -92,15 +101,6 @@ namespace App { namespace View { namespace Managers
         m_pressure.insert("8_value", "0");
         emit_pressureChanged(m_pressure);
 
-        // Comment values
-        m_comment.insert("1_value", "");
-        m_comment.insert("2_value", "");
-        m_comment.insert("3_value", "");
-        m_comment.insert("4_value", "");
-        m_comment.insert("5_value", "");
-        m_comment.insert("6_value", "");
-        emit_commentChanged(m_comment);
-
         // Pumo values
         m_pump.insert("1_status", int(PumpStatus::off));
         m_pump.insert("1_name", "Pump 1");
@@ -132,6 +132,14 @@ namespace App { namespace View { namespace Managers
     {
         // auto i = m_settings->general()->chamber(1)["comment"];
         // qDebug() << i["comment"];
+    }
+
+
+    void SystemValues::emergancyStopIntr()
+    {
+        m_control.insert("emergancy_stop_triggered", false);
+        emit_controlChanged(m_control);
+        qDebug() << "Emergacy stop triggered";
     }
 
 
@@ -175,6 +183,64 @@ namespace App { namespace View { namespace Managers
      */
     void SystemValues::setGeneralSettingParamters()
     {
+        // General settings object
+        auto general = m_settings->general();
+
+        // Chamber params
+        auto generalChamber_1 = general->chamber(1);
+        auto generalChamber_2 = general->chamber(2);
+        auto generalChamber_3 = general->chamber(3);
+        auto generalChamber_4 = general->chamber(4);
+        auto generalChamber_5 = general->chamber(5);
+        auto generalChamber_6 = general->chamber(6);
+
+        m_barrel.insert("1_lower_set_point", generalChamber_1["lower_set_point"]);
+        m_barrel.insert("1_upper_set_point", generalChamber_1["upper_set_point"]);
+        m_barrel.insert("1_alarm_pressure", generalChamber_1["alarm_pressure"]);
+        m_barrel.insert("1_alarm_time", generalChamber_1["alarm_time"]);
+
+        m_barrel.insert("2_lower_set_point", generalChamber_2["lower_set_point"]);
+        m_barrel.insert("2_upper_set_point", generalChamber_2["upper_set_point"]);
+        m_barrel.insert("2_alarm_pressure", generalChamber_2["alarm_pressure"]);
+        m_barrel.insert("2_alarm_time", generalChamber_2["alarm_time"]);
+
+        m_barrel.insert("3_lower_set_point", generalChamber_3["lower_set_point"]);
+        m_barrel.insert("3_upper_set_point", generalChamber_3["upper_set_point"]);
+        m_barrel.insert("3_alarm_pressure", generalChamber_3["alarm_pressure"]);
+        m_barrel.insert("3_alarm_time", generalChamber_3["alarm_time"]);
+
+        m_barrel.insert("4_lower_set_point", generalChamber_4["lower_set_point"]);
+        m_barrel.insert("4_upper_set_point", generalChamber_4["upper_set_point"]);
+        m_barrel.insert("4_alarm_pressure", generalChamber_4["alarm_pressure"]);
+        m_barrel.insert("4_alarm_time", generalChamber_4["alarm_time"]);
+
+        m_barrel.insert("5_lower_set_point", generalChamber_5["lower_set_point"]);
+        m_barrel.insert("5_upper_set_point", generalChamber_5["upper_set_point"]);
+        m_barrel.insert("5_alarm_pressure", generalChamber_5["alarm_pressure"]);
+        m_barrel.insert("5_alarm_time", generalChamber_5["alarm_time"]);
+
+        m_barrel.insert("6_lower_set_point", generalChamber_6["lower_set_point"]);
+        m_barrel.insert("6_upper_set_point", generalChamber_6["upper_set_point"]);
+        m_barrel.insert("6_alarm_pressure", generalChamber_6["alarm_pressure"]);
+        m_barrel.insert("6_alarm_time", generalChamber_6["alarm_time"]);
+
+
+
+        // Pump params
+        auto generalPump_1 = general->pump(1);
+        auto generalPump_2 = general->pump(1);
+
+        m_pump.insert("1_lower_set_point", generalPump_1["lower_set_point"]);
+        m_pump.insert("1_upper_set_point", generalPump_1["upper_set_point"]);
+        m_pump.insert("1_warm_up", generalPump_1["warm_up"]);
+        m_pump.insert("1_alarm_pressure", generalPump_1["alarm_pressure"]);
+        m_pump.insert("1_alarm_time", generalPump_1["alarm_time"]);
+
+        m_pump.insert("2_lower_set_point", generalPump_2["lower_set_point"]);
+        m_pump.insert("2_upper_set_point", generalPump_2["upper_set_point"]);
+        m_pump.insert("2_warm_up", generalPump_2["warm_up"]);
+        m_pump.insert("2_alarm_pressure", generalPump_2["alarm_pressure"]);
+        m_pump.insert("2_alarm_time", generalPump_2["alarm_time"]);
 
     }
 
@@ -214,16 +280,33 @@ namespace App { namespace View { namespace Managers
         m_pressure.insert("6_enabled", generalChamber_6[enableKey]);
 
         m_barrel.insert("1_enabled", generalChamber_1[enableKey]);
+        m_barrel.insert("1_manual", generalChamber_1["manual_control_enabled"]);
+        m_barrel.insert("1_auto", generalChamber_1["auto_control_enabled"]);
+
         m_barrel.insert("2_enabled", generalChamber_2[enableKey]);
+        m_barrel.insert("2_manual", generalChamber_2["manual_control_enabled"]);
+        m_barrel.insert("2_auto", generalChamber_2["auto_control_enabled"]);
+
         m_barrel.insert("3_enabled", generalChamber_3[enableKey]);
+        m_barrel.insert("3_manual", generalChamber_3["manual_control_enabled"]);
+        m_barrel.insert("3_auto", generalChamber_3["auto_control_enabled"]);
+
         m_barrel.insert("4_enabled", generalChamber_4[enableKey]);
+        m_barrel.insert("4_manual", generalChamber_4["manual_control_enabled"]);
+        m_barrel.insert("4_auto", generalChamber_4["auto_control_enabled"]);
+
         m_barrel.insert("5_enabled", generalChamber_5[enableKey]);
+        m_barrel.insert("5_manual", generalChamber_5["manual_control_enabled"]);
+        m_barrel.insert("5_auto", generalChamber_5["auto_control_enabled"]);
+
         m_barrel.insert("6_enabled", generalChamber_6[enableKey]);
+        m_barrel.insert("6_manual", generalChamber_6["manual_control_enabled"]);
+        m_barrel.insert("6_auto", generalChamber_6["auto_control_enabled"]);
 
 
         // Get Pump settings
-        auto generalPump_1 = general->pumps(1);
-        auto generalPump_2 = general->pumps(2);
+        auto generalPump_1 = general->pump(1);
+        auto generalPump_2 = general->pump(2);
 
         // Status of pump groups
          m_pump.insert("1_enabled", generalPump_1[enableKey]);
@@ -277,7 +360,7 @@ namespace App { namespace View { namespace Managers
         }
         else if(group > 7) // Pump group
         {
-            chamber = m_settings->general()->pumps(group)[enableKey].toBool();
+            chamber = m_settings->general()->pump(group)[enableKey].toBool();
         }
 
         // Only allow when touch control enabled
