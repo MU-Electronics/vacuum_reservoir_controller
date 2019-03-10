@@ -95,8 +95,8 @@ Popup {
                 ComboBox {
                     id: pumpAutoState
                     width:150
-                    model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_auto"]) ? 0 : 1
+                    model: ["Disable", "Enable"]
+                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_auto"]) ? 1 : 0
                 }
 
                 Item{
@@ -125,8 +125,8 @@ Popup {
                 ComboBox {
                     id: pumpManualState
                     width:150
-                    model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_manual"]) ? 0 : 1
+                    model: ["Disable", "Enable"]
+                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_manual"]) ? 1 : 0
                 }
             }
         }
@@ -351,7 +351,7 @@ Popup {
                 text: "Save"
                 onClicked: {
                     // Save values
-                    SettingsUpdaterManager.updatePumpSettings(popup.set, pumpAutoState.currentIndex, pumpManualState.currentIndex,
+                    SettingsUpdaterManager.updatePumpSettings(popup.pumpId, pumpAutoState.currentIndex, pumpManualState.currentIndex,
                                                               pumpAlarmState.value, pumpAlarmTimeState.value,
                                                               lowerPumpSetPoint.value, pumpUpperSetPointState.value, pumpWarmupState.value);
                     // Close popup

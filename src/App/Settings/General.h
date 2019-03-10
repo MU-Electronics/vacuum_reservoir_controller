@@ -17,12 +17,26 @@ namespace App { namespace Settings
         public:
             General(QObject *parent, QString location);
 
-            void save();
-
             // Getters
             QVariantMap chamber(int id);
             QVariantMap valves();
             QVariantMap pump(int id);
+
+            // Types
+            enum class Type: int
+            {
+                chamber_1 = 1,
+                chamber_2 = 2,
+                chamber_3 = 3,
+                chamber_4 = 4,
+                chamber_5 = 5,
+                chamber_6 = 6,
+                valves = 7,
+                pump_1 = 8,
+                pump_2 = 9,
+            };
+
+            void save(Type type, QVariantMap data);
 
         signals:
             void emit_saved();

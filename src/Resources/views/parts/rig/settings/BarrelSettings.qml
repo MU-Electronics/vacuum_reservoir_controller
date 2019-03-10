@@ -92,8 +92,8 @@ Popup {
                 ComboBox {
                     id: barrelAutoState
                     width:150
-                    model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_auto"]) ? 0 : 1
+                    model: ["Disable", "Enable"]
+                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_auto"]) ? 1 :0
                 }
 
                 Item{
@@ -122,8 +122,8 @@ Popup {
                 ComboBox {
                     id: barrelManualState
                     width:150
-                    model: ["Enable", "Disable"]
-                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_manual"]) ? 0 : 1
+                    model: ["Disable", "Enable"]
+                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_manual"]) ? 1 : 0
                 }
             }
         }

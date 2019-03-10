@@ -29,8 +29,40 @@ namespace App { namespace Settings
      *
      * @brief General::save
      */
-    void General::save()
+    void General::save(Type type, QVariantMap data)
     {
+        // Updated correct model
+        switch(type)
+        {
+            case Type::chamber_1:
+                m_chamber1 = data;
+            break;
+            case Type::chamber_2:
+                m_chamber2 = data;
+            break;
+            case Type::chamber_3:
+                m_chamber3 = data;
+            break;
+            case Type::chamber_4:
+                m_chamber4 = data;
+            break;
+            case Type::chamber_5:
+                m_chamber5 = data;
+            break;
+            case Type::chamber_6:
+                m_chamber6 = data;
+            break;
+            case Type::valves:
+                m_valves = data;
+            break;
+            case Type::pump_1:
+                m_pump1 = data;
+            break;
+            case Type::pump_2:
+                m_pump2 = data;
+            break;
+        }
+
         // Trigger private method update
         update();
 
@@ -142,7 +174,79 @@ namespace App { namespace Settings
      */
     void General::write(QJsonObject &json) const
     {
+        // Update chamber json
+        QJsonObject chambers;
 
+        // For each chamber
+        QVariantList chamberList = {m_chamber1, m_chamber2, m_chamber3, m_chamber4, m_chamber5, m_chamber6};
+        int c = 0;
+        for(auto chamberItem : chamberList)
+        {
+            // Inc c
+            c++;
+
+            // Create single chamber
+            QJsonObject chamber;
+
+            // Convert current chamber to map
+            auto item = chamberItem.toMap();
+
+            // Add only the data we expect
+            chamber["auto_control_enabled"] = item["auto_control_enabled"].toBool();
+            chamber["manual_control_enabled"] = item["manual_control_enabled"].toBool();
+            chamber["comment"] = item["comment"].toString();
+            chamber["lower_set_point"] = item["manual_control_enabled"].toInt();
+            chamber["upper_set_point"] = item["upper_set_point"].toInt();
+            chamber["alarm_pressure"] = item["alarm_pressure"].toInt();
+            chamber["alarm_time"] = item["alarm_time"].toInt();
+
+            // Add to main chamber object
+            chambers[QString::number(c)] = chamber;
+        }
+
+        // Add chambers to json
+        json["chambers"] = chambers;
+
+
+        // Update valve json
+        QJsonObject valves;
+        valves["maxium_open"] = m_valves["maxium_open"].toInt();
+        valves["interval_opening"] = m_valves["interval_opening"].toInt();
+        json["valves"] = valves;
+
+
+        // Update pump json
+        QJsonObject pumps;
+
+        // For each chamber
+        QVariantList pumpList = {m_pump1, m_pump2};
+        int p = 0;
+        for(auto pumpItem : pumpList)
+        {
+            // Inc p
+            p++;
+
+            // Create single chamber
+            QJsonObject pump;
+
+            // Convert current chamber to map
+            auto item = pumpItem.toMap();
+
+            // Add only the data we expect
+            pump["auto_control_enabled"] = item["auto_control_enabled"].toBool();
+            pump["manual_control_enabled"] = item["manual_control_enabled"].toBool();
+            pump["lower_set_point"] = item["manual_control_enabled"].toInt();
+            pump["upper_set_point"] = item["upper_set_point"].toInt();
+            pump["alarm_pressure"] = item["alarm_pressure"].toInt();
+            pump["alarm_time"] = item["alarm_time"].toInt();
+            pump["warm_up"] = item["warm_up"].toInt();
+
+            // Add to main chamber object
+            pumps[QString::number(p)] = pump;
+        }
+
+        // Add chambers to json
+        json["pumps"] = pumps;
     }
 
 }}
