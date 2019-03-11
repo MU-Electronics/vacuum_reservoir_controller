@@ -48,7 +48,15 @@ SOURCES += \
     App/Settings/General.cpp \
     App/View/Managers/SettingsUpdater.cpp \
     App/Settings/Hardware.cpp \
-    App/Settings/View.cpp
+    App/Settings/View.cpp \
+    App/Hardware/Access.cpp \
+    App/Hardware/CommandConstructor.cpp \
+    App/Hardware/HAL/EmergancyStop.cpp \
+    App/Hardware/HAL/Guages.cpp \
+    App/Hardware/HAL/Pumps.cpp \
+    App/Hardware/HAL/Remote.cpp \
+    App/Hardware/HAL/TemperatureSensor.cpp \
+    App/Hardware/HAL/Valves.cpp
 
 # Include all the header files
 HEADERS += \
@@ -74,7 +82,15 @@ HEADERS += \
     App/Settings/General.h \
     App/View/Managers/SettingsUpdater.h \
     App/Settings/Hardware.h \
-    App/Settings/View.h
+    App/Settings/View.h \
+    App/Hardware/Access.h \
+    App/Hardware/CommandConstructor.h \
+    App/Hardware/HAL/EmergancyStop.h \
+    App/Hardware/HAL/Guages.h \
+    App/Hardware/HAL/Pumps.h \
+    App/Hardware/HAL/Remote.h \
+    App/Hardware/HAL/TemperatureSensor.h \
+    App/Hardware/HAL/Valves.h
 
 
 # Include the resource file
