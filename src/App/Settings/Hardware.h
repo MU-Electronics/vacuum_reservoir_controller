@@ -17,12 +17,22 @@ namespace App { namespace Settings
         public:
             Hardware(QObject *parent, QString location);
 
-            void save();
-
         signals:
-            void emit_saved();
 
         private:
+
+            // Valves data
+            QVariantMap m_valves;
+
+            // Guage data
+            QVariantMap m_guage;
+
+            // Guage data
+            QVariantMap m_pumps;
+
+            // Guage data
+            QVariantMap m_remote;
+
             void read(const QJsonObject &json);
             void write(QJsonObject &json) const;
     };
