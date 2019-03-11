@@ -17,6 +17,12 @@ namespace App { namespace Settings
         public:
             Hardware(QObject *parent, QString location);
 
+            // Getters
+            QVariantMap valves();
+            QVariantMap guages();
+            QVariantMap pumps();
+            QVariantMap remote();
+
         signals:
 
         private:
@@ -25,7 +31,7 @@ namespace App { namespace Settings
             QVariantMap m_valves;
 
             // Guage data
-            QVariantMap m_guage;
+            QVariantMap m_guages;
 
             // Guage data
             QVariantMap m_pumps;

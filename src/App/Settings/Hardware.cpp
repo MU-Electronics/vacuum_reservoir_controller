@@ -22,6 +22,54 @@ namespace App { namespace Settings
 
 
     /**
+     * Return guage information
+     *
+     * @brief Hardware::guages
+     * @return
+     */
+    QVariantMap Hardware::guages()
+    {
+        return m_guages;
+    }
+
+
+    /**
+     * Return valves information
+     *
+     * @brief Hardware::valves
+     * @return
+     */
+    QVariantMap Hardware::valves()
+    {
+        return m_valves;
+    }
+
+
+    /**
+     * Return pump information
+     *
+     * @brief Hardware::pumps
+     * @return
+     */
+    QVariantMap Hardware::pumps()
+    {
+        return m_pumps;
+    }
+
+
+    /**
+     * Return remote information
+     *
+     * @brief Hardware::remote
+     * @return
+     */
+    QVariantMap Hardware::remote()
+    {
+        return m_remote;
+    }
+
+
+    /**
      * Action to take on read of json data
      *
      * @brief Hardware::read
@@ -35,12 +83,12 @@ namespace App { namespace Settings
 
         // Get valves to map
         auto valves = rootMap["valves"].toMap();
-            // @TODO maps values across
+        m_valves["mappings"] = valves["mappings"].toMap();
 
 
         // Get valves to map
         auto guages = rootMap["guages"].toMap();
-            // @TODO maps values across
+        m_guages = guages;
 
 
         // Get valves to map

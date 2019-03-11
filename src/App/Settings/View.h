@@ -17,14 +17,18 @@ namespace App { namespace Settings
         public:
             View(QObject *parent, QString location);
 
-            void save();
+            QVariantMap designer();
+            QVariantMap client();
 
         signals:
-            void emit_saved();
 
         private:
             void read(const QJsonObject &json);
             void write(QJsonObject &json) const;
+
+            // Valves data
+            QVariantMap m_designer;
+            QVariantMap m_client;
     };
 }}
 

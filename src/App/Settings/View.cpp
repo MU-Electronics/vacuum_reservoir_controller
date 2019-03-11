@@ -22,22 +22,25 @@ namespace App { namespace Settings
 
 
     /**
-     * Extneral method to trigger an updating of json file
+     * Return designer information
      *
-     * @brief View::save
+     * @brief View::designer
      */
-    void View::save()
+    QVariantMap View::designer()
     {
-        // Trigger private method update
-        update();
-
-        // Tell everyone we have saved
-        emit emit_saved();
+        return m_designer;
     }
 
 
-
-
+    /**
+     * Return client information
+     *
+     * @brief View::client
+     */
+    QVariantMap View::client()
+    {
+        return m_client;
+    }
 
 
     /**
@@ -48,7 +51,14 @@ namespace App { namespace Settings
      */
     void View::read(const QJsonObject &json)
     {
+        // Get root to map
+        QVariantMap rootMap = json.toVariantMap();
 
+        // Designer
+        m_designer = rootMap["designed_by"].toMap();
+
+        // Client
+        m_client = rootMap["designed_for"].toMap();
     }
 
 
@@ -62,5 +72,6 @@ namespace App { namespace Settings
     {
 
     }
+
 
 }}
