@@ -36,46 +36,50 @@ namespace App { namespace Hardware
         Q_OBJECT
 
         public:
-            Access(QObject *parent, Settings::Container settings);
+            Access(QObject *parent, Settings::Container* settings);
             ~Access();
+
+        public slots:
+            void hardwareAccess(QVariantMap command);
 
         signals:
             void emit_methodAttemptResults(QVariantMap status);
 
         private:
-                // Contains for settings container
-                Settings::Container m_settings;
+            // Contains for settings container
+            Settings::Container* m_settings;
 
-                // Timer for time based events
-                QTimer& m_timer;
+            // Timer for time based events
+            QTimer& m_timer;
 
-                // Queue for commands to be ran
-                QQueue<QVariantMap> m_queue;
+            // Queue for commands to be ran
+            QQueue<QVariantMap> m_queue;
 
-                // HAL objects
+            // HAL objects
+            HAL::Guages* m_guage;
 
-                // HAL presenters
+            // HAL presenters
 
-                // Methods in this class that can be ran externally
-                QList<QString> m_avaliableMethods;
+            // Methods in this class that can be ran externally
+            QList<QString> m_avaliableMethods;
 
-                // Store command data for access invoked commands
-                QVariantMap m_lastcommands;
+            // Store command data for access invoked commands
+            QVariantMap m_lastcommands;
 
-                // Runs the correct HAL function
-                bool executeHalMethods(QVariantMap command);
+            // Runs the correct HAL function
+            bool executeHalMethods(QVariantMap command);
 
-                void proccessDataFromHals(QString responable, QString method, QVariantMap commands, QStringList halData);
+            void proccessDataFromHals(QString responable, QString method, QVariantMap commands, QStringList halData);
 
-                // Check com port connections
-                void connectDevices();
+            // Check com port connections
+            void connectDevices();
 
-                // Ran when configuring thread
-                void configure(QThread &thread);
+            // Ran when configuring thread
+            void configure(QThread &thread);
 
-                // The worker to run in forever loop
-                void worker();
+            // The worker to run in forever loop
+            void worker();
 
     };
 
-}
+}}

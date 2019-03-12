@@ -56,7 +56,8 @@ SOURCES += \
     App/Hardware/HAL/Pumps.cpp \
     App/Hardware/HAL/Remote.cpp \
     App/Hardware/HAL/TemperatureSensor.cpp \
-    App/Hardware/HAL/Valves.cpp
+    App/Hardware/HAL/Valves.cpp \
+    App/Hardware/HAL/HALSupport.cpp
 
 # Include all the header files
 HEADERS += \
@@ -90,7 +91,8 @@ HEADERS += \
     App/Hardware/HAL/Pumps.h \
     App/Hardware/HAL/Remote.h \
     App/Hardware/HAL/TemperatureSensor.h \
-    App/Hardware/HAL/Valves.h
+    App/Hardware/HAL/Valves.h \
+    App/Hardware/HAL/HALSupport.h
 
 
 # Include the resource file

@@ -47,9 +47,10 @@ namespace App
         ,   settings_container(*new Settings::Container)
 
             // Create instances that are to be threaded
+        ,   hardware(*new Hardware::Access(this, &settings_container))
 
             // Include the expeirment engine
-        ,    experiment_engine(*new Experiment::Engine(this, settings_container))
+        ,   experiment_engine(*new Experiment::Engine(this, &settings_container))
 
             // View manager factory
         ,   manager_factory(*new View::ManagerFactory())
@@ -88,7 +89,9 @@ namespace App
      */
     Application::~Application()
     {
-
+        // Close hardware thread
+        hardware.abort();
+        thread_hardware.wait();
     }
 
 
@@ -144,6 +147,9 @@ namespace App
      */
     void Application::registerAddtionalThreads()
     {
+        // Hardware thread
+        hardware.setup(thread_hardware);
+        hardware.moveToThread(&thread_hardware);
     }
 
 
@@ -155,7 +161,10 @@ namespace App
      */
     void Application::startAddtionalThread()
     {
-
+        // Start the hardware thread
+        hardware.abort();
+        thread_hardware.wait();
+        hardware.requestWork();
     }
 
 

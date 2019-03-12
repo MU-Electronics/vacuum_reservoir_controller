@@ -1,13 +1,8 @@
 #include "Access.h"
 
-
-#include "Container.h"
-
 // External deps
 #include <QDebug>
-#include <QDir>
-#include <QStandardPaths>
-#include <QScopedPointer>
+
 
 namespace App { namespace Hardware
 {
@@ -20,14 +15,14 @@ namespace App { namespace Hardware
      * @brief Monitor::Monitor
      * @param parent
      */
-    Access::Access(QObject *parent, Settings::Container settings)
-        : Thread(parent, false, false)
+    Access::Access(QObject *parent, Settings::Container *settings)
+        :   Thread(parent, false, false)
 
            // System settings container
         ,    m_settings(settings)
 
            // Timer for time based events
-        ,    m_timer(*new QTimer(this))
+        ,    m_timer(*new QTimer(parent))
 
            // HAL objects
 
@@ -36,6 +31,67 @@ namespace App { namespace Hardware
     {
         // Set possable methods to be ran within this class via the queue
         // None atm set like this: m_avaliableMethods.append("<method name>");
+
+        // Guage settings
+        auto settingsGuages = m_settings->hardware()->guages();
+
+        // Device settings for guage 1 ADC
+        QutiPi::Drivers::I2C::Device guageReadings_1;
+        guageReadings_1.location = settingsGuages["bus"].toString().toStdString();
+        guageReadings_1.address = char(settingsGuages["adc_id_1-4"].toInt());
+
+        // Device settings for guage 2 ADC
+        QutiPi::Drivers::I2C::Device guageReadings_2;
+        guageReadings_2.location = settingsGuages["bus"].toString().toStdString();
+        guageReadings_2.address = char(settingsGuages["adc_id_5-8"].toInt());
+
+        // Device settings for guage 1 gpio expander
+        QutiPi::Drivers::I2C::Device guageGPIOExpander_1;
+        guageGPIOExpander_1.location = settingsGuages["bus"].toString().toStdString();
+        guageGPIOExpander_1.address = char(settingsGuages["gpio_id_1-4"].toInt());
+
+        // Device settings for guage 2 gpio expander
+        QutiPi::Drivers::I2C::Device guageGPIOExpander_2;
+        guageGPIOExpander_2.location = settingsGuages["bus"].toString().toStdString();
+        guageGPIOExpander_2.address = char(settingsGuages["gpio_id_5-8"].toInt());
+
+        // ADC mapping guage 1
+        auto guageADCSettings_1 = settingsGuages["mappings_1-4"].toMap();
+        QMap<QString, int> guageADC_1;
+        guageADC_1["1"] =  guageADCSettings_1["1"].toInt();
+        guageADC_1["2"] =  guageADCSettings_1["2"].toInt();
+        guageADC_1["3"] =  guageADCSettings_1["3"].toInt();
+        guageADC_1["4"] =  guageADCSettings_1["4"].toInt();
+
+        // ADC mapping guage 2
+        auto guageADCSettings_2 = settingsGuages["mappings_5-8"].toMap();
+        QMap<QString, int> guageADC_2;
+        guageADC_2["1"] =  guageADCSettings_2["1"].toInt();
+        guageADC_2["2"] =  guageADCSettings_2["2"].toInt();
+        guageADC_2["3"] =  guageADCSettings_2["3"].toInt();
+        guageADC_2["4"] =  guageADCSettings_2["4"].toInt();
+
+
+        // Guage 1 trip mappings
+        auto guageTripeSettings_1 = settingsGuages["gpio_trips_1-4"].toMap();
+        QMap<QString, PinName> guageTrip_1;
+        guageTrip_1["1"] = static_cast<PinName>(guageTripeSettings_1["1"].toInt());
+        guageTrip_1["2"] = static_cast<PinName>(guageTripeSettings_1["2"].toInt());
+        guageTrip_1["3"] = static_cast<PinName>(guageTripeSettings_1["3"].toInt());
+        guageTrip_1["4"] = static_cast<PinName>(guageTripeSettings_1["4"].toInt());
+
+        // Guage 2 trip mappings
+        auto guageTripeSettings_2 = settingsGuages["gpio_trips_5-8"].toMap();
+        QMap<QString, PinName> guageTrip_2;
+        guageTrip_2["1"] = static_cast<PinName>(guageTripeSettings_2["1"].toInt());
+        guageTrip_2["2"] = static_cast<PinName>(guageTripeSettings_2["2"].toInt());
+        guageTrip_2["3"] = static_cast<PinName>(guageTripeSettings_2["3"].toInt());
+        guageTrip_2["4"] = static_cast<PinName>(guageTripeSettings_2["4"].toInt());
+
+
+        // Setup guage
+        m_guage = new HAL::Guages(parent, guageReadings_1, guageReadings_2, guageGPIOExpander_1, guageGPIOExpander_2,
+                                    guageADC_1, guageADC_2, guageTrip_1, guageTrip_2);
     }
 
 
@@ -86,48 +142,48 @@ namespace App { namespace Hardware
 
 
     /**
-         * Takes data from the HALs converts it to useable data via the HAL presenters and
-         * then inkokes the correct slot+signal for the rest of the application to connect to
-         *
-         * @brief Access::proccessDataFromHals
-         * @param responable
-         * @param method
-         * @param halData
-         */
-        void Access::proccessDataFromHals(QString responable, QString method, QVariantMap commands, QStringList halData)
-        {
-            // Hold the presenters data
-            QVariantMap package;
+     * Takes data from the HALs converts it to useable data via the HAL presenters and
+     * then inkokes the correct slot+signal for the rest of the application to connect to
+     *
+     * @brief Access::proccessDataFromHals
+     * @param responable
+     * @param method
+     * @param halData
+     */
+    void Access::proccessDataFromHals(QString responable, QString method, QVariantMap commands, QStringList halData)
+    {
+        // Hold the presenters data
+        QVariantMap package;
 
-            // Format the data from the HAL package to useable data for the rest of the application
-            // EmergancyStop presenter
-            if(responable == "EmergancyStop")
-                // package = m_emergancyStop.proccess(method, commands, halData);
+        // Format the data from the HAL package to useable data for the rest of the application
+        // EmergancyStop presenter
+        if(responable == "EmergancyStop")
+            // package = m_emergancyStop.proccess(method, commands, halData);
 
-            // Guages presenter
-            if(responable == "Guages")
-                // package = m_guages.proccess(method, commands, halData);
+        // Guages presenter
+        if(responable == "Guages")
+            // package = m_guages.proccess(method, commands, halData);
 
-            // Pumps presenter
-            if(responable == "Pumps")
-                // package = m_pumps.proccess(method, commands, halData);
+        // Pumps presenter
+        if(responable == "Pumps")
+            // package = m_pumps.proccess(method, commands, halData);
 
-            // Remote presenter
-            if(responable == "Remote")
-                // package = m_remote.proccess(method, commands, halData);
+        // Remote presenter
+        if(responable == "Remote")
+            // package = m_remote.proccess(method, commands, halData);
 
-            // Temperature Sensor presenter
-            if(responable == "TemperatureSensor")
-                // package = m_temperatureSensor.proccess(method, commands, halData);
+        // Temperature Sensor presenter
+        if(responable == "TemperatureSensor")
+            // package = m_temperatureSensor.proccess(method, commands, halData);
 
-            // Valves presenter
-            if(responable == "Valves")
-                // package = m_valves.proccess(method, commands, halData);
+        // Valves presenter
+        if(responable == "Valves")
+            // package = m_valves.proccess(method, commands, halData);
 
-            // Once the data is formatted run the correct signal
-            if(!package.isEmpty() && !package["method"].isNull())
-                // Trigger the correct access class signal
-                QMetaObject::invokeMethod(this, package["method"].toString().toLatin1().data(), Qt::DirectConnection, Q_ARG( QVariantMap, package ));
+        // Once the data is formatted run the correct signal
+        if(!package.isEmpty() && !package["method"].isNull())
+            // Trigger the correct access class signal
+            QMetaObject::invokeMethod(this, package["method"].toString().toLatin1().data(), Qt::DirectConnection, Q_ARG( QVariantMap, package ));
     }
 
 
@@ -265,7 +321,7 @@ namespace App { namespace Hardware
             else
             {
                 // Error
-                qCWarning(halAccess) << "Method not allow or does not exsist in Access class: " << command;
+                //qCWarning(halAccess) << "Method not allow or does not exsist in Access class: " << command;
 
                 // Failed to run method not allowed
                 status["resulting_status"]  = false;
@@ -282,6 +338,4 @@ namespace App { namespace Hardware
     }
 
 
-
-
-}
+}}

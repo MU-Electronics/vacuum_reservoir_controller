@@ -15,6 +15,9 @@
 // Include the expeirment engine
 #include "Experiment/Engine.h"
 
+// Thread classes
+#include"Hardware/Access.h"
+
 namespace App
 {
     class Application:  public QObject
@@ -33,6 +36,11 @@ namespace App
             // Settings container
             Settings::Container& settings_container;
 
+            // Addtional threads
+            QThread thread_hardware;
+
+            // Object to move to thread
+            Hardware::Access& hardware;
 
             // Hold the instance of expeirment engine
             Experiment::Engine& experiment_engine;
