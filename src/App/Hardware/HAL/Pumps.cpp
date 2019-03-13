@@ -51,7 +51,7 @@ namespace App { namespace Hardware { namespace HAL
         data.append(enabled);
 
         // Emit the data
-        emit emit_pumpData("Pumps", "enable", m_command, data);
+        emit emit_pumpData("Pumps", "disabled", m_command, data);
     }
 
 
@@ -84,7 +84,7 @@ namespace App { namespace Hardware { namespace HAL
         data.append(enabled);
 
         // Emit the data
-        emit emit_pumpData("Pumps", "enable", m_command, data);
+        emit emit_pumpData("Pumps", "enabled", m_command, data);
     }
 
 

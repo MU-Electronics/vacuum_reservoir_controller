@@ -64,7 +64,7 @@ namespace App { namespace View { namespace Managers
         ,   m_valve8(GPIO_29, PullDown)
 
     {
-        // Setup ADC on board one and two
+        /*// Setup ADC on board one and two
         m_guageADC1 = new MCP3424("/dev/i2c-1", 0x6a); // Working
         m_guageADC2 = new MCP3424("/dev/i2c-1", 0x6c); // Working
 
@@ -101,7 +101,7 @@ namespace App { namespace View { namespace Managers
         m_valve5.write(0); // Working
         m_valve6.write(1); // Working
         m_valve7.write(0); // Working
-        m_valve8.write(0); // Working
+        m_valve8.write(0); // Working*/
 
 
         // Services::Debugger::getInstance().getLog();
@@ -171,11 +171,11 @@ namespace App { namespace View { namespace Managers
     void Global::makeConnections()
     {
         // When timer elapses run
-        connect(&m_timer, &QTimer::timeout, this, &Global::readGuage);
-        connect(&m_timer, &QTimer::timeout, this, &Global::setGuageLED);
+        //connect(&m_timer, &QTimer::timeout, this, &Global::readGuage);
+        //connect(&m_timer, &QTimer::timeout, this, &Global::setGuageLED);
 
         // Start timer
-        m_timer.start(5000);
+       // m_timer.start(5000);
     }
 
 }}}

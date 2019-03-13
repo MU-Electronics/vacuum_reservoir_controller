@@ -186,10 +186,13 @@ namespace App { namespace Hardware { namespace HAL
             guageTrip_2["3"] = static_cast<PinName>(guageTripeSettings_2["3"].toInt());
             guageTrip_2["4"] = static_cast<PinName>(guageTripeSettings_2["4"].toInt());
 
-
-            // Setup guage
-            m_guages = QSharedPointer<Guages>(new HAL::Guages(m_parent, guageReadings_1, guageReadings_2, guageGPIOExpander_1, guageGPIOExpander_2,
-                                        guageADC_1, guageADC_2, guageTrip_1, guageTrip_2));
+            try {
+                // Setup guage
+                m_guages = QSharedPointer<Guages>(new HAL::Guages(m_parent, guageReadings_1, guageReadings_2, guageGPIOExpander_1,
+                                                                  guageGPIOExpander_2, guageADC_1, guageADC_2, guageTrip_1, guageTrip_2));
+            } catch (...) {
+                qDebug() << "Failed to create m_guages";
+            }
 
             // Setup presenter
             m_guagesPresenter = QSharedPointer<Presenters::GuagesPresenter>(new HAL::Presenters::GuagesPresenter(m_parent));

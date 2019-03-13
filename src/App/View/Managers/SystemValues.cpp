@@ -162,7 +162,7 @@ namespace App { namespace View { namespace Managers
 
     void SystemValues::receiveGuagesVacuum(QVariantMap command)
     {
-        qDebug() << "System values recived guages vacuum: " << command["voltage"].toString();
+        qDebug() << "System values recived guages vacuum: " << command["pressure"].toString() << " and voltage: " << command["voltage"].toString();
     }
 
 

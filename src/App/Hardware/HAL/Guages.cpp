@@ -47,7 +47,10 @@ namespace App { namespace Hardware { namespace HAL
 
     void Guages::setup()
     {
-        // qDebug() << "Guage Reading: " <<
+//        m_guageGPIO2->setDirection(MCP23008::Port::One, MCP23008::Direction::Output);
+//        m_guageGPIO2->setPolarity(MCP23008::Port::One, MCP23008::Polarity::Same);
+//        m_guageGPIO2->setPullUp(MCP23008::Port::One, MCP23008::PullUp::Disable);
+//        m_guageGPIO2->write(MCP23008::Port::One, MCP23008::State::High);
     }
 
 
@@ -59,7 +62,50 @@ namespace App { namespace Hardware { namespace HAL
      */
     void Guages::enabled()
     {
+        // Get requested port
+        QutiPi::Hardware::GPIO::MCP23008::Port port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+        auto& board = m_active_1;
+        switch(m_command["guage_id"].toInt())
+        {
+            case 1:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+            break;
+            case 2:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Two;
+            break;
+            case 3:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Three;
+            break;
+            case 4:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Four;
+            break;
+            case 5:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+                board = m_active_2;
+            break;
+            case 6:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Two;
+                board = m_active_2;
+            break;
+            case 7:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Three;
+                board = m_active_2;
+            break;
+            case 8:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Four;
+                board = m_active_2;
+            break;
+        }
 
+        // Read the voltage
+        board.write(port, QutiPi::Hardware::GPIO::MCP23008::State::High);
+
+        // Create simple package
+        QStringList data;
+        data.append(QString::number(1));
+
+        // Emit the data
+        emit emit_guageData("Guages", "enabled", m_command, data);
     }
 
 
@@ -71,7 +117,50 @@ namespace App { namespace Hardware { namespace HAL
      */
     void Guages::disabled()
     {
+        // Get requested port
+        QutiPi::Hardware::GPIO::MCP23008::Port port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+        auto& board = m_active_1;
+        switch(m_command["guage_id"].toInt())
+        {
+            case 1:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+            break;
+            case 2:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Two;
+            break;
+            case 3:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Three;
+            break;
+            case 4:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Four;
+            break;
+            case 5:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::One;
+                board = m_active_2;
+            break;
+            case 6:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Two;
+                board = m_active_2;
+            break;
+            case 7:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Three;
+                board = m_active_2;
+            break;
+            case 8:
+                port = QutiPi::Hardware::GPIO::MCP23008::Port::Four;
+                board = m_active_2;
+            break;
+        }
 
+        // Read the voltage
+        board.write(port, QutiPi::Hardware::GPIO::MCP23008::State::Low);
+
+        // Create simple package
+        QStringList data;
+        data.append(QString::number(0));
+
+        // Emit the data
+        emit emit_guageData("Guages", "disabled", m_command, data);
     }
 
 
@@ -83,8 +172,43 @@ namespace App { namespace Hardware { namespace HAL
      */
     void Guages::readVacuum()
     {
+        // Get requested port
+        QutiPi::Hardware::ADC::MCP3424::Port port = QutiPi::Hardware::ADC::MCP3424::Port::One;
+        auto& board = m_readings_1;
+        switch(m_command["guage_id"].toInt())
+        {
+            case 1:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::One;
+            break;
+            case 2:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Two;
+            break;
+            case 3:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Three;
+            break;
+            case 4:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Four;
+            break;
+            case 5:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::One;
+                board = m_readings_2;
+            break;
+            case 6:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Two;
+                board = m_readings_2;
+            break;
+            case 7:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Three;
+                board = m_readings_2;
+            break;
+            case 8:
+                port = QutiPi::Hardware::ADC::MCP3424::Port::Four;
+                board = m_readings_2;
+            break;
+        }
+
         // Read the voltage
-        auto voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+        auto voltage = board.read(port, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
 
         // Create simple package
         QStringList data;
@@ -103,7 +227,45 @@ namespace App { namespace Hardware { namespace HAL
      */
     void Guages::readTrip()
     {
+        // Get requested port
+        auto& trip = m_trip_1_1;
+        switch(m_command["guage_id"].toInt())
+        {
+            case 1:
+                trip = m_trip_1_1;
+            break;
+            case 2:
+                trip = m_trip_2_1;
+            break;
+            case 3:
+                trip = m_trip_3_1;
+            break;
+            case 4:
+                trip = m_trip_4_1;
+            break;
+            case 5:
+                trip = m_trip_1_2;
+            break;
+            case 6:
+                trip = m_trip_2_2;
+            break;
+            case 7:
+                trip = m_trip_3_2;
+            break;
+            case 8:
+                trip = m_trip_4_2;
+            break;
+        }
 
+        // Read the voltage
+        int logic = trip.read();
+
+        // Create simple package
+        QStringList data;
+        data.append(QString::number(logic));
+
+        // Emit the data
+        emit emit_guageData("Guages", "readTrip", m_command, data);
     }
 
 

@@ -128,7 +128,7 @@ namespace App { namespace Settings
 
 
         // Get temperature sensor to map
-        m_emergencyStop = rootMap["temperature_sensor"].toMap();
+        m_temperatureSensor = rootMap["temperature_sensor"].toMap();
     }
 
 

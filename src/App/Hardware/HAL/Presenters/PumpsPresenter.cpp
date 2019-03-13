@@ -15,11 +15,11 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
     QVariantMap PumpsPresenter::proccess(QString method, QVariantMap commands, QStringList package)
     {
         // Select the correct presenter
-        if(method == "enable") //  && expectedPackage(commands, package, "48", 10)
+        if(method == "enabled") //  && expectedPackage(commands, package, "48", 10)
         {
             return extend(commands, enable(commands, package));
         }
-        else if(method == "disable") //  && expectedPackage(commands, package, "48", 10)
+        else if(method == "disabled") //  && expectedPackage(commands, package, "48", 10)
         {
             return extend(commands, disable(commands, package));
         }
