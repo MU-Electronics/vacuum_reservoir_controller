@@ -10,6 +10,10 @@ Q_DECLARE_LOGGING_CATEGORY(powerMain)
 Q_DECLARE_LOGGING_CATEGORY(userAcknowledge)
 
 
+// Hals & Presenters
+Q_DECLARE_LOGGING_CATEGORY(halAccessGuagesPresenter)
+
+
 
 // Define logging catergoies for experiment engine parts
 

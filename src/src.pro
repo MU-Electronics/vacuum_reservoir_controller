@@ -57,7 +57,10 @@ SOURCES += \
     App/Hardware/HAL/Remote.cpp \
     App/Hardware/HAL/TemperatureSensor.cpp \
     App/Hardware/HAL/Valves.cpp \
-    App/Hardware/HAL/HALSupport.cpp
+    App/Hardware/HAL/HALSupport.cpp \
+    App/Hardware/HAL/HalContainer.cpp \
+    App/Hardware/HAL/Presenters/GuagesPresenter.cpp \
+    App/Hardware/HAL/Presenters/PresenterSupport.cpp
 
 # Include all the header files
 HEADERS += \
@@ -92,7 +95,10 @@ HEADERS += \
     App/Hardware/HAL/Remote.h \
     App/Hardware/HAL/TemperatureSensor.h \
     App/Hardware/HAL/Valves.h \
-    App/Hardware/HAL/HALSupport.h
+    App/Hardware/HAL/HALSupport.h \
+    App/Hardware/HAL/HalContainer.h \
+    App/Hardware/HAL/Presenters/GuagesPresenter.h \
+    App/Hardware/HAL/Presenters/PresenterSupport.h
 
 
 # Include the resource file

@@ -44,7 +44,7 @@ namespace App
         ,   m_engine(engine)
 
             // Create instance of the settings container
-        ,   settings_container(*new Settings::Container)
+        ,   settings_container(*new Settings::Container((parent)))
 
             // Create instances that are to be threaded
         ,   hardware(*new Hardware::Access(this, &settings_container))
@@ -177,7 +177,7 @@ namespace App
     {
         // Make connections for global view manager
         manager_factory.get<View::Managers::Global>("Global")->makeConnections();
-        manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections();
+        manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections(hardware);
         manager_factory.get<View::Managers::Power>("Power")->makeConnections();
         manager_factory.get<View::Managers::Logs>("Logs")->makeConnections();
         manager_factory.get<View::Managers::Control>("Control")->makeConnections();

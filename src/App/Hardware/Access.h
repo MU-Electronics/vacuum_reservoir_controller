@@ -18,12 +18,7 @@
 
 
 // Include HALS
-#include "HAL/EmergancyStop.h"
-#include "HAL/Guages.h"
-#include "HAL/Pumps.h"
-#include "HAL/Remote.h"
-#include "HAL/TemperatureSensor.h"
-#include "HAL/Valves.h"
+#include "HAL/HalContainer.h"
 
 
 // Include HAL presenters
@@ -45,6 +40,10 @@ namespace App { namespace Hardware
         signals:
             void emit_methodAttemptResults(QVariantMap status);
 
+            // Signal for guages hals / presenters
+            void emit_guagesReadVacuum(QVariantMap command);
+
+
         private:
             // Contains for settings container
             Settings::Container* m_settings;
@@ -56,9 +55,7 @@ namespace App { namespace Hardware
             QQueue<QVariantMap> m_queue;
 
             // HAL objects
-            HAL::Guages* m_guage;
-
-            // HAL presenters
+            HAL::HalContainer& m_halContainer;
 
             // Methods in this class that can be ran externally
             QList<QString> m_avaliableMethods;

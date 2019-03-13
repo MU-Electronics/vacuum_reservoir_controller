@@ -4,6 +4,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QVariantMap>
+#include <QTimer>
 
 // View contract
 #include "Manager.h"
@@ -16,6 +17,9 @@
 
 // Experiment Engine with state machine methods
 #include "../../Experiment/Engine.h"
+
+// Hardware thread
+#include "../../Hardware/Access.h"
 
 // QutiPi drivers
 #include <Drivers/InterruptIn.h>
@@ -42,7 +46,7 @@ namespace App { namespace View { namespace Managers
             ~SystemValues();
 
             // Make connections with outside world
-            void makeConnections();
+            void makeConnections(Hardware::Access &hardware);
 
             // System states
             QVariantMap valveState() const { return m_valve; }
@@ -55,12 +59,16 @@ namespace App { namespace View { namespace Managers
             void emergancyStopIntr();
 
         signals:
+            // GUI signals
             void emit_valveChanged(QVariantMap);
             void emit_barrelChanged(QVariantMap);
             void emit_pressureChanged(QVariantMap);
             void emit_commentChanged(QVariantMap);
             void emit_pumpChanged(QVariantMap);
             void emit_controlChanged(QVariantMap);
+
+            // Hardware thread propergation
+            void hardwareRequest(QVariantMap command);
 
         public slots:
             bool showSettings();
@@ -72,6 +80,9 @@ namespace App { namespace View { namespace Managers
             void setGeneralSettingEnables();
             void setGeneralSettingComments();
             void setGeneralSettingParamters();
+
+            // Testing
+            void receiveGuagesVacuum(QVariantMap command);
 
         private:
             QQmlApplicationEngine* m_root;
@@ -99,6 +110,8 @@ namespace App { namespace View { namespace Managers
 
             // Emergancy stop
             QutiPi::Drivers::InterruptIn m_emergancyStop;
+
+            QTimer m_tempTimer;
 
             // Status types
             enum class Statuses: int

@@ -47,7 +47,7 @@ namespace App { namespace Hardware { namespace HAL
 
     void Guages::setup()
     {
-        qDebug() << "Guage Reading: " << m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+        // qDebug() << "Guage Reading: " <<
     }
 
 
@@ -57,7 +57,7 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::enabled
      * @param package
      */
-    void Guages::enabled(QVariantMap package)
+    void Guages::enabled()
     {
 
     }
@@ -69,7 +69,7 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::enabled
      * @param package
      */
-    void Guages::disabled(QVariantMap package)
+    void Guages::disabled()
     {
 
     }
@@ -81,9 +81,17 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::readVacuum
      * @param package
      */
-    void Guages::readVacuum(QVariantMap package)
+    void Guages::readVacuum()
     {
+        // Read the voltage
+        auto voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
 
+        // Create simple package
+        QStringList data;
+        data.append(QString::number(voltage));
+
+        // Emit the data
+        emit emit_guageData("Guages", "readVacuum", m_command, data);
     }
 
 
@@ -93,7 +101,7 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::readTrip
      * @param package
      */
-    void Guages::readTrip(QVariantMap package)
+    void Guages::readTrip()
     {
 
     }

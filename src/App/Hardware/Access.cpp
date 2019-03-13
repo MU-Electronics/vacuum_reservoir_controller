@@ -24,74 +24,14 @@ namespace App { namespace Hardware
            // Timer for time based events
         ,    m_timer(*new QTimer(parent))
 
-           // HAL objects
+            // Hal container
+        ,   m_halContainer(*new HAL::HalContainer(parent, settings))
 
            // HAL Presenters
 
     {
         // Set possable methods to be ran within this class via the queue
         // None atm set like this: m_avaliableMethods.append("<method name>");
-
-        // Guage settings
-        auto settingsGuages = m_settings->hardware()->guages();
-
-        // Device settings for guage 1 ADC
-        QutiPi::Drivers::I2C::Device guageReadings_1;
-        guageReadings_1.location = settingsGuages["bus"].toString().toStdString();
-        guageReadings_1.address = char(settingsGuages["adc_id_1-4"].toInt());
-
-        // Device settings for guage 2 ADC
-        QutiPi::Drivers::I2C::Device guageReadings_2;
-        guageReadings_2.location = settingsGuages["bus"].toString().toStdString();
-        guageReadings_2.address = char(settingsGuages["adc_id_5-8"].toInt());
-
-        // Device settings for guage 1 gpio expander
-        QutiPi::Drivers::I2C::Device guageGPIOExpander_1;
-        guageGPIOExpander_1.location = settingsGuages["bus"].toString().toStdString();
-        guageGPIOExpander_1.address = char(settingsGuages["gpio_id_1-4"].toInt());
-
-        // Device settings for guage 2 gpio expander
-        QutiPi::Drivers::I2C::Device guageGPIOExpander_2;
-        guageGPIOExpander_2.location = settingsGuages["bus"].toString().toStdString();
-        guageGPIOExpander_2.address = char(settingsGuages["gpio_id_5-8"].toInt());
-
-        // ADC mapping guage 1
-        auto guageADCSettings_1 = settingsGuages["mappings_1-4"].toMap();
-        QMap<QString, int> guageADC_1;
-        guageADC_1["1"] =  guageADCSettings_1["1"].toInt();
-        guageADC_1["2"] =  guageADCSettings_1["2"].toInt();
-        guageADC_1["3"] =  guageADCSettings_1["3"].toInt();
-        guageADC_1["4"] =  guageADCSettings_1["4"].toInt();
-
-        // ADC mapping guage 2
-        auto guageADCSettings_2 = settingsGuages["mappings_5-8"].toMap();
-        QMap<QString, int> guageADC_2;
-        guageADC_2["1"] =  guageADCSettings_2["1"].toInt();
-        guageADC_2["2"] =  guageADCSettings_2["2"].toInt();
-        guageADC_2["3"] =  guageADCSettings_2["3"].toInt();
-        guageADC_2["4"] =  guageADCSettings_2["4"].toInt();
-
-
-        // Guage 1 trip mappings
-        auto guageTripeSettings_1 = settingsGuages["gpio_trips_1-4"].toMap();
-        QMap<QString, PinName> guageTrip_1;
-        guageTrip_1["1"] = static_cast<PinName>(guageTripeSettings_1["1"].toInt());
-        guageTrip_1["2"] = static_cast<PinName>(guageTripeSettings_1["2"].toInt());
-        guageTrip_1["3"] = static_cast<PinName>(guageTripeSettings_1["3"].toInt());
-        guageTrip_1["4"] = static_cast<PinName>(guageTripeSettings_1["4"].toInt());
-
-        // Guage 2 trip mappings
-        auto guageTripeSettings_2 = settingsGuages["gpio_trips_5-8"].toMap();
-        QMap<QString, PinName> guageTrip_2;
-        guageTrip_2["1"] = static_cast<PinName>(guageTripeSettings_2["1"].toInt());
-        guageTrip_2["2"] = static_cast<PinName>(guageTripeSettings_2["2"].toInt());
-        guageTrip_2["3"] = static_cast<PinName>(guageTripeSettings_2["3"].toInt());
-        guageTrip_2["4"] = static_cast<PinName>(guageTripeSettings_2["4"].toInt());
-
-
-        // Setup guage
-        m_guage = new HAL::Guages(parent, guageReadings_1, guageReadings_2, guageGPIOExpander_1, guageGPIOExpander_2,
-                                    guageADC_1, guageADC_2, guageTrip_1, guageTrip_2);
     }
 
 
@@ -112,7 +52,7 @@ namespace App { namespace Hardware
         // Connect EmergancyStop HAL connections
 
         // Connect Guages HAL connections
-        // connect(&m_guage, &HAL::Guages::emit_pressureData, this, &Access::proccessDataFromHals);
+        connect(m_halContainer.guages().data(), &HAL::Guages::emit_guageData, this, &Access::proccessDataFromHals);
 
         // Connect Pumps HAL connections
 
@@ -157,27 +97,27 @@ namespace App { namespace Hardware
 
         // Format the data from the HAL package to useable data for the rest of the application
         // EmergancyStop presenter
-        if(responable == "EmergancyStop")
+        //if(responable == "EmergancyStop")
             // package = m_emergancyStop.proccess(method, commands, halData);
 
         // Guages presenter
         if(responable == "Guages")
-            // package = m_guages.proccess(method, commands, halData);
+            package = m_halContainer.guagesPresenter()->proccess(method, commands, halData);
 
         // Pumps presenter
-        if(responable == "Pumps")
+        //if(responable == "Pumps")
             // package = m_pumps.proccess(method, commands, halData);
 
         // Remote presenter
-        if(responable == "Remote")
+        //if(responable == "Remote")
             // package = m_remote.proccess(method, commands, halData);
 
         // Temperature Sensor presenter
-        if(responable == "TemperatureSensor")
+        //if(responable == "TemperatureSensor")
             // package = m_temperatureSensor.proccess(method, commands, halData);
 
         // Valves presenter
-        if(responable == "Valves")
+        //if(responable == "Valves")
             // package = m_valves.proccess(method, commands, halData);
 
         // Once the data is formatted run the correct signal
@@ -199,7 +139,6 @@ namespace App { namespace Hardware
         // Check the require information is provided
         if(command.contains("hardware") && command.contains("method"))
         {
-
             // Add to the queue
             m_queue.enqueue(command);
         }
@@ -272,7 +211,7 @@ namespace App { namespace Hardware
         else if(hardware == "Guages")
         {
             // If the bus is not free we cant procceed
-            if(/*(!m_guages.busFree() || !m_guages.isOpen()) &&*/ method != "resetConnection")
+            if(/*(!m_guages.busFree() || !m_guages.isOpen()) && method != "resetConnection"*/ false)
             {
                 // Re add the method to the queue as this one will be removed
                 m_queue.enqueue(command);
@@ -285,10 +224,10 @@ namespace App { namespace Hardware
             }
 
             // Set the method params
-            // m_guages.setParams(command);
+            m_halContainer.guages().data()->setParams(command);
 
             // Run the method in the HAL and cache the status
-            // status["resulting_status"] = (QMetaObject::invokeMethod(&m_guages, method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.guages().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
 
         }
         else if(hardware == "Pumps")

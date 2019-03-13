@@ -23,6 +23,8 @@ namespace App { namespace View { namespace Managers
         ,   m_settings(settings)
 
         ,   m_emergancyStop(GPIO_30)
+
+        ,   m_tempTimer(new QTimer(parent))
     {
         // Show initialising screen
         initialising(false); // << false for debug
@@ -128,10 +130,39 @@ namespace App { namespace View { namespace Managers
      * @param hardware
      * @param safety
      */
-    void SystemValues::makeConnections()
+    void SystemValues::makeConnections(Hardware::Access& hardware)
     {
         // When the general settings object is updated, refresh the gui
         connect(m_settings->general().data(), &Settings::General::emit_saved, this, &SystemValues::refreshGeneralSettings);
+
+        // Connect object signals to hardware slots and visa versa
+        connect(this, &SystemValues::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
+
+
+
+        // Testing
+        connect(&hardware, &Hardware::Access::emit_guagesReadVacuum, this, &SystemValues::receiveGuagesVacuum);
+        QObject::connect(&m_tempTimer, &QTimer::timeout, [this](){
+            // Create command for HAL
+            QVariantMap command;
+            command.insert("hardware", "Guages");
+            command.insert("method", "readVacuum");
+
+            // Give the command a unique id
+            command.insert("command_identifier", "fewjfjwejfiwjifo");
+
+            // Emit siganl to HAL
+            emit hardwareRequest(command);
+        });
+        m_tempTimer.setInterval(1000);
+        m_tempTimer.setSingleShot(false);
+        m_tempTimer.start();
+    }
+
+
+    void SystemValues::receiveGuagesVacuum(QVariantMap command)
+    {
+        qDebug() << "System values recived guages vacuum: " << command["voltage"].toString();
     }
 
 

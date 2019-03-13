@@ -16,6 +16,11 @@ Q_LOGGING_CATEGORY(powerMain, "power.main")
 
 
 
+// Hals & Presenters
+Q_LOGGING_CATEGORY(halAccessGuagesPresenter, "hal.presenters.guages")
+
+
+
 // Define logging catergoies for state machines
 
 

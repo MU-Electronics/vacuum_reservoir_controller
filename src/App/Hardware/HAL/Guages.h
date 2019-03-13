@@ -37,10 +37,10 @@ namespace App { namespace Hardware { namespace HAL
             void emit_guageData(QString responable, QString m_method, QVariantMap m_command, QStringList halData);
 
         public slots:
-            void enabled(QVariantMap package);
-            void disabled(QVariantMap package);
-            void readVacuum(QVariantMap package);
-            void readTrip(QVariantMap package);
+            void enabled();
+            void disabled();
+            void readVacuum();
+            void readTrip();
 
         private:
 
