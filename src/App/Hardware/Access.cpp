@@ -50,6 +50,7 @@ namespace App { namespace Hardware
     void Access::configure(QThread &thread)
     {
         // Connect EmergancyStop HAL connections
+        connect(m_halContainer.emergancyStop().data(), &HAL::EmergancyStop::emit_emergancyStopData, this, &Access::proccessDataFromHals);
 
         // Connect Guages HAL connections
         connect(m_halContainer.guages().data(), &HAL::Guages::emit_guageData, this, &Access::proccessDataFromHals);
@@ -99,8 +100,8 @@ namespace App { namespace Hardware
 
         // Format the data from the HAL package to useable data for the rest of the application
         // EmergancyStop presenter
-        //if(responable == "EmergancyStop")
-            // package = m_emergancyStop.proccess(method, commands, halData);
+        if(responable == "EmergancyStop")
+            package = m_halContainer.emergancyStopPresenter()->proccess(method, commands, halData);
 
         // Guages presenter
         if(responable == "Guages")
@@ -208,7 +209,11 @@ namespace App { namespace Hardware
         // Find the correct HAL
         if(hardware == "EmergancyStop")
         {
+            // Set the method params
+            m_halContainer.emergancyStop().data()->setParams(command);
 
+            // Run the method in the HAL and cache the status
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.emergancyStop().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
         }
         else if(hardware == "Guages")
         {

@@ -29,6 +29,22 @@ namespace App { namespace Hardware { namespace HAL
             setupGuages();
             setupPumps();
             setupValves();
+            setupEmergancyStop();
+        }
+
+
+        void HalContainer::setupEmergancyStop()
+        {
+            auto setting = m_settings->hardware()->pumps();
+
+            // GPIO pins
+            PinName pin = static_cast<PinName>(setting["gpio"].toInt());
+
+            // Setup objects
+            m_emergancyStop = QSharedPointer<EmergancyStop>(new HAL::EmergancyStop(m_parent, pin));
+
+            // Setup presenter
+            m_emergancyStopPresenter = QSharedPointer<Presenters::EmergancyStopPresenter>(new HAL::Presenters::EmergancyStopPresenter(m_parent));
         }
 
 

@@ -17,6 +17,7 @@
 #include "Presenters/GuagesPresenter.h"
 #include "Presenters/PumpsPresenter.h"
 #include "Presenters/ValvesPresenter.h"
+#include "Presenters/EmergancyStopPresenter.h"
 
 namespace App { namespace Hardware { namespace HAL
 {
@@ -63,6 +64,17 @@ namespace App { namespace Hardware { namespace HAL
                 return m_valvesPresenter;
             }
 
+
+            QSharedPointer<EmergancyStop> emergancyStop()
+            {
+                return m_emergancyStop;
+            }
+
+            QSharedPointer<Presenters::EmergancyStopPresenter> emergancyStopPresenter()
+            {
+                return m_emergancyStopPresenter;
+            }
+
         private:
             // QObject pointer
             QObject* m_parent;
@@ -75,6 +87,8 @@ namespace App { namespace Hardware { namespace HAL
             QSharedPointer<Presenters::GuagesPresenter> m_guagesPresenter;
 
             // Emergancy stop hal and presenter
+            QSharedPointer<EmergancyStop> m_emergancyStop;
+            QSharedPointer<Presenters::EmergancyStopPresenter> m_emergancyStopPresenter;
 
             // Pumps hal and presenter
             QSharedPointer<Pumps> m_pumps;
@@ -92,5 +106,6 @@ namespace App { namespace Hardware { namespace HAL
             void setupGuages();
             void setupPumps();
             void setupValves();
+            void setupEmergancyStop();
     };
 }}}
