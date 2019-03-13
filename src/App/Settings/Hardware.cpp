@@ -21,9 +21,27 @@ namespace App { namespace Settings
     }
 
 
+    /**
+     * Return emergancy stop settings
+     *
+     * @brief Hardware::emergencyStop
+     * @return
+     */
     QVariantMap Hardware::emergencyStop()
     {
         return m_emergencyStop;
+    }
+
+
+    /**
+     * Return temperature sensor settings
+     *
+     * @brief temperatureSensor
+     * @return
+     */
+    QVariantMap Hardware::temperatureSensor()
+    {
+        return m_temperatureSensor;
     }
 
 
@@ -107,6 +125,10 @@ namespace App { namespace Settings
 
         // Get emergancy stop to map
         m_emergencyStop = rootMap["emergancy_stop"].toMap();
+
+
+        // Get temperature sensor to map
+        m_emergencyStop = rootMap["temperature_sensor"].toMap();
     }
 
 

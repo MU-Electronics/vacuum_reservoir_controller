@@ -23,6 +23,7 @@ namespace App { namespace Settings
             QVariantMap pumps();
             QVariantMap remote();
             QVariantMap emergencyStop();
+            QVariantMap temperatureSensor();
 
         signals:
 
@@ -42,6 +43,9 @@ namespace App { namespace Settings
 
             // Emergency Stop data
             QVariantMap m_emergencyStop;
+
+            // Emergency Stop data
+            QVariantMap m_temperatureSensor;
 
             void read(const QJsonObject &json);
             void write(QJsonObject &json) const;

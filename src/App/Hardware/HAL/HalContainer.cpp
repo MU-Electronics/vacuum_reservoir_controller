@@ -30,6 +30,24 @@ namespace App { namespace Hardware { namespace HAL
             setupPumps();
             setupValves();
             setupEmergancyStop();
+            setuptemperatureSensor();
+        }
+
+
+        void HalContainer::setuptemperatureSensor()
+        {
+            auto setting = m_settings->hardware()->temperatureSensor();
+
+            // Device settings for temperature sensor ADC
+            QutiPi::Drivers::I2C::Device sensor;
+            sensor.location = setting["bus"].toString().toStdString();
+            sensor.address = char(setting["qutipi"].toInt());
+
+            // Setup objects
+            m_temperatureSensor = QSharedPointer<TemperatureSensor>(new HAL::TemperatureSensor(m_parent, sensor));
+
+            // Setup presenter
+            m_temperatureSensorPresenter = QSharedPointer<Presenters::TemperatureSensorPresenter>(new HAL::Presenters::TemperatureSensorPresenter(m_parent));
         }
 
 

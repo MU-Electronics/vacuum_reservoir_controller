@@ -62,6 +62,7 @@ namespace App { namespace Hardware
         connect(m_halContainer.remote().data(), &HAL::Remote::emit_remoteData, this, &Access::proccessDataFromHals);
 
         // Connect TemperatureSensor HAL connections
+        connect(m_halContainer.temperatureSensor().data(), &HAL::TemperatureSensor::emit_temperatureSensorData, this, &Access::proccessDataFromHals);
 
         // Connect Valvs HAL connections
         connect(m_halContainer.valves().data(), &HAL::Valves::emit_valveData, this, &Access::proccessDataFromHals);
@@ -117,8 +118,8 @@ namespace App { namespace Hardware
             package = m_halContainer.remotePresenter()->proccess(method, commands, halData);
 
         // Temperature Sensor presenter
-        //if(responable == "TemperatureSensor")
-            // package = m_temperatureSensor.proccess(method, commands, halData);
+        if(responable == "TemperatureSensor")
+            package = m_halContainer.temperatureSensorPresenter()->proccess(method, commands, halData);
 
         // Valves presenter
         if(responable == "Valves")
@@ -234,11 +235,20 @@ namespace App { namespace Hardware
         }
         else if(hardware == "Remote")
         {
+            // Set the method params
+            m_halContainer.remote().data()->setParams(command);
+
+            // Run the method in the HAL and cache the status
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.remote().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
 
         }
         else if(hardware == "TemperatureSensor")
         {
+            // Set the method params
+            m_halContainer.temperatureSensor().data()->setParams(command);
 
+            // Run the method in the HAL and cache the status
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.temperatureSensor().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
         }
         else if(hardware == "Valves")
         {

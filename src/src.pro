@@ -64,7 +64,8 @@ SOURCES += \
     App/Hardware/HAL/Presenters/PumpsPresenter.cpp \
     App/Hardware/HAL/Presenters/ValvesPresenter.cpp \
     App/Hardware/HAL/Presenters/EmergancyStopPresenter.cpp \
-    App/Hardware/HAL/Presenters/RemotePresenter.cpp
+    App/Hardware/HAL/Presenters/RemotePresenter.cpp \
+    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.cpp
 
 # Include all the header files
 HEADERS += \
@@ -106,7 +107,8 @@ HEADERS += \
     App/Hardware/HAL/Presenters/PumpsPresenter.h \
     App/Hardware/HAL/Presenters/ValvesPresenter.h \
     App/Hardware/HAL/Presenters/EmergancyStopPresenter.h \
-    App/Hardware/HAL/Presenters/RemotePresenter.h
+    App/Hardware/HAL/Presenters/RemotePresenter.h \
+    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.h
 
 
 # Include the resource file
