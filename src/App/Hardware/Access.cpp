@@ -211,19 +211,6 @@ namespace App { namespace Hardware
         }
         else if(hardware == "Guages")
         {
-            // If the bus is not free we cant procceed
-            if(/*(!m_guages.busFree() || !m_guages.isOpen()) && method != "resetConnection"*/ false)
-            {
-                // Re add the method to the queue as this one will be removed
-                m_queue.enqueue(command);
-
-                // Log the issue only to console
-                //qCDebug(halAccess) << "Command was relisted due to bus issue: " << command;
-
-                // Return back to worker for next method
-                return true;
-            }
-
             // Set the method params
             m_halContainer.guages().data()->setParams(command);
 
@@ -233,6 +220,11 @@ namespace App { namespace Hardware
         }
         else if(hardware == "Pumps")
         {
+            // Set the method params
+            m_halContainer.pumps().data()->setParams(command);
+
+            // Run the method in the HAL and cache the status
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.pumps().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
 
         }
         else if(hardware == "Remote")
