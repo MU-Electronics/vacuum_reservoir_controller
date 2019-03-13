@@ -35,7 +35,7 @@ namespace App { namespace Hardware { namespace HAL
 
         void HalContainer::setupEmergancyStop()
         {
-            auto setting = m_settings->hardware()->pumps();
+            auto setting = m_settings->hardware()->emergencyStop();
 
             // GPIO pins
             PinName pin = static_cast<PinName>(setting["gpio"].toInt());

@@ -61,6 +61,11 @@
         "gpio_2": 44
     },
 
+    "emergancy_stop":
+    {
+        "gpio": 30
+    },
+
     "remote":
     {
         "gpio": 43

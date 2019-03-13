@@ -22,6 +22,7 @@ namespace App { namespace Settings
             QVariantMap guages();
             QVariantMap pumps();
             QVariantMap remote();
+            QVariantMap emergencyStop();
 
         signals:
 
@@ -33,11 +34,14 @@ namespace App { namespace Settings
             // Guage data
             QVariantMap m_guages;
 
-            // Guage data
+            // Pump data
             QVariantMap m_pumps;
 
-            // Guage data
+            // remote data
             QVariantMap m_remote;
+
+            // Emergency Stop data
+            QVariantMap m_emergencyStop;
 
             void read(const QJsonObject &json);
             void write(QJsonObject &json) const;

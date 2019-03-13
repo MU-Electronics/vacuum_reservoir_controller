@@ -21,6 +21,12 @@ namespace App { namespace Settings
     }
 
 
+    QVariantMap Hardware::emergencyStop()
+    {
+        return m_emergencyStop;
+    }
+
+
     /**
      * Return guage information
      *
@@ -97,6 +103,10 @@ namespace App { namespace Settings
 
         // Get valves to map
         m_remote = rootMap["remote"].toMap();
+
+
+        // Get emergancy stop to map
+        m_emergencyStop = rootMap["emergancy_stop"].toMap();
     }
 
 
