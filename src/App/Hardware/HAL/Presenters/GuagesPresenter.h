@@ -22,6 +22,9 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
 
         private:
+            QVariantMap enabled(QVariantMap commands, QStringList package);
+            QVariantMap disabled(QVariantMap commands, QStringList package);
+            QVariantMap readTrip(QVariantMap commands, QStringList package);
             QVariantMap readVacuum(QVariantMap commands, QStringList package);
 
 

@@ -41,8 +41,22 @@ namespace App { namespace Hardware
             void emit_methodAttemptResults(QVariantMap status);
 
             // Signal for guages hals / presenters
-            void emit_guagesReadVacuum(QVariantMap command);
+            void emit_guageEnabled(QVariantMap command);
+            void emit_guageDisabled(QVariantMap command);
+            void emit_guageReadTrip(QVariantMap command);
+            void emit_guageReadVacuum(QVariantMap command);
 
+            // Signals for vacuum control
+            void emit_pumpEnabled(QVariantMap command);
+            void emit_pumpDisabled(QVariantMap command);
+
+            // Signals for valves
+
+            // Signals for temperature sensor
+
+            // Signals for emergancy stop
+
+            // Signals for remote
 
         private:
             // Contains for settings container

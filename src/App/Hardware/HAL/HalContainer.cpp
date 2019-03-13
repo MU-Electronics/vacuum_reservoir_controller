@@ -27,6 +27,24 @@ namespace App { namespace Hardware { namespace HAL
         void HalContainer::setup()
         {
             setupGuages();
+            setupPumps();
+        }
+
+
+        void HalContainer::setupPumps()
+        {
+            // Pump settings
+            auto settingsPump = m_settings->hardware()->pumps();
+
+            // GPIO pins
+            PinName pump_1 = static_cast<PinName>(settingsPump["gpio_1"].toInt());
+            PinName pump_2 = static_cast<PinName>(settingsPump["gpio_2"].toInt());
+
+            // Setup objects
+            m_pumps = QSharedPointer<Guages>(new HAL::Pumps(m_parent, pump_1, pump_2));
+
+            // Setup presenter
+            m_pumpsPresenter = QSharedPointer<Presenters::PumpsPresenter>(new HAL::Presenters::PumpsPresenter(m_parent));
         }
 
 

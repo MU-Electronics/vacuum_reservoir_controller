@@ -55,6 +55,7 @@ namespace App { namespace Hardware
         connect(m_halContainer.guages().data(), &HAL::Guages::emit_guageData, this, &Access::proccessDataFromHals);
 
         // Connect Pumps HAL connections
+        connect(m_halContainer.pumps().data(), &HAL::Pumps::emit_pumpData, this, &Access::proccessDataFromHals);
 
         // Connect Remote HAL connections
 
@@ -105,8 +106,8 @@ namespace App { namespace Hardware
             package = m_halContainer.guagesPresenter()->proccess(method, commands, halData);
 
         // Pumps presenter
-        //if(responable == "Pumps")
-            // package = m_pumps.proccess(method, commands, halData);
+        if(responable == "Pumps")
+            package = m_halContainer.pumpsPresenter()->proccess(method, commands, halData);
 
         // Remote presenter
         //if(responable == "Remote")

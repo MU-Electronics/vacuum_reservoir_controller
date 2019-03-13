@@ -15,6 +15,7 @@
 
 // Include Presenters
 #include "Presenters/GuagesPresenter.h"
+#include "Presenters/PumpsPresenter.h"
 
 namespace App { namespace Hardware { namespace HAL
 {
@@ -38,6 +39,16 @@ namespace App { namespace Hardware { namespace HAL
                 return m_guagesPresenter;
             }
 
+            QSharedPointer<Pumps> pumps()
+            {
+                return m_pumps;
+            }
+
+            QSharedPointer<Presenters::PumpsPresenter> pumpsPresenter()
+            {
+                return m_pumpsPresenter;
+            }
+
         private:
             // QObject pointer
             QObject* m_parent;
@@ -52,6 +63,8 @@ namespace App { namespace Hardware { namespace HAL
             // Emergancy stop hal and presenter
 
             // Pumps hal and presenter
+            QSharedPointer<Guages> m_pumps;
+            QSharedPointer<Presenters::GuagesPresenter> m_pumpsPresenter;
 
             // Remote hal and presenter
 
@@ -61,5 +74,6 @@ namespace App { namespace Hardware { namespace HAL
 
             // Setup objects
             void setupGuages();
+            void setupPumps();
     };
 }}}
