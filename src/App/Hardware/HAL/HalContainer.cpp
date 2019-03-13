@@ -84,7 +84,7 @@ namespace App { namespace Hardware { namespace HAL
         void HalContainer::setupValves()
         {
             // Valves settings
-            auto settingsValve = m_settings->hardware()->pumps();
+            auto settingsValve = m_settings->hardware()->valves();
             auto mappings = settingsValve["mappings"].toMap();
 
             // GPIO pins

@@ -117,7 +117,9 @@ namespace App { namespace View { namespace Managers
             // Emergancy stop
             QutiPi::Drivers::InterruptIn m_emergancyStop;
 
+            // Temp objects
             QTimer m_tempTimer;
+            bool m_toggle = true;
 
             // Status types
             enum class Statuses: int

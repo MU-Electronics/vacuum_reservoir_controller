@@ -78,14 +78,14 @@ namespace App { namespace View { namespace Managers
             QutiPi::Drivers::DigitalIn m_remote;
 
             // Valves
-            QutiPi::Drivers::DigitalOut m_valve1;
+            /*QutiPi::Drivers::DigitalOut m_valve1;
             QutiPi::Drivers::DigitalOut m_valve2;
             QutiPi::Drivers::DigitalOut m_valve3;
             QutiPi::Drivers::DigitalOut m_valve4;
             QutiPi::Drivers::DigitalOut m_valve5;
             QutiPi::Drivers::DigitalOut m_valve6;
             QutiPi::Drivers::DigitalOut m_valve7;
-            QutiPi::Drivers::DigitalOut m_valve8;
+            QutiPi::Drivers::DigitalOut m_valve8;*/
 
             // Guage tripped interrupts
             QutiPi::Drivers::InterruptIn m_guageTrip1;

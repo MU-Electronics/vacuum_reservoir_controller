@@ -54,14 +54,14 @@ namespace App { namespace View { namespace Managers
         ,   m_remote(GPIO_43, PullNone)
 
             // Valve controls
-        ,   m_valve1(GPIO_42, PullDown)
+        /*,   m_valve1(GPIO_42, PullDown)
         ,   m_valve2(GPIO_41, PullDown)
         ,   m_valve3(GPIO_40, PullDown)
         ,   m_valve4(GPIO_39, PullDown)
         ,   m_valve5(GPIO_38, PullDown)
         ,   m_valve6(GPIO_37, PullDown)
         ,   m_valve7(GPIO_28, PullDown)
-        ,   m_valve8(GPIO_29, PullDown)
+        ,   m_valve8(GPIO_29, PullDown)*/
 
     {
         /*// Setup ADC on board one and two

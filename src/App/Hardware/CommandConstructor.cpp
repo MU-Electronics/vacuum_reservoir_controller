@@ -175,7 +175,7 @@ namespace App { namespace Hardware
 
         // Method indo
         command.insert("hardware", "Pumps");
-        command.insert("method", "enabled");
+        command.insert("method", "enable");
 
         // ID
         command.insert("pump_id", pumpId);
@@ -194,7 +194,7 @@ namespace App { namespace Hardware
 
         // Method indo
         command.insert("hardware", "Pumps");
-        command.insert("method", "disabled");
+        command.insert("method", "disable");
 
         // ID
         command.insert("pump_id", pumpId);
@@ -266,7 +266,7 @@ namespace App { namespace Hardware
 
         // Method indo
         command.insert("hardware", "Valves");
-        command.insert("method", "opened");
+        command.insert("method", "open");
 
         // ID
         command.insert("valve_id", group);
@@ -285,7 +285,7 @@ namespace App { namespace Hardware
 
         // Method indo
         command.insert("hardware", "Valves");
-        command.insert("method", "closed");
+        command.insert("method", "close");
 
         // ID
         command.insert("valve_id", group);

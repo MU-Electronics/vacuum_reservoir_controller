@@ -145,8 +145,18 @@ namespace App { namespace View { namespace Managers
 
         QObject::connect(&m_tempTimer, &QTimer::timeout, [this](){
             emit hardwareRequest(m_commands.guageReadVacuum(1));
+            if(m_toggle)
+            {
+                m_toggle = false;
+                emit hardwareRequest(m_commands.valveOpen(1));
+            }
+            else
+            {
+                m_toggle = true;
+                emit hardwareRequest(m_commands.valveClose(1));
+            }
         });
-        m_tempTimer.setInterval(1000);
+        m_tempTimer.setInterval(5000);
         m_tempTimer.setSingleShot(false);
         m_tempTimer.start();
     }
