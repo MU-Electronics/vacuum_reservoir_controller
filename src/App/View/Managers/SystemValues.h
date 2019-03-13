@@ -21,6 +21,9 @@
 // Hardware thread
 #include "../../Hardware/Access.h"
 
+// Command constructor
+#include "../../Hardware/CommandConstructor.h"
+
 // QutiPi drivers
 #include <Drivers/InterruptIn.h>
 
@@ -89,6 +92,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds the application settings
             Settings::Container* m_settings;
+
+            // Command construcor
+            Hardware::CommandConstructor m_commands;
 
             // Holds all the control status data
             QVariantMap m_control;

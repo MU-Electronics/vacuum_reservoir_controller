@@ -88,7 +88,7 @@ namespace App { namespace Hardware { namespace HAL
         data.append(state);
 
         // Emit the data
-        emit emit_valveData("Valves", "closed", m_command, data);
+        emit emit_valveData("Valves", "opened", m_command, data);
     }
 
 

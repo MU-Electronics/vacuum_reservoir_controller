@@ -11,7 +11,7 @@ namespace App { namespace Hardware
     {
 
         public:
-            CommandConstructor(QObject *parent = 0);
+            CommandConstructor(QObject *parent = nullptr);
 
             ~CommandConstructor();
 
@@ -37,8 +37,8 @@ namespace App { namespace Hardware
             QVariantMap temperatureSensorGetTemperature(QString location);
 
             // Valve commands
-            QVariantMap valveOpen();
-            QVariantMap valveClose();
+            QVariantMap valveOpen(int group);
+            QVariantMap valveClose(int group);
 
     };
 }}

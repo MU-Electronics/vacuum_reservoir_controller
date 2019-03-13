@@ -142,17 +142,9 @@ namespace App { namespace View { namespace Managers
 
         // Testing
         connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::receiveGuagesVacuum);
+
         QObject::connect(&m_tempTimer, &QTimer::timeout, [this](){
-            // Create command for HAL
-            QVariantMap command;
-            command.insert("hardware", "Guages");
-            command.insert("method", "readVacuum");
-
-            // Give the command a unique id
-            command.insert("command_identifier", "fewjfjwejfiwjifo");
-
-            // Emit siganl to HAL
-            emit hardwareRequest(command);
+            emit hardwareRequest(m_commands.guageReadVacuum(1));
         });
         m_tempTimer.setInterval(1000);
         m_tempTimer.setSingleShot(false);
