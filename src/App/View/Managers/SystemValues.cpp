@@ -141,7 +141,7 @@ namespace App { namespace View { namespace Managers
 
 
         // Testing
-        connect(&hardware, &Hardware::Access::emit_guagesReadVacuum, this, &SystemValues::receiveGuagesVacuum);
+        connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::receiveGuagesVacuum);
         QObject::connect(&m_tempTimer, &QTimer::timeout, [this](){
             // Create command for HAL
             QVariantMap command;

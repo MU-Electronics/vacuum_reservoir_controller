@@ -36,10 +36,10 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         QVariantMap error;
         error["error_id"] = "GuagesPresenter_NoMethodFound";
         error["level"] = "critical";
-        error["message"] = "The method " + method + " does not exist in the flow controller presenter class.";
+        error["message"] = "The method " + method + " does not exist in the guages presenter class.";
 
         // Log error
-        qCCritical(halAccessGuagesPresenter) << "Could not find the correct flow controll presenter method. " << error;
+        qCCritical(halAccessGuagesPresenter) << "Could not find the correct guages presenter method. " << error;
 
         // Return the package
         return error;

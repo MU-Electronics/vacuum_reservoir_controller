@@ -1,4 +1,4 @@
-#include "PumpsPresenter.h"
+#include "ValvesPresenter.h"
 
 #include <QDebug>
 #include "../../../Services/Debuging.h"
@@ -7,43 +7,43 @@
 namespace App { namespace Hardware { namespace HAL { namespace Presenters
 {
 
-    PumpsPresenter::PumpsPresenter(QObject *parent)
+    ValvesPresenter::ValvesPresenter(QObject *parent)
     {
 
     }
 
-    QVariantMap PumpsPresenter::proccess(QString method, QVariantMap commands, QStringList package)
+    QVariantMap ValvesPresenter::proccess(QString method, QVariantMap commands, QStringList package)
     {
         // Select the correct presenter
-        if(method == "enable") //  && expectedPackage(commands, package, "48", 10)
+        if(method == "opened")
         {
-            return extend(commands, enable(commands, package));
+            return extend(commands, opened(commands, package));
         }
-        else if(method == "disable") //  && expectedPackage(commands, package, "48", 10)
+        else if(method == "closed")
         {
-            return extend(commands, disable(commands, package));
+            return extend(commands, closed(commands, package));
         }
 
         // No method could be found generate error package
         QVariantMap error;
-        error["error_id"] = "PumpsPresenter_NoMethodFound";
+        error["error_id"] = "ValvesPresenter_NoMethodFound";
         error["level"] = "critical";
-        error["message"] = "The method " + method + " does not exist in the pumps presenter class.";
+        error["message"] = "The method " + method + " does not exist in the valve presenter class.";
 
         // Log error
-        qCCritical(halAccessGuagesPresenter) << "Could not find the correct pumps presenter method. " << error;
+        qCCritical(halAccessGuagesPresenter) << "Could not find the correct valve presenter method. " << error;
 
         // Return the package
         return error;
     }
 
-    QVariantMap PumpsPresenter::enable(QVariantMap commands, QStringList package)
+    QVariantMap ValvesPresenter::opened(QVariantMap commands, QStringList package)
     {
         // Container for returned data
         QVariantMap presented;
 
         // Which signal should be triggered by the access thread
-        presented["method"] = "emit_pumpEnabled";
+        presented["method"] = "emit_valveOpened";
 
         // Voltage
         presented["status"] = package.at(0);
@@ -64,13 +64,13 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
     }
 
 
-    QVariantMap PumpsPresenter::disable(QVariantMap commands, QStringList package)
+    QVariantMap ValvesPresenter::closed(QVariantMap commands, QStringList package)
     {
         // Container for returned data
         QVariantMap presented;
 
         // Which signal should be triggered by the access thread
-        presented["method"] = "emit_pumpDisabled";
+        presented["method"] = "emit_valveClosed";
 
         // Voltage
         presented["status"] = package.at(0);

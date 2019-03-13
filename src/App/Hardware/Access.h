@@ -51,6 +51,8 @@ namespace App { namespace Hardware
             void emit_pumpDisabled(QVariantMap command);
 
             // Signals for valves
+            void emit_valveClosed(QVariantMap command);
+            void emit_valveOpened(QVariantMap command);
 
             // Signals for temperature sensor
 

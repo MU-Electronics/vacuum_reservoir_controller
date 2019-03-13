@@ -61,7 +61,8 @@ SOURCES += \
     App/Hardware/HAL/HalContainer.cpp \
     App/Hardware/HAL/Presenters/GuagesPresenter.cpp \
     App/Hardware/HAL/Presenters/PresenterSupport.cpp \
-    App/Hardware/HAL/Presenters/PumpsPresenter.cpp
+    App/Hardware/HAL/Presenters/PumpsPresenter.cpp \
+    App/Hardware/HAL/Presenters/ValvesPresenter.cpp
 
 # Include all the header files
 HEADERS += \
@@ -100,7 +101,8 @@ HEADERS += \
     App/Hardware/HAL/HalContainer.h \
     App/Hardware/HAL/Presenters/GuagesPresenter.h \
     App/Hardware/HAL/Presenters/PresenterSupport.h \
-    App/Hardware/HAL/Presenters/PumpsPresenter.h
+    App/Hardware/HAL/Presenters/PumpsPresenter.h \
+    App/Hardware/HAL/Presenters/ValvesPresenter.h
 
 
 # Include the resource file

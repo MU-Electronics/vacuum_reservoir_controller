@@ -62,6 +62,7 @@ namespace App { namespace Hardware
         // Connect TemperatureSensor HAL connections
 
         // Connect Valvs HAL connections
+        connect(m_halContainer.valves().data(), &HAL::Valves::emit_valveData, this, &Access::proccessDataFromHals);
 
 
         // Open com port for all devices
@@ -118,8 +119,8 @@ namespace App { namespace Hardware
             // package = m_temperatureSensor.proccess(method, commands, halData);
 
         // Valves presenter
-        //if(responable == "Valves")
-            // package = m_valves.proccess(method, commands, halData);
+        if(responable == "Valves")
+            package = m_halContainer.valvesPresenter()->proccess(method, commands, halData);
 
         // Once the data is formatted run the correct signal
         if(!package.isEmpty() && !package["method"].isNull())
@@ -216,7 +217,6 @@ namespace App { namespace Hardware
 
             // Run the method in the HAL and cache the status
             status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.guages().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
-
         }
         else if(hardware == "Pumps")
         {
@@ -225,7 +225,6 @@ namespace App { namespace Hardware
 
             // Run the method in the HAL and cache the status
             status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.pumps().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
-
         }
         else if(hardware == "Remote")
         {
@@ -237,7 +236,11 @@ namespace App { namespace Hardware
         }
         else if(hardware == "Valves")
         {
+            // Set the method params
+            m_halContainer.valves().data()->setParams(command);
 
+            // Run the method in the HAL and cache the status
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.valves().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
         }
         else if (hardware == "AccessLayer") // Call internal method of Access
         {

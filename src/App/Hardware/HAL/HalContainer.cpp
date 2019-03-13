@@ -28,6 +28,32 @@ namespace App { namespace Hardware { namespace HAL
         {
             setupGuages();
             setupPumps();
+            setupValves();
+        }
+
+
+        void HalContainer::setupValves()
+        {
+            // Valves settings
+            auto settingsValve = m_settings->hardware()->pumps();
+            auto mappings = settingsValve["mappings"].toMap();
+
+            // GPIO pins
+            PinName valve_1 = static_cast<PinName>(mappings["1"].toInt());
+            PinName valve_2 = static_cast<PinName>(mappings["2"].toInt());
+            PinName valve_3 = static_cast<PinName>(mappings["3"].toInt());
+            PinName valve_4 = static_cast<PinName>(mappings["4"].toInt());
+            PinName valve_5 = static_cast<PinName>(mappings["5"].toInt());
+            PinName valve_6 = static_cast<PinName>(mappings["6"].toInt());
+            PinName valve_7 = static_cast<PinName>(mappings["7"].toInt());
+            PinName valve_8 = static_cast<PinName>(mappings["8"].toInt());
+
+            // Setup objects
+            m_valves = QSharedPointer<Valves>(new HAL::Valves(m_parent, valve_1, valve_2, valve_3, valve_4, valve_5,
+                                                              valve_6, valve_7, valve_8));
+
+            // Setup presenter
+            m_valvesPresenter = QSharedPointer<Presenters::ValvesPresenter>(new HAL::Presenters::ValvesPresenter(m_parent));
         }
 
 
@@ -41,7 +67,7 @@ namespace App { namespace Hardware { namespace HAL
             PinName pump_2 = static_cast<PinName>(settingsPump["gpio_2"].toInt());
 
             // Setup objects
-            m_pumps = QSharedPointer<Guages>(new HAL::Pumps(m_parent, pump_1, pump_2));
+            m_pumps = QSharedPointer<Pumps>(new HAL::Pumps(m_parent, pump_1, pump_2));
 
             // Setup presenter
             m_pumpsPresenter = QSharedPointer<Presenters::PumpsPresenter>(new HAL::Presenters::PumpsPresenter(m_parent));
