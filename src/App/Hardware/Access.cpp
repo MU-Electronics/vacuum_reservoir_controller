@@ -59,6 +59,7 @@ namespace App { namespace Hardware
         connect(m_halContainer.pumps().data(), &HAL::Pumps::emit_pumpData, this, &Access::proccessDataFromHals);
 
         // Connect Remote HAL connections
+        connect(m_halContainer.remote().data(), &HAL::Remote::emit_remoteData, this, &Access::proccessDataFromHals);
 
         // Connect TemperatureSensor HAL connections
 
@@ -112,8 +113,8 @@ namespace App { namespace Hardware
             package = m_halContainer.pumpsPresenter()->proccess(method, commands, halData);
 
         // Remote presenter
-        //if(responable == "Remote")
-            // package = m_remote.proccess(method, commands, halData);
+        if(responable == "Remote")
+            package = m_halContainer.remotePresenter()->proccess(method, commands, halData);
 
         // Temperature Sensor presenter
         //if(responable == "TemperatureSensor")

@@ -18,6 +18,7 @@
 #include "Presenters/PumpsPresenter.h"
 #include "Presenters/ValvesPresenter.h"
 #include "Presenters/EmergancyStopPresenter.h"
+#include "Presenters/RemotePresenter.h"
 
 namespace App { namespace Hardware { namespace HAL
 {
@@ -75,6 +76,17 @@ namespace App { namespace Hardware { namespace HAL
                 return m_emergancyStopPresenter;
             }
 
+
+            QSharedPointer<Remote> remote()
+            {
+                return m_remote;
+            }
+
+            QSharedPointer<Presenters::RemotePresenter> remotePresenter()
+            {
+                return m_remotePresenter;
+            }
+
         private:
             // QObject pointer
             QObject* m_parent;
@@ -95,6 +107,8 @@ namespace App { namespace Hardware { namespace HAL
             QSharedPointer<Presenters::PumpsPresenter> m_pumpsPresenter;
 
             // Remote hal and presenter
+            QSharedPointer<Remote> m_remote;
+            QSharedPointer<Presenters::RemotePresenter> m_remotePresenter;
 
             // Temperature sensor hal and presenter
 
@@ -107,5 +121,6 @@ namespace App { namespace Hardware { namespace HAL
             void setupPumps();
             void setupValves();
             void setupEmergancyStop();
+            void setupRemote();
     };
 }}}

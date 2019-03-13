@@ -33,6 +33,21 @@ namespace App { namespace Hardware { namespace HAL
         }
 
 
+        void HalContainer::setupRemote()
+        {
+            auto setting = m_settings->hardware()->remote();
+
+            // GPIO pins
+            PinName pin = static_cast<PinName>(setting["gpio"].toInt());
+
+            // Setup objects
+            m_remote = QSharedPointer<Remote>(new HAL::Remote(m_parent, pin));
+
+            // Setup presenter
+            m_remotePresenter = QSharedPointer<Presenters::RemotePresenter>(new HAL::Presenters::RemotePresenter(m_parent));
+        }
+
+
         void HalContainer::setupEmergancyStop()
         {
             auto setting = m_settings->hardware()->emergencyStop();
