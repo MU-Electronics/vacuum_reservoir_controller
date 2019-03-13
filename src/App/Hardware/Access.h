@@ -55,10 +55,13 @@ namespace App { namespace Hardware
             void emit_valveOpened(QVariantMap command);
 
             // Signals for temperature sensor
+            void emit_temperatureSensorTemperature(QVariantMap command);
 
             // Signals for emergancy stop
+            void emit_emergancyStopIsPressed(QVariantMap command);
 
             // Signals for remote
+            void emit_remoteIsConnected(QVariantMap command);
 
         private:
             // Contains for settings container

@@ -40,7 +40,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         QVariantMap presented;
 
         // Which signal should be triggered by the access thread
-        presented["method"] = "emit_remotePresenterIsPressed";
+        presented["method"] = "emit_remoteIsConnected";
 
         // Voltage
         presented["status"] = package.at(0);
