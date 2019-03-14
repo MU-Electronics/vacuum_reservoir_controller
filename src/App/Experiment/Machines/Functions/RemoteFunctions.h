@@ -55,12 +55,16 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
         signals:
             void hardwareRequest(QVariantMap command);
 
+            void emit_pluggedin(QVariantMap data);
+            void emit_notPluggedin(QVariantMap data);
+
             void emit_validationFailed(QVariantMap error);
             void emit_validationSuccess(QVariantMap data);
             void emit_validationWrongId(QVariantMap data);
 
         public slots:
-
+            void isPluggedIn();
+            void validateIsPluggedIn();
 
         private:
 

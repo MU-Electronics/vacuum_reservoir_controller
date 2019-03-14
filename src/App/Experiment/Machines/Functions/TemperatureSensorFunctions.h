@@ -61,6 +61,8 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void emit_validationWrongId(QVariantMap data);
 
         public slots:
+            void getQutipiTemperature();
+            void validateGetQutipiTemperature();
 
         private:
 

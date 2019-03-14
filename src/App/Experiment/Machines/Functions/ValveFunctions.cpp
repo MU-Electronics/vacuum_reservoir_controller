@@ -84,14 +84,14 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             }
 
             // Check valve is the same
-            if(package.value("group").toString() == group && state == package.value("value").toBool())
+            if(package.value("group").toInt() == group && state == package.value("value").toBool())
             {
                 // Failed data to passon
                 QVariantMap successPackage;
 
                 // Data to pass on
                 successPackage.insert("requested_valve_group", group);
-                successPackage.insert("valve_changed", package.value("group").toString());
+                successPackage.insert("valve_changed", package.value("group").toInt());
                 successPackage.insert("requested_state", state);
                 successPackage.insert("state", package.value("value").toBool());
 
@@ -105,7 +105,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             errorDetails.clear();
             errorDetails.insert("message", "The valve failed to update correctly");
             errorDetails.insert("requested_valve_group", group);
-            errorDetails.insert("valve_changed", package.value("group").toString());
+            errorDetails.insert("valve_changed", package.value("group").toInt());
             errorDetails.insert("requested_state", state);
             errorDetails.insert("state", package.value("value").toBool());
         }

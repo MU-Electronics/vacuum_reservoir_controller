@@ -43,7 +43,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_emergancyStopIsPressed";
 
         // Voltage
-        presented["status"] = package.at(0);
+        presented["status"] = bool(package.at(0).toInt());
 
         // Return package
         return presented;

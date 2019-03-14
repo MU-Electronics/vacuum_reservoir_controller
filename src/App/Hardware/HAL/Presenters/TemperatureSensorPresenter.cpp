@@ -43,7 +43,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_temperatureSensorTemperature";
 
         // Voltage
-        presented["status"] = package.at(0);
+        presented["temperature"] = package.at(0);
 
         // Return package
         return presented;

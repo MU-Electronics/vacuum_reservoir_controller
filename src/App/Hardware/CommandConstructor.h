@@ -34,7 +34,7 @@ namespace App { namespace Hardware
             QVariantMap remoteIsConnected();
 
             // Temperature sensor commands
-            QVariantMap temperatureSensorGetTemperature(QString location);
+            QVariantMap temperatureSensorGetTemperature(QString location = "qutipi");
 
             // Valve commands
             QVariantMap valveState(int group, bool state);
