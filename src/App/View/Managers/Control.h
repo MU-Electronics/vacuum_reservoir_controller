@@ -17,6 +17,12 @@
 // Experiment Engine with state machine methods
 #include "../../Experiment/Engine.h"
 
+// Hardware thread
+#include "../../Hardware/Access.h"
+
+// Command constructor
+#include "../../Hardware/CommandConstructor.h"
+
 // QutiPi drivers
 #include <Drivers/InterruptIn.h>
 
@@ -35,11 +41,12 @@ namespace App { namespace View { namespace Managers
             ~Control();
 
             // Make connections with outside world
-            void makeConnections();
+            void makeConnections(Hardware::Access& hardware);
 
 
         signals:
-
+            // Hardware thread propergation
+            void hardwareRequest(QVariantMap command);
 
         public slots:
             void setValve(int group, bool status);
@@ -53,6 +60,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds the application settings
             Settings::Container* m_settings;
+
+            // Command construcor
+            Hardware::CommandConstructor m_commands;
 
 
     };

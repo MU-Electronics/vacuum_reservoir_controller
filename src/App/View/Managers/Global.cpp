@@ -36,7 +36,7 @@ namespace App { namespace View { namespace Managers
         ,   m_timer(*new QTimer(this))
 
             // Guage trip inputs
-        ,   m_guageTrip1(GPIO_19)
+        /*,   m_guageTrip1(GPIO_19)
         ,   m_guageTrip2(GPIO_18)
         ,   m_guageTrip3(GPIO_17)
         ,   m_guageTrip4(GPIO_16)
@@ -54,7 +54,7 @@ namespace App { namespace View { namespace Managers
         ,   m_remote(GPIO_43, PullNone)
 
             // Valve controls
-        /*,   m_valve1(GPIO_42, PullDown)
+        ,   m_valve1(GPIO_42, PullDown)
         ,   m_valve2(GPIO_41, PullDown)
         ,   m_valve3(GPIO_40, PullDown)
         ,   m_valve4(GPIO_39, PullDown)
@@ -113,54 +113,6 @@ namespace App { namespace View { namespace Managers
 
     }
 
-
-    void Global::readGuage()
-    {
-        try
-        {
-            // Guage 1 voltage
-            auto guage_1 = m_guageADC2->read(MCP3424::Port::One, MCP3424::Type::VoltageSigleEnded);
-
-            // Guage 2 voltage
-            auto guage_2 = m_guageADC2->read(MCP3424::Port::Two, MCP3424::Type::VoltageSigleEnded);
-
-            // Guage 2 voltage
-            auto guage_3 = m_guageADC2->read(MCP3424::Port::Three, MCP3424::Type::VoltageSigleEnded);
-
-            // Guage 3 voltage
-            auto guage_4 = m_guageADC2->read(MCP3424::Port::Four, MCP3424::Type::VoltageSigleEnded);
-
-            // Values
-            // qDebug() << "1: " << guage_1 << " 2: " << guage_2 << " 3: " << guage_3 << " 4: " << guage_4;
-        }
-        catch(Exceptions::I2CError& e)
-        {
-            qDebug() << e.what();
-        }
-    }
-
-
-    void Global::setGuageLED()
-    {
-        try
-        {
-           //m_mcp23008->write(MCP23008::Port::Two, MCP23008::State::High);
-        }
-        catch(Exceptions::I2CError& e)
-        {
-            qDebug() << e.what();
-        }
-
-    }
-
-
-    void Global::guageTripTriggered()
-    {
-        qDebug() << "Valve trip logic changed: " << m_guageTrip8.read();
-    }
-
-
-
     /**
      * Connect signals from and to this class and the hardware & safety thread
      *
@@ -170,12 +122,7 @@ namespace App { namespace View { namespace Managers
      */
     void Global::makeConnections()
     {
-        // When timer elapses run
-        //connect(&m_timer, &QTimer::timeout, this, &Global::readGuage);
-        //connect(&m_timer, &QTimer::timeout, this, &Global::setGuageLED);
 
-        // Start timer
-       // m_timer.start(5000);
     }
 
 }}}

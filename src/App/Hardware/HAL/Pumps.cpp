@@ -31,19 +31,19 @@ namespace App { namespace Hardware { namespace HAL
 
     void Pumps::disable()
     {
-        // Enable
-        QString enabled = "0";
+        // Assum enabled
+        QString enabled = "1";
 
         // Set GPIO
         if(m_command["pump_id"] == 1)
         {
-             m_pump_1.write(1);
-             enabled = "1";
+             m_pump_1.write(0);
+             enabled = "0";
         }
         else if(m_command["pump_id"] == 2)
         {
-            m_pump_2.write(1);
-            enabled = "1";
+            m_pump_2.write(0);
+            enabled = "0";
         }
 
         // Create simple package
@@ -63,7 +63,7 @@ namespace App { namespace Hardware { namespace HAL
      */
     void Pumps::enable()
     {
-        // Enable
+        // Assum disabled
         QString enabled = "0";
 
         // Set GPIO

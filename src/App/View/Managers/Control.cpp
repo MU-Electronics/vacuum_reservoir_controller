@@ -22,6 +22,7 @@ namespace App { namespace View { namespace Managers
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
+        ,   m_commands(*new Hardware::CommandConstructor(parent))
 
     {
 
@@ -41,11 +42,10 @@ namespace App { namespace View { namespace Managers
      * @param hardware
      * @param safety
      */
-    void Control::makeConnections()
+    void Control::makeConnections(Hardware::Access &hardware)
     {
-
-        qDebug() << m_settings->general()->chamber(1);
-
+        // Connect object signals to hardware slots and visa versa
+        connect(this, &Control::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
     }
 
 
@@ -57,12 +57,27 @@ namespace App { namespace View { namespace Managers
      */
     void Control::setValve(int group, bool status)
     {
-
+        if(status)
+        {
+            emit hardwareRequest(m_commands.valveOpen(group));
+        }
+        else
+        {
+            emit hardwareRequest(m_commands.valveClose(group));
+        }
     }
 
     void Control::setPump(int group, bool status)
     {
-
+        qDebug() << "group: " << group << " status: "<< status;
+        if(status)
+        {
+            emit hardwareRequest(m_commands.pumpEnable(group - 6));
+        }
+        else
+        {
+            emit hardwareRequest(m_commands.pumpDisable(group - 6));
+        }
     }
 
 

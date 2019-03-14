@@ -254,7 +254,18 @@ Rectangle
                 }
                 else if(SystemValuesManager.allowTouchControl(pump.set))
                 {
+                    var state = false;
 
+                    if(pump.state == 1)      // On to off
+                    {
+                        state = false;
+                    }
+                    else if(pump.state == 2) // Off to on
+                    {
+                        state = true;
+                    }
+
+                    ControlManager.setPump(pump.set, state);
                 }
             }
         }

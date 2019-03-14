@@ -84,6 +84,9 @@ namespace App { namespace View { namespace Managers
             void setGeneralSettingComments();
             void setGeneralSettingParamters();
 
+            void valveChange(QVariantMap data);
+            void pumpChange(QVariantMap data);
+
         private:
             QQmlApplicationEngine* m_root;
 

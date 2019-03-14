@@ -130,6 +130,32 @@ namespace App { namespace View { namespace Managers
         // Connect object signals to hardware slots and visa versa
         connect(this, &SystemValues::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
 
+        // Valve status
+        connect(&hardware, &Hardware::Access::emit_valveOpened, this, &SystemValues::valveChange);
+        connect(&hardware, &Hardware::Access::emit_valveClosed, this, &SystemValues::valveChange);
+
+        // Pump status
+        connect(&hardware, &Hardware::Access::emit_pumpEnabled, this, &SystemValues::pumpChange);
+        connect(&hardware, &Hardware::Access::emit_pumpDisabled, this, &SystemValues::pumpChange);
+
+        // Guage status
+
+        // Barrell status
+
+    }
+
+
+    void SystemValues::pumpChange(QVariantMap data)
+    {
+        m_pump.insert(data["pump_id"].toString() + "_status", data["view_status"]);
+        emit_pumpChanged(m_pump);
+    }
+
+
+    void SystemValues::valveChange(QVariantMap data)
+    {
+        m_valve.insert(data["group"].toString() + "_status", data["view_status"]);
+        emit_valveChanged(m_valve);
     }
 
 
@@ -362,6 +388,7 @@ namespace App { namespace View { namespace Managers
      */
     bool SystemValues::allowTouchControl(int group)
     {
+        qDebug() << "touchcontrol: " << group;
         // System state
         QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
 
@@ -371,9 +398,9 @@ namespace App { namespace View { namespace Managers
         {
             chamber = m_settings->general()->chamber(group)[enableKey].toBool();
         }
-        else if(group > 7) // Pump group
+        else if(group >= 7) // Pump group
         {
-            chamber = m_settings->general()->pump(group)[enableKey].toBool();
+            chamber = m_settings->general()->pump(group - 6)[enableKey].toBool();
         }
 
         // Only allow when touch control enabled

@@ -45,7 +45,8 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_valveOpened";
 
-        // Voltage
+        // Info
+        presented["group"] = commands["valve_id"];
         presented["value"] = package.at(0);
 
         // View status

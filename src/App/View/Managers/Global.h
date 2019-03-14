@@ -45,13 +45,10 @@ namespace App { namespace View { namespace Managers
             // Make connections with outside world
             void makeConnections();
 
-            void guageTripTriggered();
-
         signals:
 
         public slots:
-            void readGuage();
-            void setGuageLED();
+
 
         private:
             QQmlApplicationEngine* m_root;
@@ -63,7 +60,7 @@ namespace App { namespace View { namespace Managers
             QTimer &m_timer;
 
             // Guage board 1
-            QutiPi::Hardware::ADC::MCP3424* m_guageADC1;
+            /*QutiPi::Hardware::ADC::MCP3424* m_guageADC1;
             QutiPi::Hardware::GPIO::MCP23008* m_guageGPIO1;
 
             // Guage board 2
@@ -78,14 +75,14 @@ namespace App { namespace View { namespace Managers
             QutiPi::Drivers::DigitalIn m_remote;
 
             // Valves
-            /*QutiPi::Drivers::DigitalOut m_valve1;
+            QutiPi::Drivers::DigitalOut m_valve1;
             QutiPi::Drivers::DigitalOut m_valve2;
             QutiPi::Drivers::DigitalOut m_valve3;
             QutiPi::Drivers::DigitalOut m_valve4;
             QutiPi::Drivers::DigitalOut m_valve5;
             QutiPi::Drivers::DigitalOut m_valve6;
             QutiPi::Drivers::DigitalOut m_valve7;
-            QutiPi::Drivers::DigitalOut m_valve8;*/
+            QutiPi::Drivers::DigitalOut m_valve8;
 
             // Guage tripped interrupts
             QutiPi::Drivers::InterruptIn m_guageTrip1;
@@ -95,7 +92,7 @@ namespace App { namespace View { namespace Managers
             QutiPi::Drivers::InterruptIn m_guageTrip5;
             QutiPi::Drivers::InterruptIn m_guageTrip6;
             QutiPi::Drivers::InterruptIn m_guageTrip7;
-            QutiPi::Drivers::InterruptIn m_guageTrip8;
+            QutiPi::Drivers::InterruptIn m_guageTrip8;*/
 
     };
 }}}

@@ -71,6 +71,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         QVariantMap presented;
 
         // Which signal should be triggered by the access thread
+        presented["method"] = "emit_pumpDisabled";
         presented["pump_id"] = commands["pump_id"];
 
         // Voltage

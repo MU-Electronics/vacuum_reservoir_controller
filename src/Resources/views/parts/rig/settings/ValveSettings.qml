@@ -144,7 +144,7 @@ Popup {
                 color: "#eaeaea"
             }
 
-            Button{
+            /*Button{
                 id: saveButton
                 Materials.Material.accent: Materials.Material.Pink
                 Materials.Material.theme: Materials.Material.Light
@@ -160,7 +160,7 @@ Popup {
                     settingsLoaderAliase.source = ""
                     settingsLoaderAliase.visible = false
                 }
-            }
+            }*/
             Button{
                 id: closeButton
                 anchors.right: parent.right

@@ -180,7 +180,7 @@ namespace App
         manager_factory.get<View::Managers::SystemValues>("SystemValues")->makeConnections(hardware);
         manager_factory.get<View::Managers::Power>("Power")->makeConnections();
         manager_factory.get<View::Managers::Logs>("Logs")->makeConnections();
-        manager_factory.get<View::Managers::Control>("Control")->makeConnections();
+        manager_factory.get<View::Managers::Control>("Control")->makeConnections(hardware);
         manager_factory.get<View::Managers::SettingsUpdater>("SettingsUpdater")->makeConnections();
     }
 

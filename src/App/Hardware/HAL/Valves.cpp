@@ -15,14 +15,14 @@ namespace App { namespace Hardware { namespace HAL
         :    HALSupport(parent)
 
             // Set GPIO for pums
-        ,   m_valve_1(*new QutiPi::Drivers::DigitalOut(valve_1, PullDown))
-        ,   m_valve_2(*new QutiPi::Drivers::DigitalOut(valve_2, PullDown))
-        ,   m_valve_3(*new QutiPi::Drivers::DigitalOut(valve_3, PullDown))
-        ,   m_valve_4(*new QutiPi::Drivers::DigitalOut(valve_4, PullDown))
-        ,   m_valve_5(*new QutiPi::Drivers::DigitalOut(valve_5, PullDown))
-        ,   m_valve_6(*new QutiPi::Drivers::DigitalOut(valve_6, PullDown))
-        ,   m_valve_7(*new QutiPi::Drivers::DigitalOut(valve_7, PullDown))
-        ,   m_valve_8(*new QutiPi::Drivers::DigitalOut(valve_8, PullDown))
+        ,   m_valve_1(*new QutiPi::Drivers::DigitalOut(valve_1, PullNone))
+        ,   m_valve_2(*new QutiPi::Drivers::DigitalOut(valve_2, PullNone))
+        ,   m_valve_3(*new QutiPi::Drivers::DigitalOut(valve_3, PullNone))
+        ,   m_valve_4(*new QutiPi::Drivers::DigitalOut(valve_4, PullNone))
+        ,   m_valve_5(*new QutiPi::Drivers::DigitalOut(valve_5, PullNone))
+        ,   m_valve_6(*new QutiPi::Drivers::DigitalOut(valve_6, PullNone))
+        ,   m_valve_7(*new QutiPi::Drivers::DigitalOut(valve_7, PullNone))
+        ,   m_valve_8(*new QutiPi::Drivers::DigitalOut(valve_8, PullNone))
 
     {
         setup();
