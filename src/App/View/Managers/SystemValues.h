@@ -84,9 +84,6 @@ namespace App { namespace View { namespace Managers
             void setGeneralSettingComments();
             void setGeneralSettingParamters();
 
-            // Testing
-            void receiveGuagesVacuum(QVariantMap command);
-
         private:
             QQmlApplicationEngine* m_root;
 
@@ -113,13 +110,6 @@ namespace App { namespace View { namespace Managers
 
             // Holds all comments
             QVariantMap m_comment;
-
-            // Emergancy stop
-            QutiPi::Drivers::InterruptIn m_emergancyStop;
-
-            // Temp objects
-            QTimer m_tempTimer;
-            bool m_toggle = true;
 
             // Status types
             enum class Statuses: int

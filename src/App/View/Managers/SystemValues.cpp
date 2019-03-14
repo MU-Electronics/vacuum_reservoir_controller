@@ -21,17 +21,9 @@ namespace App { namespace View { namespace Managers
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
-
-        ,   m_emergancyStop(GPIO_30)
-
-        ,   m_tempTimer(new QTimer(parent))
     {
         // Show initialising screen
         initialising(false); // << false for debug
-
-        // Setup emergancy stop interrupt
-        m_emergancyStop.mode(PullNone);
-        m_emergancyStop.rise(callback(this, &SystemValues::emergancyStopIntr));
 
 
         // Control status
@@ -138,33 +130,6 @@ namespace App { namespace View { namespace Managers
         // Connect object signals to hardware slots and visa versa
         connect(this, &SystemValues::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
 
-
-
-        // Testing
-        connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::receiveGuagesVacuum);
-
-        QObject::connect(&m_tempTimer, &QTimer::timeout, [this](){
-            emit hardwareRequest(m_commands.guageReadVacuum(1));
-            if(m_toggle)
-            {
-                m_toggle = false;
-                emit hardwareRequest(m_commands.valveOpen(1));
-            }
-            else
-            {
-                m_toggle = true;
-                emit hardwareRequest(m_commands.valveClose(1));
-            }
-        });
-        m_tempTimer.setInterval(5000);
-        m_tempTimer.setSingleShot(false);
-        m_tempTimer.start();
-    }
-
-
-    void SystemValues::receiveGuagesVacuum(QVariantMap command)
-    {
-        qDebug() << "System values recived guages vacuum: " << command["pressure"].toString() << " and voltage: " << command["voltage"].toString();
     }
 
 
@@ -178,14 +143,6 @@ namespace App { namespace View { namespace Managers
         setGeneralSettingEnables();
         setGeneralSettingComments();
         setGeneralSettingParamters();
-    }
-
-
-    void SystemValues::emergancyStopIntr()
-    {
-        m_control.insert("emergancy_stop_triggered", false);
-        emit_controlChanged(m_control);
-        qDebug() << "Emergacy stop triggered";
     }
 
 
