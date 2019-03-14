@@ -65,7 +65,12 @@ SOURCES += \
     App/Hardware/HAL/Presenters/ValvesPresenter.cpp \
     App/Hardware/HAL/Presenters/EmergancyStopPresenter.cpp \
     App/Hardware/HAL/Presenters/RemotePresenter.cpp \
-    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.cpp
+    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.cpp \
+    App/Experiment/Machines/MachineContainer.cpp \
+    App/Experiment/Machines/Helpers/CommandValidatorState.cpp \
+    App/Experiment/Machines/Helpers/FunctionsHelper.cpp \
+    App/Experiment/Machines/Helpers/MachineStates.cpp \
+    App/Experiment/Machines/Helpers/TransitionsBuilder.cpp
 
 # Include all the header files
 HEADERS += \
@@ -108,7 +113,12 @@ HEADERS += \
     App/Hardware/HAL/Presenters/ValvesPresenter.h \
     App/Hardware/HAL/Presenters/EmergancyStopPresenter.h \
     App/Hardware/HAL/Presenters/RemotePresenter.h \
-    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.h
+    App/Hardware/HAL/Presenters/TemperatureSensorPresenter.h \
+    App/Experiment/Machines/MachineContainer.h \
+    App/Experiment/Machines/Helpers/CommandValidatorState.h \
+    App/Experiment/Machines/Helpers/FunctionsHelper.h \
+    App/Experiment/Machines/Helpers/MachineStates.h \
+    App/Experiment/Machines/Helpers/TransitionsBuilder.h
 
 
 # Include the resource file

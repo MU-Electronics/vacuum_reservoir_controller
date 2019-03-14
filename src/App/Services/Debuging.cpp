@@ -13,7 +13,8 @@ Q_LOGGING_CATEGORY(powerMain, "power.main")
 
 
 // Define logging catergoies for experiment engine parts
-
+Q_LOGGING_CATEGORY(machineStatesValidator, "experiment.machines.validatorstate")
+Q_LOGGING_CATEGORY(machineStates, "experiment.machines.machinestates")
 
 
 // Hals & Presenters

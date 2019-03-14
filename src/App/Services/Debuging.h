@@ -16,7 +16,8 @@ Q_DECLARE_LOGGING_CATEGORY(halAccessGuagesPresenter)
 
 
 // Define logging catergoies for experiment engine parts
-
+Q_DECLARE_LOGGING_CATEGORY(machineStatesValidator)
+Q_DECLARE_LOGGING_CATEGORY(machineStates)
 
 // Define logging catergoies for services
 Q_DECLARE_LOGGING_CATEGORY(serialService)
