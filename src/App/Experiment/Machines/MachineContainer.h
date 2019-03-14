@@ -9,6 +9,9 @@
 // Include settings container
 #include "../../Settings/Container.h"
 
+// Include hardware thread
+#include "../../Hardware/Access.h"
+
 namespace App { namespace Experiment { namespace Machines
 {
     class MachineContainer    :   public QObject
@@ -16,7 +19,7 @@ namespace App { namespace Experiment { namespace Machines
         Q_OBJECT
 
         public:
-            MachineContainer(QObject *parent, Settings::Container* settings);
+            MachineContainer(QObject *parent, Settings::Container* settings, Hardware::Access &hardware);
 
             ~MachineContainer();
 

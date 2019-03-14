@@ -9,7 +9,7 @@
 
 namespace App { namespace Experiment { namespace Machines
 {
-    MachineContainer::MachineContainer(QObject *parent, Settings::Container* settings)
+    MachineContainer::MachineContainer(QObject *parent, Settings::Container* settings, Hardware::Access& hardware)
         :   QObject(parent)
         ,   m_settings(settings)
     {

@@ -50,7 +50,7 @@ namespace App
         ,   hardware(*new Hardware::Access(this, &settings_container))
 
             // Include the expeirment engine
-        ,   experiment_engine(*new Experiment::Engine(this, &settings_container))
+        ,   experiment_engine(*new Experiment::Engine(this, &settings_container, hardware))
 
             // View manager factory
         ,   manager_factory(*new View::ManagerFactory())

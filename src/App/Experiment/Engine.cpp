@@ -9,9 +9,10 @@
 
 namespace App { namespace Experiment
 {
-    Engine::Engine(QObject *parent, Settings::Container* settings)
+    Engine::Engine(QObject *parent, Settings::Container* settings, Hardware::Access &hardware)
         :   QObject(parent)
         ,   m_settings(settings)
+        ,   m_machines(*new Machines::MachineContainer(parent, settings, hardware))
     {
 
     }
