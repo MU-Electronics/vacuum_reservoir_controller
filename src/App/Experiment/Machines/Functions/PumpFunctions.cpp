@@ -34,4 +34,139 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
     }
 
 
+    void PumpFunctions::validatePumpHelper(int pumpId, bool state)
+    {
+        // Get the validator state instance
+        Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
+
+        // If cast successfull
+        if(command != nullptr && command->package.value("cast_status").toBool())
+        {
+            // Get the package data from the instance
+            QVariantMap package = command->package;
+
+            // If id was not registered then the signal name was correct but the signal is not
+            if(!isRegister(package.value("command_identifier").toString()))
+            {
+                errorDetails.clear();
+                errorDetails.insert("message", "ID was wrong in the package, not an error but skipping signal");
+                errorDetails.insert("acutal_id", package.value("command_identifier").toInt());
+                errorDetails.insert("ids", stringOfIds());
+
+                // Tell everyone the signal was wrong
+                emit emit_validationWrongId(errorDetails);
+
+                // Do nothing else
+                return;
+            }
+
+            // Check guage is the same
+            if(package.value("pump_id").toString() == pumpId && package.value("status").toBool() == state)
+            {
+                // Failed data to passon
+                QVariantMap successPackage;
+
+                // Data to pass on
+                successPackage.insert("requested_pump_id", pumpId);
+                successPackage.insert("status", package.value("status").toBool());
+                successPackage.insert("requested_status", state);
+
+                // Emit safe to proceed
+                emit emit_validationSuccess(successPackage);
+
+                return;
+            }
+
+            // Failed data to passon
+            errorDetails.clear();
+            errorDetails.insert("message", "The pump failed to update correctly");
+            errorDetails.insert("requested_guage_group", pumpId);
+            errorDetails.insert("requested_status", state);
+            errorDetails.insert("status", package.value("status").toBool());
+        }
+        else
+        {
+            errorDetails.clear();
+            errorDetails.insert("message", "Validation casting failed");
+            errorDetails.insert("requested_valve_group", pumpId);
+            errorDetails.insert("requested_status", state);
+        }
+
+        // Emit not safe to proceed
+        emit emit_validationFailed(errorDetails);
+    }
+
+
+    void PumpFunctions::enablePump1()
+    {
+        // Generate command
+        QVariantMap command = m_commandConstructor.pumpEnable(1);
+
+        // Register id
+        registerId(command.value("command_identifier").toString());
+
+        // Emit siganl to HAL
+        emit hardwareRequest(command);
+    }
+
+    void PumpFunctions::enablePump2()
+    {
+        // Generate command
+        QVariantMap command = m_commandConstructor.pumpEnable(2);
+
+        // Register id
+        registerId(command.value("command_identifier").toString());
+
+        // Emit siganl to HAL
+        emit hardwareRequest(command);
+    }
+
+
+
+    void PumpFunctions::disablePump1()
+    {
+        // Generate command
+        QVariantMap command = m_commandConstructor.pumpDisable(1);
+
+        // Register id
+        registerId(command.value("command_identifier").toString());
+
+        // Emit siganl to HAL
+        emit hardwareRequest(command);
+    }
+
+    void PumpFunctions::disablePump2()
+    {
+        // Generate command
+        QVariantMap command = m_commandConstructor.pumpDisable(1);
+
+        // Register id
+        registerId(command.value("command_identifier").toString());
+
+        // Emit siganl to HAL
+        emit hardwareRequest(command);
+    }
+
+
+
+
+    void PumpFunctions::validateEnablePump1()
+    {
+        validatePumpHelper(1, true);
+    }
+
+    void PumpFunctions::validateEnablePump2()
+    {
+        validatePumpHelper(2, true);
+    }
+
+    void PumpFunctions::validateDisablePump1()
+    {
+        validatePumpHelper(1, false);
+    }
+
+    void PumpFunctions::validateDisablePump2()
+    {
+        validatePumpHelper(2, false);
+    }
 }}}}

@@ -60,7 +60,6 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
             // Hold params for states
             QVariantMap params;
 
-
             // Did an error occure which caused the machine to stop
             bool error = false;
 

@@ -60,9 +60,20 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void emit_validationWrongId(QVariantMap data);
 
         public slots:
+            void enablePump1();
+            void enablePump2();
 
+            void disablePump1();
+            void disablePump2();
+
+            void validateEnablePump1();
+            void validateEnablePump2();
+
+            void validateDisablePump1();
+            void validateDisablePump2();
 
         private:
+            void validatePumpHelper(int pumpId, bool state);
 
 
     };

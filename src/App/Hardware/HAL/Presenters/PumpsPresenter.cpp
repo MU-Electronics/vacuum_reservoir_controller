@@ -44,17 +44,18 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_pumpEnabled";
+        presented["pump_id"] = commands["pump_id"];
 
         // Voltage
-        presented["status"] = package.at(0);
+        presented["status"] = bool(package.at(0).toInt());
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["status"] == "1") // On
+        if(presented["status"] == true) // On
         {
             presented["view_status"] = "1";
         }
-        else if(presented["status"] == "0") // Off
+        else if(presented["status"] == false) // Off
         {
             presented["view_status"] = "2";
         }
@@ -70,18 +71,18 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         QVariantMap presented;
 
         // Which signal should be triggered by the access thread
-        presented["method"] = "emit_pumpDisabled";
+        presented["pump_id"] = commands["pump_id"];
 
         // Voltage
-        presented["status"] = package.at(0);
+        presented["status"] = bool(package.at(0).toInt());
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["status"] == "1") // On
+        if(presented["status"] == true) // On
         {
             presented["view_status"] = "1";
         }
-        else if(presented["status"] == "0") // Off
+        else if(presented["status"] == false) // Off
         {
             presented["view_status"] = "2";
         }
