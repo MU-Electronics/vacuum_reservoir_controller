@@ -26,7 +26,7 @@
 #include "CommandValidatorState.h"
 
 // Include functions
-
+#include "../Functions/ValveFunctions.h"
 
 // Include transisiton builder
 #include "TransitionsBuilder.h"
@@ -79,11 +79,15 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
 
 
             // External functions
-
+            Functions::ValveFunctions* valves()
+            {
+                return m_valves;
+            }
 
 
             // State getters
-
+            // Valve
+            Functions::ValveFunctions* m_valves;
 
 
             // Transition builder for common tasks

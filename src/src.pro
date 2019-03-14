@@ -70,7 +70,8 @@ SOURCES += \
     App/Experiment/Machines/Helpers/CommandValidatorState.cpp \
     App/Experiment/Machines/Helpers/FunctionsHelper.cpp \
     App/Experiment/Machines/Helpers/MachineStates.cpp \
-    App/Experiment/Machines/Helpers/TransitionsBuilder.cpp
+    App/Experiment/Machines/Helpers/TransitionsBuilder.cpp \
+    App/Experiment/Machines/Functions/ValveFunctions.cpp
 
 # Include all the header files
 HEADERS += \
@@ -118,7 +119,8 @@ HEADERS += \
     App/Experiment/Machines/Helpers/CommandValidatorState.h \
     App/Experiment/Machines/Helpers/FunctionsHelper.h \
     App/Experiment/Machines/Helpers/MachineStates.h \
-    App/Experiment/Machines/Helpers/TransitionsBuilder.h
+    App/Experiment/Machines/Helpers/TransitionsBuilder.h \
+    App/Experiment/Machines/Functions/ValveFunctions.h
 
 
 # Include the resource file

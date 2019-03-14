@@ -46,15 +46,15 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_valveOpened";
 
         // Voltage
-        presented["status"] = package.at(0);
+        presented["value"] = package.at(0);
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["status"] == "1") // On
+        if(presented["value"] == "1") // On
         {
             presented["view_status"] = "1";
         }
-        else if(presented["status"] == "0") // Off
+        else if(presented["value"] == "0") // Off
         {
             presented["view_status"] = "2";
         }
@@ -72,16 +72,19 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_valveClosed";
 
+        // Port info
+        presented["group"] = commands["valve_id"];
+
         // Voltage
-        presented["status"] = package.at(0);
+        presented["value"] = package.at(0);
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["status"] == "1") // On
+        if(presented["value"] == "1") // On
         {
             presented["view_status"] = "1";
         }
-        else if(presented["status"] == "0") // Off
+        else if(presented["value"] == "0") // Off
         {
             presented["view_status"] = "2";
         }

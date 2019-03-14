@@ -38,7 +38,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         ,   shutDownMachine(parent)
 
             // Function classes for the states to connect to
-
+        ,   m_valves(new Functions::ValveFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
 
             // Builders to build transition blocks for common state machine logic
         ,   m_transitionsBuilder(new TransitionsBuilder(parent, settings, hardware))

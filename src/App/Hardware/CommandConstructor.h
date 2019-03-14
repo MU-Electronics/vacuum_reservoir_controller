@@ -37,6 +37,7 @@ namespace App { namespace Hardware
             QVariantMap temperatureSensorGetTemperature(QString location);
 
             // Valve commands
+            QVariantMap valveState(int group, bool state);
             QVariantMap valveOpen(int group);
             QVariantMap valveClose(int group);
 

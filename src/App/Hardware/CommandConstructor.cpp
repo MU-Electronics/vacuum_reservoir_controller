@@ -256,6 +256,31 @@ namespace App { namespace Hardware
 
 
     // Valve commands
+    QVariantMap CommandConstructor::valveState(int group, bool state)
+    {
+        // Create command for HAL
+        QVariantMap command;
+
+        // Give the command a unique id
+        command.insert("command_identifier", generateCommandCount());
+
+        // Method indo
+        command.insert("hardware", "Valves");
+
+        if(state)
+        {
+            command.insert("method", "open");
+            command.insert("valve_id", group);
+        }
+        else
+        {
+            command.insert("method", "close");
+            command.insert("valve_id", group);
+        }
+
+        return command;
+    }
+
     QVariantMap CommandConstructor::valveOpen(int group)
     {
         // Create command for HAL
