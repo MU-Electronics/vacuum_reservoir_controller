@@ -106,7 +106,8 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageReadTrip";
 
         // Logic
-        presented["logic"] = package.at(0);
+        presented["state"] = bool(package.at(0).toInt());
+        presented["state_int"] = package.at(0).toInt();
 
         return presented;
     }

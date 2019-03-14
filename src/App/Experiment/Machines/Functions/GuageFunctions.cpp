@@ -33,6 +33,77 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
     }
 
+    void GuageFunctions::guageTripHelper(int group)
+    {
+        // Generate command
+        QVariantMap command = m_commandConstructor.guageReadTrip(group);
+
+        // Register id
+        registerId(command.value("command_identifier").toString());
+
+        // Emit siganl to HAL
+        emit hardwareRequest(command);
+    }
+
+    void GuageFunctions::validateGuageTripHelper(int group)
+    {
+        // Get the validator state instance
+        Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
+
+        // If cast successfull
+        if(command != nullptr && command->package.value("cast_status").toBool())
+        {
+            // Get the package data from the instance
+            QVariantMap package = command->package;
+
+            // If id was not registered then the signal name was correct but the signal is not
+            if(!isRegister(package.value("command_identifier").toString()))
+            {
+                errorDetails.clear();
+                errorDetails.insert("message", "ID was wrong in the package, not an error but skipping signal");
+                errorDetails.insert("acutal_id", package.value("command_identifier").toInt());
+                errorDetails.insert("ids", stringOfIds());
+
+                // Tell everyone the signal was wrong
+                emit emit_validationWrongId(errorDetails);
+
+                // Do nothing else
+                return;
+            }
+
+            // Check guage is the same
+            if(package.value("group").toInt() == group)
+            {
+                // Failed data to passon
+                QVariantMap successPackage;
+
+                // Data to pass on
+                successPackage.insert("requested_gauge_group", group);
+                successPackage.insert("trip", package.value("state").toBool());
+
+                // Emit safe to proceed
+                emit emit_validationSuccess(successPackage);
+
+                return;
+            }
+
+            // Failed data to passon
+            errorDetails.clear();
+            errorDetails.insert("message", "The guage trip failed to read correctly");
+            errorDetails.insert("requested_guage_group", group);
+            errorDetails.insert("group", package.value("group").toInt());
+        }
+        else
+        {
+            errorDetails.clear();
+            errorDetails.insert("message", "Validation casting failed");
+            errorDetails.insert("requested_valve_group", group);
+        }
+
+        // Emit not safe to proceed
+        emit emit_validationFailed(errorDetails);
+    }
+
     /**
      * ready guage helper
      *
@@ -84,7 +155,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             }
 
             // Check guage is the same
-            if(package.value("group").toString() == group)
+            if(package.value("group").toInt() == group)
             {
                 // Failed data to passon
                 QVariantMap successPackage;
@@ -106,10 +177,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             errorDetails.clear();
             errorDetails.insert("message", "The guage failed to update correctly");
             errorDetails.insert("requested_guage_group", group);
-            errorDetails.insert("pressure", package.value("pressure").toDouble());
-            errorDetails.insert("voltage", package.value("voltage").toDouble());
-            errorDetails.insert("status", package.value("status").toInt());
-            errorDetails.insert("error", package.value("error").toString());
+            errorDetails.insert("group", package.value("group").toInt());
         }
         else
         {
@@ -219,6 +287,76 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
         validateGuagePressureHelper(8);
     }
 
+
+
+
+    // Read trips
+    void GuageFunctions::isTripedGroup1()
+    {
+        guageTripHelper(1);
+    }
+    void GuageFunctions::isTripedGroup2()
+    {
+        guageTripHelper(2);
+    }
+    void GuageFunctions::isTripedGroup3()
+    {
+        guageTripHelper(3);
+    }
+    void GuageFunctions::isTripedGroup4()
+    {
+        guageTripHelper(4);
+    }
+    void GuageFunctions::isTripedGroup5()
+    {
+        guageTripHelper(5);
+    }
+    void GuageFunctions::isTripedGroup6()
+    {
+        guageTripHelper(6);
+    }
+    void GuageFunctions::isTripedGroup7()
+    {
+        guageTripHelper(7);
+    }
+    void GuageFunctions::isTripedGroup8()
+    {
+        guageTripHelper(8);
+    }
+
+    // Validate read trips
+    void GuageFunctions::validateIsTripedGroup1()
+    {
+        validateGuageTripHelper(1);
+    }
+    void GuageFunctions::validateIsTripedGroup2()
+    {
+        validateGuageTripHelper(2);
+    }
+    void GuageFunctions::validateIsTripedGroup3()
+    {
+        validateGuageTripHelper(3);
+    }
+    void GuageFunctions::validateIsTripedGroup4()
+    {
+        validateGuageTripHelper(4);
+    }
+    void GuageFunctions::validateIsTripedGroup5()
+    {
+        validateGuageTripHelper(5);
+    }
+    void GuageFunctions::validateIsTripedGroup6()
+    {
+        validateGuageTripHelper(6);
+    }
+    void GuageFunctions::validateIsTripedGroup7()
+    {
+        validateGuageTripHelper(7);
+    }
+    void GuageFunctions::validateIsTripedGroup8()
+    {
+        validateGuageTripHelper(8);
+    }
 
 
 

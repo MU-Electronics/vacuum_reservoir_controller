@@ -62,7 +62,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
         public slots:
 
-            // Open valve states
+            // Read guage states
             void readGroup1();
             void readGroup2();
             void readGroup3();
@@ -72,7 +72,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void readGroup7();
             void readGroup8();
 
-            // Validate open valve states
+            // Validate read guage states
             void validateReadGroup1();
             void validateReadGroup2();
             void validateReadGroup3();
@@ -82,10 +82,36 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void validateReadGroup7();
             void validateReadGroup8();
 
+
+
+            // Read trips
+            void isTripedGroup1();
+            void isTripedGroup2();
+            void isTripedGroup3();
+            void isTripedGroup4();
+            void isTripedGroup5();
+            void isTripedGroup6();
+            void isTripedGroup7();
+            void isTripedGroup8();
+
+            // Validate read trips
+            void validateIsTripedGroup1();
+            void validateIsTripedGroup2();
+            void validateIsTripedGroup3();
+            void validateIsTripedGroup4();
+            void validateIsTripedGroup5();
+            void validateIsTripedGroup6();
+            void validateIsTripedGroup7();
+            void validateIsTripedGroup8();
+
+
         private:
             // Read pressure helpers
             void guagePresureHelper(int group);
             void validateGuagePressureHelper(int group);
+
+            void guageTripHelper(int group);
+            void validateGuageTripHelper(int group);
 
     };
 
