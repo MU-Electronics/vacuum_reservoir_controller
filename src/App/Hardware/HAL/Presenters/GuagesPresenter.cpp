@@ -56,15 +56,16 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageEnabled";
 
         // Logic
-        presented["logic"] = package.at(0);
+        presented["status"] = bool(package.at(0).toInt());
+        presented["status_int"] = package.at(0).toInt();
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["logic"] == "1") // plugged in
+        if(presented["status"] == true) // plugged in
         {
             presented["view_status"] = "1";
         }
-        else if(presented["logic"] == "0") // not plugged in
+        else if(presented["status"] == false) // not plugged in
         {
             presented["view_status"] = "2";
         }
@@ -81,15 +82,16 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageDisabled";
 
         // Logic
-        presented["logic"] = package.at(0);
+        presented["status"] = bool(package.at(0).toInt());
+        presented["status_int"] = package.at(0).toInt();
 
         // View status
         presented["view_status"] = "3"; // Error
-        if(presented["logic"] == "1") // plugged in
+        if(presented["status"] == true) // plugged in
         {
             presented["view_status"] = "1";
         }
-        else if(presented["logic"] == "0") // not plugged in
+        else if(presented["status"] == false) // not plugged in
         {
             presented["view_status"] = "2";
         }
@@ -106,8 +108,8 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageReadTrip";
 
         // Logic
-        presented["state"] = bool(package.at(0).toInt());
-        presented["state_int"] = package.at(0).toInt();
+        presented["status"] = bool(package.at(0).toInt());
+        presented["status_int"] = package.at(0).toInt();
 
         return presented;
     }

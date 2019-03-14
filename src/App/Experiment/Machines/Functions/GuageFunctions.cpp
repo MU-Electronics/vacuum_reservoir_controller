@@ -79,7 +79,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 // Data to pass on
                 successPackage.insert("requested_gauge_group", group);
-                successPackage.insert("trip", package.value("state").toBool());
+                successPackage.insert("trip", package.value("status").toBool());
 
                 // Emit safe to proceed
                 emit emit_validationSuccess(successPackage);
