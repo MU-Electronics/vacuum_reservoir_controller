@@ -139,18 +139,24 @@ namespace App { namespace View { namespace Managers
         connect(&hardware, &Hardware::Access::emit_pumpDisabled, this, &SystemValues::pumpChange);
 
         // Guage status
+        connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::pumpChange);
 
         // Barrell status
 
     }
 
+    void SystemValues::guageReadingChanged(QVariantMap data)
+    {
+        m_pressure.insert(data["guage_id"].toString() + "_status", data["view_status"]);
+        m_pressure.insert(data["guage_id"].toString() + "_value", data["pressure_mbar"]);
+        emit_pressureChanged(m_pressure);
+    }
 
     void SystemValues::pumpChange(QVariantMap data)
     {
         m_pump.insert(data["pump_id"].toString() + "_status", data["view_status"]);
         emit_pumpChanged(m_pump);
     }
-
 
     void SystemValues::valveChange(QVariantMap data)
     {
@@ -355,6 +361,17 @@ namespace App { namespace View { namespace Managers
          m_valve.insert("7_enabled", generalPump_1[enableKey]);
          m_valve.insert("8_enabled", generalPump_2[enableKey]);
 
+
+        // Light LEDS to show guages that are enabled
+         qDebug() << "Setting rear lights for " << enableKey;
+        emit hardwareRequest(m_commands.guageSetState(1, generalChamber_1[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(2, generalChamber_2[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(3, generalChamber_3[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(4, generalChamber_4[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(5, generalChamber_5[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(6, generalChamber_6[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(7, generalPump_1[enableKey].toBool()));
+        emit hardwareRequest(m_commands.guageSetState(8, generalPump_2[enableKey].toBool()));
 
         // Update the interface
         emit_pressureChanged(m_pressure);

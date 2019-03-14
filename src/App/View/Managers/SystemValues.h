@@ -86,6 +86,7 @@ namespace App { namespace View { namespace Managers
 
             void valveChange(QVariantMap data);
             void pumpChange(QVariantMap data);
+            void guageReadingChanged(QVariantMap data);
 
         private:
             QQmlApplicationEngine* m_root;

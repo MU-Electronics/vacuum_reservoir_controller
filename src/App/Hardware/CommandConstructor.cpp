@@ -1,6 +1,7 @@
 #include "CommandConstructor.h"
 
 #include <QDateTime>
+#include <QDebug>
 
 namespace App { namespace Hardware
 {
@@ -82,7 +83,6 @@ namespace App { namespace Hardware
 
 
 
-
     // Guage commands
     QVariantMap CommandConstructor::guageEnabled(int group)
     {
@@ -120,6 +120,16 @@ namespace App { namespace Hardware
 
         // Return the package
         return command;
+    }
+
+    QVariantMap CommandConstructor::guageSetState(int group, bool state)
+    {
+        if(state)
+        {
+            return guageEnabled(group);
+        }
+
+        return guageDisabled(group);
     }
 
     QVariantMap CommandConstructor::guageReadVacuum(int group)

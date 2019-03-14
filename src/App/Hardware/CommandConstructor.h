@@ -21,6 +21,7 @@ namespace App { namespace Hardware
             QVariantMap emergancyStopIsPressed();
 
             // Guage commands
+            QVariantMap guageSetState(int group, bool state);
             QVariantMap guageEnabled(int group);
             QVariantMap guageDisabled(int group);
             QVariantMap guageReadVacuum(int group);

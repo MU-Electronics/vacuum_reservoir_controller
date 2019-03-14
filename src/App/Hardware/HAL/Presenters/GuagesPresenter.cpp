@@ -54,6 +54,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_guageEnabled";
+        presented["guage_id"] = commands["guage_id"];
 
         // Logic
         presented["status"] = bool(package.at(0).toInt());
@@ -80,6 +81,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_guageDisabled";
+        presented["guage_id"] = commands["guage_id"];
 
         // Logic
         presented["status"] = bool(package.at(0).toInt());
@@ -106,6 +108,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_guageReadTrip";
+        presented["guage_id"] = commands["guage_id"];
 
         // Logic
         presented["status"] = bool(package.at(0).toInt());
@@ -121,6 +124,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Which signal should be triggered by the access thread
         presented["method"] = "emit_guageReadVacuum";
+        presented["guage_id"] = commands["guage_id"];
 
         // Voltage
         presented["voltage"] = package.at(0).toDouble() / 0.201793722;
@@ -128,26 +132,26 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         // Convert voltage to pressure in mbar
         if(presented["voltage"] <= 3)
         {
-            presented["pressure"] = pow(10, -4);
+            presented["pressure_mbar"] = pow(10, -4);
         }
         else
         {
-            presented["pressure"] = pow(10, (presented["voltage"].toDouble()-6));
+            presented["pressure_mbar"] = pow(10, (presented["voltage"].toDouble()-6));
         }
 
         // Find status of device
-        presented["status"] = 3; // Assume error condition
+        presented["view_status"] = 3; // Assume error condition
         presented["error"] = "Unknown error"; // With Unknown eeeor
         if(presented["voltage"] >= 1.75 && presented["voltage"] < 9.25)
         {
             // Guage is ok
-            presented["status"] = 1;
+            presented["view_status"] = 1;
             presented["error"] = "No errors detected";
         }
         else if(presented["voltage"] >= 9.25 || presented["voltage"] < 1.75)
         {
             // Error condition
-            presented["status"] = 3;
+            presented["view_status"] = 3;
 
             // Try to identify the error
             if(presented["voltage"] > 9.45 && presented["voltage"] < 9.55)
