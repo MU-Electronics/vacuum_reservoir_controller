@@ -39,6 +39,11 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
 
             // Function classes for the states to connect to
         ,   m_valves(new Functions::ValveFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
+        ,   m_guages(new Functions::GuageFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
+        ,   m_emergancyStop(new Functions::EmergancyStopFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
+        ,   m_pumps(new Functions::PumpFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
+        ,   m_remote(new Functions::RemoteFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
+        ,   m_temperatureSensor(new Functions::TemperatureSensorFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
 
             // Builders to build transition blocks for common state machine logic
         ,   m_transitionsBuilder(new TransitionsBuilder(parent, settings, hardware))

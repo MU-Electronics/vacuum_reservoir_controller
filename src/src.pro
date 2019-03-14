@@ -71,7 +71,13 @@ SOURCES += \
     App/Experiment/Machines/Helpers/FunctionsHelper.cpp \
     App/Experiment/Machines/Helpers/MachineStates.cpp \
     App/Experiment/Machines/Helpers/TransitionsBuilder.cpp \
-    App/Experiment/Machines/Functions/ValveFunctions.cpp
+    App/Experiment/Machines/Functions/ValveFunctions.cpp \
+    App/Experiment/Machines/ReadPressure.cpp \
+    App/Experiment/Machines/Functions/GuageFunctions.cpp \
+    App/Experiment/Machines/Functions/EmergancyStopFunctions.cpp \
+    App/Experiment/Machines/Functions/PumpFunctions.cpp \
+    App/Experiment/Machines/Functions/RemoteFunctions.cpp \
+    App/Experiment/Machines/Functions/TemperatureSensorFunctions.cpp
 
 # Include all the header files
 HEADERS += \
@@ -120,7 +126,13 @@ HEADERS += \
     App/Experiment/Machines/Helpers/FunctionsHelper.h \
     App/Experiment/Machines/Helpers/MachineStates.h \
     App/Experiment/Machines/Helpers/TransitionsBuilder.h \
-    App/Experiment/Machines/Functions/ValveFunctions.h
+    App/Experiment/Machines/Functions/ValveFunctions.h \
+    App/Experiment/Machines/ReadPressure.h \
+    App/Experiment/Machines/Functions/GuageFunctions.h \
+    App/Experiment/Machines/Functions/EmergancyStopFunctions.h \
+    App/Experiment/Machines/Functions/PumpFunctions.h \
+    App/Experiment/Machines/Functions/RemoteFunctions.h \
+    App/Experiment/Machines/Functions/TemperatureSensorFunctions.h
 
 
 # Include the resource file

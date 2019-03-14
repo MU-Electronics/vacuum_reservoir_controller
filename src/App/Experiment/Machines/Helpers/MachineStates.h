@@ -27,6 +27,11 @@
 
 // Include functions
 #include "../Functions/ValveFunctions.h"
+#include "../Functions/GuageFunctions.h"
+#include "../Functions/EmergancyStopFunctions.h"
+#include "../Functions/PumpFunctions.h"
+#include "../Functions/RemoteFunctions.h"
+#include "../Functions/TemperatureSensorFunctions.h"
 
 // Include transisiton builder
 #include "TransitionsBuilder.h"
@@ -84,10 +89,39 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
                 return m_valves;
             }
 
+            Functions::GuageFunctions* guages()
+            {
+                return m_guages;
+            }
+
+            Functions::EmergancyStopFunctions* emergancyStop()
+            {
+                return m_emergancyStop;
+            }
+
+            Functions::PumpFunctions* pumps()
+            {
+                return m_pumps;
+            }
+
+            Functions::RemoteFunctions* remote()
+            {
+                return m_remote;
+            }
+
+            Functions::TemperatureSensorFunctions* temperatureSensor()
+            {
+                return m_temperatureSensor;
+            }
+
 
             // State getters
-            // Valve
             Functions::ValveFunctions* m_valves;
+            Functions::GuageFunctions* m_guages;
+            Functions::EmergancyStopFunctions* m_emergancyStop;
+            Functions::PumpFunctions* m_pumps;
+            Functions::RemoteFunctions* m_remote;
+            Functions::TemperatureSensorFunctions* m_temperatureSensor;
 
 
             // Transition builder for common tasks
