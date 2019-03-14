@@ -100,6 +100,9 @@ namespace App { namespace Services
     {
         //qDebug() << "Working is running in: " << thread()->currentThreadId();
 
+        // We've started
+        emit started();
+
         while(true) {
 
             // Lock the object

@@ -33,6 +33,7 @@ namespace App { namespace Services{
 
     signals:
         void workRequested();
+        void started();
         void finished();
 
     private:

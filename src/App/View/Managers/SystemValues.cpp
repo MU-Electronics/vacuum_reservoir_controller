@@ -127,6 +127,9 @@ namespace App { namespace View { namespace Managers
         // When the general settings object is updated, refresh the gui
         connect(m_settings->general().data(), &Settings::General::emit_saved, this, &SystemValues::refreshGeneralSettings);
 
+        // When thread started rear LEDs
+        connect(&hardware, &Hardware::Access::started, this, &SystemValues::setGeneralSettingEnables);
+
         // Connect object signals to hardware slots and visa versa
         connect(this, &SystemValues::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
 
@@ -348,22 +351,21 @@ namespace App { namespace View { namespace Managers
         auto generalPump_2 = general->pump(2);
 
         // Status of pump groups
-         m_pump.insert("1_enabled", generalPump_1[enableKey]);
-         m_pump.insert("1_auto", generalPump_1["auto_control_enabled"]);
-         m_pump.insert("1_manual", generalPump_1["manual_control_enabled"]);
+        m_pump.insert("1_enabled", generalPump_1[enableKey]);
+        m_pump.insert("1_auto", generalPump_1["auto_control_enabled"]);
+        m_pump.insert("1_manual", generalPump_1["manual_control_enabled"]);
 
-         m_pump.insert("2_enabled", generalPump_2[enableKey]);
-         m_pump.insert("2_auto", generalPump_2["auto_control_enabled"]);
-         m_pump.insert("2_manual", generalPump_2["manual_control_enabled"]);
+        m_pump.insert("2_enabled", generalPump_2[enableKey]);
+        m_pump.insert("2_auto", generalPump_2["auto_control_enabled"]);
+        m_pump.insert("2_manual", generalPump_2["manual_control_enabled"]);
 
-         m_pressure.insert("7_enabled", generalPump_1[enableKey]);
-         m_pressure.insert("8_enabled", generalPump_2[enableKey]);
-         m_valve.insert("7_enabled", generalPump_1[enableKey]);
-         m_valve.insert("8_enabled", generalPump_2[enableKey]);
+        m_pressure.insert("7_enabled", generalPump_1[enableKey]);
+        m_pressure.insert("8_enabled", generalPump_2[enableKey]);
+        m_valve.insert("7_enabled", generalPump_1[enableKey]);
+        m_valve.insert("8_enabled", generalPump_2[enableKey]);
 
 
         // Light LEDS to show guages that are enabled
-         qDebug() << "Setting rear lights for " << enableKey;
         emit hardwareRequest(m_commands.guageSetState(1, generalChamber_1[enableKey].toBool()));
         emit hardwareRequest(m_commands.guageSetState(2, generalChamber_2[enableKey].toBool()));
         emit hardwareRequest(m_commands.guageSetState(3, generalChamber_3[enableKey].toBool()));
