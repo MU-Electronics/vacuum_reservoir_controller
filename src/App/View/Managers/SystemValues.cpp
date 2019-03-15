@@ -17,10 +17,11 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    SystemValues::SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
+    SystemValues::SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings, Experiment::Engine* experimentEngine)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
+        ,   m_experimentEngine(experimentEngine)
     {
         // Show initialising screen
         initialising(false); // << false for debug
@@ -128,7 +129,7 @@ namespace App { namespace View { namespace Managers
         connect(m_settings->general().data(), &Settings::General::emit_saved, this, &SystemValues::refreshGeneralSettings);
 
         // When thread started rear LEDs
-        connect(&hardware, &Hardware::Access::started, this, &SystemValues::setGeneralSettingEnables);
+        connect(&hardware, &Hardware::Access::started, this, &SystemValues::hardwardThreadStart);
 
         // Connect object signals to hardware slots and visa versa
         connect(this, &SystemValues::hardwareRequest, &hardware, &Hardware::Access::hardwareAccess);
@@ -142,10 +143,17 @@ namespace App { namespace View { namespace Managers
         connect(&hardware, &Hardware::Access::emit_pumpDisabled, this, &SystemValues::pumpChange);
 
         // Guage status
-        connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::pumpChange);
+        connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::guageReadingChanged);
 
         // Barrell status
 
+    }
+
+    void SystemValues::hardwardThreadStart()
+    {
+        qDebug() << "Hardware thread started";
+        refreshGeneralSettings();
+        //m_experimentEngine->machines().startReadingVacuumGuages();
     }
 
     void SystemValues::guageReadingChanged(QVariantMap data)

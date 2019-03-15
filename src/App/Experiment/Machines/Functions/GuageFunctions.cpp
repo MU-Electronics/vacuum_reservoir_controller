@@ -72,7 +72,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             }
 
             // Check guage is the same
-            if(package.value("group").toInt() == group)
+            if(package.value("guage_id").toInt() == group)
             {
                 // Failed data to passon
                 QVariantMap successPackage;
@@ -120,6 +120,8 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
         // Emit siganl to HAL
         emit hardwareRequest(command);
+
+        // qDebug() << "Requesting guage: " << command["guage_id"];
     }
 
     /**
@@ -155,7 +157,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             }
 
             // Check guage is the same
-            if(package.value("group").toInt() == group)
+            if(package.value("guage_id").toInt() == group)
             {
                 // Failed data to passon
                 QVariantMap successPackage;

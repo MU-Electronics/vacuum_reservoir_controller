@@ -6,8 +6,8 @@ import Fluid.Effects 1.0
 import QtQuick.Controls.Material 2.2 as Materials
 
 
-import "pages"
-import "template"
+//import "pages"
+//import "template"
 
 FluidControls.ApplicationWindow {
 
@@ -122,7 +122,7 @@ FluidControls.ApplicationWindow {
             Loader {
                 id: defaultTab
                 width: parent.width
-                source: "pages/Default.qml"
+                source: "pages/Default.qml" // Default
                 active: (mainTab.currentIndex === 0) ? true : false
                 asynchronous: true
                 visible: (status == Loader.Ready && mainTab.currentIndex == 0) ? true : false
@@ -149,7 +149,7 @@ FluidControls.ApplicationWindow {
             Loader {
                 id: systemLogsTab
                 width: parent.width
-                source: "pages/SystemLogs.qml"
+                source: "pages/SystemLogs.qml" // SystemLogs
                 active: (mainTab.currentIndex === 2) ? true : false
                 asynchronous: true
                 visible: (status == Loader.Ready && mainTab.currentIndex == 2) ? true : false

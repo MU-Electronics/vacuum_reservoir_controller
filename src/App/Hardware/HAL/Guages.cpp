@@ -201,16 +201,16 @@ namespace App { namespace Hardware { namespace HAL
                 voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::Four, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
             break;
             case 5:
-                voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+                voltage = m_readings_2.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
             break;
             case 6:
-                voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::Two, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+                voltage = m_readings_2.read(QutiPi::Hardware::ADC::MCP3424::Port::Two, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
             break;
             case 7:
-                voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::Three, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+                voltage = m_readings_2.read(QutiPi::Hardware::ADC::MCP3424::Port::Three, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
             break;
             case 8:
-                voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::Four, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
+                voltage = m_readings_2.read(QutiPi::Hardware::ADC::MCP3424::Port::Four, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
             break;
         }
 
@@ -220,6 +220,9 @@ namespace App { namespace Hardware { namespace HAL
         // Create simple package
         QStringList data;
         data.append(QString::number(voltage));
+
+        //qDebug() << "Reading vacuum: " << data << " Command: "<<m_command;
+
 
         // Emit the data
         emit emit_guageData("Guages", "readVacuum", m_command, data);

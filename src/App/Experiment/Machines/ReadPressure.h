@@ -17,7 +17,7 @@
 
 namespace App { namespace Experiment { namespace Machines
 {
-    class ReadPressure    :   public Helpers::MachineStates
+    class ReadPressure :   public Helpers::MachineStates
     {
         Q_OBJECT
 
@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~ReadPressure();
 
-            void setParams(int pressureSensorTimeInter);
+            void setParams();
 
             void beforeStart();
 
@@ -35,19 +35,33 @@ namespace App { namespace Experiment { namespace Machines
             void buildMachine();
 
         signals:
+            void emit_goTo_1();
+            void emit_goTo_2();
+            void emit_goTo_3();
+            void emit_goTo_4();
+            void emit_goTo_5();
+            void emit_goTo_6();
+            void emit_goTo_7();
+            void emit_goTo_8();
 
         public slots:
             void startPressureMonitor();
 
         private:
             // Referance to QObject
-            QObject *parent;
+            //QObject *parent;
 
             // Holds the application settings
             Settings::Container* m_settings;
 
             // Timers
-            QTimer t_pressureMonitor;
+            QTimer& t_pressureMonitor;
+
+            // Current guage being read
+            int m_guageId = 0;
+
+            // Calculate which guage to read next
+            void nextGuage();
 
     };
 }}}

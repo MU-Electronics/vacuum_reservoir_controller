@@ -44,7 +44,7 @@ namespace App { namespace View { namespace Managers
         AUTO_PROPERTY(bool, initialising)
 
         public:
-            SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
+            SystemValues(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings, Experiment::Engine *experimentEngine);
 
             ~SystemValues();
 
@@ -88,11 +88,16 @@ namespace App { namespace View { namespace Managers
             void pumpChange(QVariantMap data);
             void guageReadingChanged(QVariantMap data);
 
+            void hardwardThreadStart();
+
         private:
             QQmlApplicationEngine* m_root;
 
             // Holds the application settings
             Settings::Container* m_settings;
+
+            // Hold experiment engine
+            Experiment::Engine* m_experimentEngine;
 
             // Command construcor
             Hardware::CommandConstructor m_commands;

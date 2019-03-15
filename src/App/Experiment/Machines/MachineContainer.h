@@ -12,6 +12,9 @@
 // Include hardware thread
 #include "../../Hardware/Access.h"
 
+// Include state machines
+#include "ReadPressure.h"
+
 namespace App { namespace Experiment { namespace Machines
 {
     class MachineContainer    :   public QObject
@@ -27,9 +30,17 @@ namespace App { namespace Experiment { namespace Machines
 
             void makeConnections();
 
+            void startReadingVacuumGuages();
+            void readVacuumStopping();
+            void readVacuumFinished();
+            void readVacuumFailed();
+
         private:
             // Holds the application settings
             Settings::Container* m_settings;
+
+            // State machines
+            ReadPressure& m_readPressure;
 
     };
 }}}

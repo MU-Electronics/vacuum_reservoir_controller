@@ -119,6 +119,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
     QVariantMap GuagesPresenter::readVacuum(QVariantMap commands, QStringList package)
     {
+        //qDebug() << "read vacuum presenter" << commands << package;
         // Container for returned data
         QVariantMap presented;
 
