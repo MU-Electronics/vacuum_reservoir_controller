@@ -141,7 +141,7 @@ namespace App { namespace Hardware
      */
     void Access::hardwareAccess(QVariantMap command)
     {
-        qDebug() << command;
+        //qDebug() << command;
 
         // Check the require information is provided
         if(command.contains("hardware") && command.contains("method"))

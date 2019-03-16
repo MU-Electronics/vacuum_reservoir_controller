@@ -1,6 +1,7 @@
 #include "HalContainer.h"
 
 #include <QMap>
+#include <QList>
 
 namespace App { namespace Hardware { namespace HAL
 {
@@ -10,6 +11,8 @@ namespace App { namespace Hardware { namespace HAL
             ,   m_parent(parent)
             ,   m_settings(settings)
         {
+            //auto HAL::Presenters::GuagesPresenter::m_vacuum = {};
+
             setup();
         }
 

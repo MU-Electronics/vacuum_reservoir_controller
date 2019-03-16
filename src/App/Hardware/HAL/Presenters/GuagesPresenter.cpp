@@ -133,11 +133,11 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         // Convert voltage to pressure in mbar
         if(presented["voltage"] <= 3)
         {
-            presented["pressure_mbar"] = pow(10, -4);
+            presented["pressure_mbar"] = vacuumAverage(presented["guage_id"].toInt(), pow(10, -4));
         }
         else
         {
-            presented["pressure_mbar"] = pow(10, (presented["voltage"].toDouble()-6));
+            presented["pressure_mbar"] = vacuumAverage(presented["guage_id"].toInt(), pow(10, (presented["voltage"].toDouble()-6)));
         }
 
         // Find status of device

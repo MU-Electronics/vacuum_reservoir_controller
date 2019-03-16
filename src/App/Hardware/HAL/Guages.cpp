@@ -215,7 +215,7 @@ namespace App { namespace Hardware { namespace HAL
         }
 
         // Sleep thread
-        thread()->sleep(10);
+        // thread()->sleep(10);
 
         // Create simple package
         QStringList data;
@@ -268,7 +268,7 @@ namespace App { namespace Hardware { namespace HAL
         }
 
         // Read the voltage
-        thread()->sleep(2);
+        //thread()->sleep(2);
 
         // Create simple package
         QStringList data;

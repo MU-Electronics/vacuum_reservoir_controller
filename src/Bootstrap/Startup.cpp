@@ -25,8 +25,8 @@ namespace Bootstrap
     Startup::Startup()
         : QObject(nullptr),
           m_engine (*new QQmlApplicationEngine()),
-          m_isValid(true),
-          m_application(*new App::Application(this, &m_engine))
+          m_isValid(true)
+          , m_application(*new App::Application(this, &m_engine))
     {
         // Set debugger QObject parent
         App::Services::Debugger::getInstance().setParent(this);

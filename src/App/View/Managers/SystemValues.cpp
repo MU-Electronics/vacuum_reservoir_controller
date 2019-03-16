@@ -1,5 +1,6 @@
 #include "SystemValues.h"
 
+#include <math.h>
 
 // Include external libs
 #include <QDebug>
@@ -151,15 +152,14 @@ namespace App { namespace View { namespace Managers
 
     void SystemValues::hardwardThreadStart()
     {
-        qDebug() << "Hardware thread started";
         refreshGeneralSettings();
-        //m_experimentEngine->machines().startReadingVacuumGuages();
+        m_experimentEngine->machines().startReadingVacuumGuages();
     }
 
     void SystemValues::guageReadingChanged(QVariantMap data)
     {
         m_pressure.insert(data["guage_id"].toString() + "_status", data["view_status"]);
-        m_pressure.insert(data["guage_id"].toString() + "_value", data["pressure_mbar"]);
+        m_pressure.insert(data["guage_id"].toString() + "_value", QString::number(data["pressure_mbar"].toDouble(), 'f', 1));
         emit_pressureChanged(m_pressure);
     }
 
@@ -415,7 +415,6 @@ namespace App { namespace View { namespace Managers
      */
     bool SystemValues::allowTouchControl(int group)
     {
-        qDebug() << "touchcontrol: " << group;
         // System state
         QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
 

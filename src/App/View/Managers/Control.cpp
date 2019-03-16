@@ -69,7 +69,6 @@ namespace App { namespace View { namespace Managers
 
     void Control::setPump(int group, bool status)
     {
-        qDebug() << "group: " << group << " status: "<< status;
         if(status)
         {
             emit hardwareRequest(m_commands.pumpEnable(group - 6));

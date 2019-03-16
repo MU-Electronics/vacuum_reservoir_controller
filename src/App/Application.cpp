@@ -12,7 +12,7 @@
 #include "Settings/Container.h"
 
 // Include the expeirment engine
-#include "Experiment/Engine.h"
+//#include "Experiment/Engine.h"
 
 // View managers
 #include "View/Managers/Global.h"
@@ -90,8 +90,8 @@ namespace App
     Application::~Application()
     {
         // Close hardware thread
-        hardware.abort();
-        thread_hardware.wait();
+        //hardware.abort();
+        //thread_hardware.wait();
     }
 
 

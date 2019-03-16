@@ -21,7 +21,7 @@ namespace App { namespace Experiment { namespace Machines
         // Update params when settings change @TODO
 
         // Connect states to functions
-        // connect(state("startPressureMonitor", true), &QState::entered, this, &ReadPressure::startPressureMonitor);
+        connect(state("startPressureMonitor", true), &QState::entered, this, &ReadPressure::startPressureMonitor);
 
         connect(state("whereTo", true), &QState::entered, this, &ReadPressure::nextGuage);
 
@@ -80,9 +80,6 @@ namespace App { namespace Experiment { namespace Machines
 
         // Set intial guage id
         m_guageId = 1;
-
-        t_pressureMonitor.setSingleShot(false);
-        t_pressureMonitor.start();
     }
 
 
@@ -258,7 +255,6 @@ namespace App { namespace Experiment { namespace Machines
         // Setup timer
         t_pressureMonitor.setSingleShot(true);
         t_pressureMonitor.start();
-        //qDebug() << "Timer";
     }
 }}}
 

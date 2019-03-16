@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     qutipi_setup();
 
     // Fixes bug with Qt not including fluids qml components (windows)
-    //qputenv("QML2_IMPORT_PATH", "../vendor/fluid/qml");
+    qputenv("QML2_IMPORT_PATH", "../vendor/fluid/qml");
     qputenv("QML2_IMPORT_PATH", "vendor/fluid/qml");
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
