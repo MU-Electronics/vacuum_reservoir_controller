@@ -25,7 +25,7 @@ Rectangle {
 
     // Pressure sensor info
     property bool pressure_enabled: false
-    property double pressure_status: 1
+    property int pressure_status: 1
     property double pressure_value: 0.00
     property string pressure_name: "P?"
 

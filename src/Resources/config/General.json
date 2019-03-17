@@ -22,7 +22,7 @@
             "comment": "Inlet 2",
 
             "lower_set_point": 15,
-            "upper_set_point": 100,
+            "upper_set_point": 1200,
 
             "alarm_pressure": 300,
             "alarm_time": 120

@@ -33,13 +33,13 @@ Rectangle
         if(pressure.enabled)
         {
             if(pressure.state === 1) // Sensor ok
-                return "#dacf07"
+                return "#06d652" // Green
 
             if(pressure.state === 2) // Sensor range
-                return "#cb1c29"
+                return "#c78f28" // Orange
 
             if(pressure.state === 3) // Sensor Error
-                return "#c7a028"
+                return "#cb1c29" // Red
         }
 
         // Disabled id: 4
@@ -51,13 +51,13 @@ Rectangle
         if(pressure.enabled)
         {
             if(pressure.state === 1) // Sensor ok
-                return "#c9be06"
+                return "#0caf48" // Green
 
             if(pressure.state === 2) // Sensor Range
-                return "#bb1a26"
+                return "#ad7b20" // Orange
 
             if(pressure.state === 3) // Sensor Error
-                return "#edc64e"
+                return "#a81520" // Red
         }
 
         // Disabled id: 4
@@ -160,7 +160,17 @@ Rectangle
     }
 
     Text{
-        text: (pressure.enabled === true) ? pressure.value + " mbar" : "disabled";
+        text: {
+            if(pressure.enabled === true)
+            {
+                if(pressure.state == 3)
+                    return "ERROR"
+
+                return pressure.value + " mbar"
+            }
+
+            return "disabled"
+        }
         width: parent.width
         height: 15
         horizontalAlignment: Text.AlignHCenter

@@ -59,7 +59,7 @@ namespace App { namespace Experiment { namespace Machines
      * @param turbo
      * @param gasMode
      */
-    void ReadPressure::setParams()
+    void ReadPressure::setParams(QString mode)
     {       
         // Time interval for pressure sensor
         params.insert("pressureSensorTimeInter", m_settings->hardware()->guages()["poll"].toInt());
@@ -67,19 +67,20 @@ namespace App { namespace Experiment { namespace Machines
         t_pressureMonitor.setTimerType(Qt::PreciseTimer);
 
         // Set which gauge to read
-        params.insert("guage_1", m_settings->general()->chamber(1)["auto_control_enabled"].toBool());
-        params.insert("guage_2", m_settings->general()->chamber(2)["auto_control_enabled"].toBool());
-        params.insert("guage_3", m_settings->general()->chamber(3)["auto_control_enabled"].toBool());
-        params.insert("guage_4", m_settings->general()->chamber(4)["auto_control_enabled"].toBool());
-        params.insert("guage_5", m_settings->general()->chamber(5)["auto_control_enabled"].toBool());
-        params.insert("guage_6", m_settings->general()->chamber(6)["auto_control_enabled"].toBool());
-        params.insert("guage_7", m_settings->general()->pump(1)["auto_control_enabled"].toBool());
-        params.insert("guage_8", m_settings->general()->pump(2)["auto_control_enabled"].toBool());
-
-        qDebug() << params;
+        params.insert("guage_1", m_settings->general()->chamber(1)[mode].toBool());
+        params.insert("guage_2", m_settings->general()->chamber(2)[mode].toBool());
+        params.insert("guage_3", m_settings->general()->chamber(3)[mode].toBool());
+        params.insert("guage_4", m_settings->general()->chamber(4)[mode].toBool());
+        params.insert("guage_5", m_settings->general()->chamber(5)[mode].toBool());
+        params.insert("guage_6", m_settings->general()->chamber(6)[mode].toBool());
+        params.insert("guage_7", m_settings->general()->pump(1)[mode].toBool());
+        params.insert("guage_8", m_settings->general()->pump(2)[mode].toBool());
 
         // Set intial guage id
         m_guageId = 1;
+
+        // Set mode
+        m_mode = mode;
     }
 
 

@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~ReadPressure();
 
-            void setParams();
+            void setParams(QString mode = "auto_control_enabled");
 
             void beforeStart();
 
@@ -62,6 +62,9 @@ namespace App { namespace Experiment { namespace Machines
 
             // Calculate which guage to read next
             void nextGuage();
+
+            // What mode are we in?
+            QString m_mode = "auto_control_enabled";
 
     };
 }}}

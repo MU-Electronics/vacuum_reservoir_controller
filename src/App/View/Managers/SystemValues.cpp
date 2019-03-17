@@ -152,14 +152,51 @@ namespace App { namespace View { namespace Managers
 
     void SystemValues::hardwardThreadStart()
     {
+        // Update view froms settings
         refreshGeneralSettings();
-        m_experimentEngine->machines().startReadingVacuumGuages();
+
+        // Start guage state machine
+        m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
     }
 
     void SystemValues::guageReadingChanged(QVariantMap data)
     {
-        m_pressure.insert(data["guage_id"].toString() + "_status", data["view_status"]);
-        m_pressure.insert(data["guage_id"].toString() + "_value", QString::number(data["pressure_mbar"].toDouble(), 'f', 1));
+        // Get info we require
+        double presssure = data["pressure_mbar"].toDouble();
+        int guageId = data["guage_id"].toInt();
+        QString guageIdS = data["guage_id"].toString();
+
+        // Assum there's a guage error?
+        int state = 3;
+
+        // If not error are we within the pressure boundary for chamber?
+        if(data["view_status"].toInt() != 3 && guageId < 7)
+        {
+            // Get chamber settings
+            auto chamber = m_settings->general()->chamber(guageId);
+
+            // Get pressure boundies
+            int upper = chamber["upper_set_point"].toInt();
+            int lower = chamber["lower_set_point"].toInt();
+
+            // Are we within pressure?
+            state = (presssure > lower && presssure < upper) ? 1 : 2 ;
+        }
+
+        // Update valve
+        m_pressure.insert(guageIdS + "_status", state);
+
+        // Update barrel
+        if(guageId < 7)
+        {
+            m_barrel.insert(guageIdS + "_status", state);
+            emit_barrelChanged(m_barrel);
+        }
+
+        // Save the pressure value (rounded)
+        m_pressure.insert(guageIdS + "_value", QString::number(presssure, 'f', 1));
+
+        // Let people know we've updated
         emit_pressureChanged(m_pressure);
     }
 

@@ -30,10 +30,23 @@ namespace App { namespace Experiment { namespace Machines
 
             void makeConnections();
 
-            void startReadingVacuumGuages();
-            void readVacuumStopping();
-            void readVacuumFinished();
-            void readVacuumFailed();
+        public slots:
+            // Vacuum guage state machine control
+            void startReadingVacuumGuages(QString mode = "manual_control_enabled");
+            void stopReadVacuum();
+
+            // Pump state machine control
+
+            // Valve state machine control
+
+            //
+
+        signals:
+            // Vacuum guage state machine signals
+            void emit_vacuumMachineStarted(QString mode);
+            void emit_vacuumMachineStopped(QVariantMap params);
+            void emit_vacuumMachineFailed(QVariantMap params);
+            void emit_vacuumMachineStopping(QVariantMap params);
 
         private:
             // Holds the application settings

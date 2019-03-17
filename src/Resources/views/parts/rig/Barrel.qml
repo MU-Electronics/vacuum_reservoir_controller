@@ -30,13 +30,13 @@ Rectangle
         if(barrel.enabled)
         {
             if(barrel.state === 1) // Within pressure tolerance
-                return "#eee204"
+                return "#06d652" // Green
 
-            if(barrel.state === 2) // Requires topping up
-                return "#cb1c29"
+            if(barrel.state === 2) // Not within perssure tolerance
+                return "#c78f28" // Orange
 
-            if(barrel.state === 3) // Being topped up
-                return "#d38915"
+            if(barrel.state === 3) // Error
+                return "#cb1c29" // Red
         }
 
         // Disabled id: 4
@@ -48,13 +48,13 @@ Rectangle
         if(barrel.enabled)
         {
             if(barrel.state === 1) // Within pressure tolerance
-                return "#fff200"
+                return "#0caf48" // Green
 
-            if(barrel.state === 2) // Requires topping up
-                return "#de1e2c"
+            if(barrel.state === 2) // Not within perssure tolerance
+                return "#ad7b20" // Orange
 
-            if(barrel.state === 3) // Being topped up
-                return "#f09d1b"
+            if(barrel.state === 3) // Error
+                return "#a81520" // Red
         }
 
         // Disabled id: 4
@@ -66,13 +66,13 @@ Rectangle
         if(barrel.enabled)
         {
             if(barrel.state === 1) // Within pressure tolerance
-                return "#6a6503"
+                return "#ffffff"
 
-            if(barrel.state === 2) // Requires topping up
-                return "#560d13"
+            if(barrel.state === 2) // Sensor Range
+                return "#ffffff"
 
-            if(barrel.state === 3) // Being topped up
-                return "#67430b"
+            if(barrel.state === 3) // Sensor Error
+                return "#ffffff"
         }
 
         // Disabled id: 4
@@ -263,7 +263,7 @@ Rectangle
                         return "Attention"
 
                     if(barrel.state === 3)
-                        return "Top Up"
+                        return "ERORR"
                 }
 
                 return "Disabled"
