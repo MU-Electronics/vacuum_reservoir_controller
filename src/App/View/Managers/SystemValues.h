@@ -92,6 +92,9 @@ namespace App { namespace View { namespace Managers
             void startVacuumGuages();
             void stopVacuumGuages();
 
+            void stopVacuumTripGuages();
+            void startVacuumTripGuages();
+
             void hardwardThreadStart();
 
         private:

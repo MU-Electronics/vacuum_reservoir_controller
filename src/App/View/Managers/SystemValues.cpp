@@ -155,6 +155,7 @@ namespace App { namespace View { namespace Managers
         connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::guageReadingChanged);
         connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_vacuumMachineStopped, this, &SystemValues::startVacuumGuages);
         connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_guageTripped, this, &SystemValues::guageTripChanged);
+        connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_vacuumTripMachineStopped, this, &SystemValues::startVacuumTripGuages);
 
 
         // Barrell status
@@ -164,13 +165,21 @@ namespace App { namespace View { namespace Managers
     void SystemValues::startVacuumGuages()
     {
         m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
-        m_experimentEngine->machines().startReadingTripVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
     }
 
     void SystemValues::stopVacuumGuages()
     {
          m_experimentEngine->machines().stopReadVacuum();
-         m_experimentEngine->machines().stopReadTripVacuum();
+    }
+
+    void SystemValues::startVacuumTripGuages()
+    {
+        m_experimentEngine->machines().startReadingTripVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+    }
+
+    void SystemValues::stopVacuumTripGuages()
+    {
+        m_experimentEngine->machines().stopReadTripVacuum();
     }
 
     void SystemValues::hardwardThreadStart()
@@ -538,6 +547,7 @@ namespace App { namespace View { namespace Managers
 
         // Stop (with will then restart) vacuum gauge state machine
         stopVacuumGuages();
+        stopVacuumTripGuages();
 
         // Tell everyone we've updated
         emit_controlChanged(m_control);
