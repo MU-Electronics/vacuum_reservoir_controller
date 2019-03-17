@@ -145,9 +145,20 @@ namespace App { namespace View { namespace Managers
 
         // Guage status
         connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::guageReadingChanged);
+        connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_vacuumMachineStopped, this, &SystemValues::startVacuumGuages);
 
         // Barrell status
 
+    }
+
+    void SystemValues::startVacuumGuages()
+    {
+        m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+    }
+
+    void SystemValues::stopVacuumGuages()
+    {
+         m_experimentEngine->machines().stopReadVacuum();
     }
 
     void SystemValues::hardwardThreadStart()
@@ -156,7 +167,7 @@ namespace App { namespace View { namespace Managers
         refreshGeneralSettings();
 
         // Start guage state machine
-        m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+        startVacuumGuages();
     }
 
     void SystemValues::guageReadingChanged(QVariantMap data)
@@ -178,6 +189,18 @@ namespace App { namespace View { namespace Managers
             // Get pressure boundies
             int upper = chamber["upper_set_point"].toInt();
             int lower = chamber["lower_set_point"].toInt();
+
+            // Are we within pressure?
+            state = (presssure > lower && presssure < upper) ? 1 : 2 ;
+        }
+        else if(data["view_status"].toInt() != 3 && guageId >= 7)
+        {
+            // Get pump settings
+            auto pump = m_settings->general()->pump(guageId - 6);
+
+            // Get pressure boundies
+            int upper = pump["upper_set_point"].toInt();
+            int lower = pump["lower_set_point"].toInt();
 
             // Are we within pressure?
             state = (presssure > lower && presssure < upper) ? 1 : 2 ;
@@ -488,6 +511,9 @@ namespace App { namespace View { namespace Managers
 
         // Update view
         setGeneralSettingEnables();
+
+        // Stop (with will then restart) vacuum gauge state machine
+        stopVacuumGuages();
 
         // Tell everyone we've updated
         emit_controlChanged(m_control);

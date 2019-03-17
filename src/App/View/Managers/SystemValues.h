@@ -88,6 +88,9 @@ namespace App { namespace View { namespace Managers
             void pumpChange(QVariantMap data);
             void guageReadingChanged(QVariantMap data);
 
+            void startVacuumGuages();
+            void stopVacuumGuages();
+
             void hardwardThreadStart();
 
         private:
