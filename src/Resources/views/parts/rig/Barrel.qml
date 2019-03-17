@@ -37,6 +37,9 @@ Rectangle
 
             if(barrel.state === 3) // Error
                 return "#cb1c29" // Red
+
+            if(barrel.state === 4) // Error
+                return "#cb1c29" // Red
         }
 
         // Disabled id: 4
@@ -55,6 +58,9 @@ Rectangle
 
             if(barrel.state === 3) // Error
                 return "#a81520" // Red
+
+            if(barrel.state === 4) // Error
+                return "#a81520" // Red
         }
 
         // Disabled id: 4
@@ -72,6 +78,9 @@ Rectangle
                 return "#ffffff"
 
             if(barrel.state === 3) // Sensor Error
+                return "#ffffff"
+
+            if(barrel.state === 4) // Sensor Error
                 return "#ffffff"
         }
 
@@ -263,7 +272,10 @@ Rectangle
                         return "Attention"
 
                     if(barrel.state === 3)
-                        return "ERORR"
+                        return "Error"
+
+                    if(barrel.state === 4)
+                        return "Tripped"
                 }
 
                 return "Disabled"

@@ -33,6 +33,8 @@
 
         "poll": 100,
 
+        "trip_poll": 500,
+
         "mappings_1-4":
         {
             "1": 1,

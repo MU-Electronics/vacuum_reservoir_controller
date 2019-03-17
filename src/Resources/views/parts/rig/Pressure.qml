@@ -40,6 +40,9 @@ Rectangle
 
             if(pressure.state === 3) // Sensor Error
                 return "#cb1c29" // Red
+
+            if(pressure.state === 4) // Sensor Error
+                return "#cb1c29" // Red
         }
 
         // Disabled id: 4
@@ -58,6 +61,9 @@ Rectangle
 
             if(pressure.state === 3) // Sensor Error
                 return "#a81520" // Red
+
+            if(pressure.state === 4) // Sensor Error
+                return "#a81520" // Red
         }
 
         // Disabled id: 4
@@ -75,6 +81,9 @@ Rectangle
                 return "#ffffff"
 
             if(pressure.state === 3) // Sensor Error
+                return "#ffffff"
+
+            if(pressure.state === 4) // Sensor Error
                 return "#ffffff"
         }
 

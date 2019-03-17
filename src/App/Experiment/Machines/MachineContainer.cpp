@@ -1,11 +1,5 @@
 #include "MachineContainer.h"
 
-// Include extenral deps
-#include <QObject>
-
-// Include settings container
-#include "../../Settings/Container.h"
-
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -15,14 +9,18 @@ namespace App { namespace Experiment { namespace Machines
 
             // State machines
         ,   m_readPressure(*new ReadPressure(parent, settings, hardware))
+        ,   m_readGuageTrip(*new ReadGuageTrip(parent, settings, hardware))
     {
         // Connect the finished signals for the machine set pressure emit_pressuriseStopped
         connect(&m_readPressure, &ReadPressure::emit_machineStopping, this, &MachineContainer::emit_vacuumMachineStopping);
         connect(&m_readPressure, &ReadPressure::emit_machineFinished, this, &MachineContainer::emit_vacuumMachineStopped);
         connect(&m_readPressure, &ReadPressure::emit_machineFailed, this, &MachineContainer::emit_vacuumMachineFailed);
 
-        //connect(m_StartButton, SIGNAL(clicked()), this, SIGNAL(sig_StartClik()));
-
+        connect(&m_readGuageTrip, &ReadGuageTrip::emit_machineStopping, this, &MachineContainer::emit_vacuumTripMachineStopping);
+        connect(&m_readGuageTrip, &ReadGuageTrip::emit_machineFinished, this, &MachineContainer::emit_vacuumTripMachineStopped);
+        connect(&m_readGuageTrip, &ReadGuageTrip::emit_machineFailed, this, &MachineContainer::emit_vacuumTripMachineFailed);
+        connect(&m_readGuageTrip, &ReadGuageTrip::emit_guageTripped, this, &MachineContainer::emit_guageTripped);
+        connect(&m_readGuageTrip, &ReadGuageTrip::emit_guageTrippedFailed, this, &MachineContainer::emit_guageTrippedFailed);
     }
 
     MachineContainer::~MachineContainer(){}
@@ -51,6 +49,21 @@ namespace App { namespace Experiment { namespace Machines
     void MachineContainer::stopReadVacuum()
     {
         m_readPressure.cancelStateMachine();
+    }
+
+
+
+
+
+    void MachineContainer::startReadingTripVacuumGuages(QString mode)
+    {
+        m_readGuageTrip.setParams(mode);
+        m_readGuageTrip.start();
+    }
+
+    void MachineContainer::stopReadTripVacuum()
+    {
+        m_readGuageTrip.cancelStateMachine();
     }
 
 

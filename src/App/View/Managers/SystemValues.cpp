@@ -39,20 +39,28 @@ namespace App { namespace View { namespace Managers
         // Valve values
         m_valve.insert("1_status", int(ValveStatus::closed)); // Statuses::disabled
         m_valve.insert("1_name", "V1");
+        m_valve.insert("1_trip", 0);
         m_valve.insert("2_status", int(ValveStatus::closed));
         m_valve.insert("2_name", "V2");
+        m_valve.insert("2_trip", 0);
         m_valve.insert("3_status", int(ValveStatus::closed));
         m_valve.insert("3_name", "V3");
+        m_valve.insert("3_trip", 0);
         m_valve.insert("4_status", int(ValveStatus::closed));
         m_valve.insert("4_name", "V4");
+        m_valve.insert("4_trip", 0);
         m_valve.insert("5_status", int(ValveStatus::closed));
         m_valve.insert("5_name", "V5");
+        m_valve.insert("5_trip", 0);
         m_valve.insert("6_status", int(ValveStatus::closed));
         m_valve.insert("6_name", "V6");
+        m_valve.insert("6_trip", 0);
         m_valve.insert("7_status", int(ValveStatus::closed));
         m_valve.insert("7_name", "V7");
+        m_valve.insert("7_trip", 0);
         m_valve.insert("8_status", int(ValveStatus::closed));
         m_valve.insert("8_name", "V8");
+        m_valve.insert("8_trip", 0);
         emit_valveChanged(m_valve);
 
         // Barrel values
@@ -146,6 +154,8 @@ namespace App { namespace View { namespace Managers
         // Guage status
         connect(&hardware, &Hardware::Access::emit_guageReadVacuum, this, &SystemValues::guageReadingChanged);
         connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_vacuumMachineStopped, this, &SystemValues::startVacuumGuages);
+        connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_guageTripped, this, &SystemValues::guageTripChanged);
+
 
         // Barrell status
 
@@ -154,11 +164,13 @@ namespace App { namespace View { namespace Managers
     void SystemValues::startVacuumGuages()
     {
         m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+        m_experimentEngine->machines().startReadingTripVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
     }
 
     void SystemValues::stopVacuumGuages()
     {
          m_experimentEngine->machines().stopReadVacuum();
+         m_experimentEngine->machines().stopReadTripVacuum();
     }
 
     void SystemValues::hardwardThreadStart()
@@ -168,6 +180,14 @@ namespace App { namespace View { namespace Managers
 
         // Start guage state machine
         startVacuumGuages();
+    }
+
+    void SystemValues::guageTripChanged(int group, bool state)
+    {
+        // Update valve
+        m_pressure.insert(QString::number(group) + "_trip", state);
+
+        // We'll let guageReadingChanged update the trip on LCD
     }
 
     void SystemValues::guageReadingChanged(QVariantMap data)
@@ -181,7 +201,7 @@ namespace App { namespace View { namespace Managers
         int state = 3;
 
         // If not error are we within the pressure boundary for chamber?
-        if(data["view_status"].toInt() != 3 && guageId < 7)
+        if(data["view_status"].toInt() != 3 && guageId < 7 && m_pressure[guageIdS+"_trip"].toBool() == false)
         {
             // Get chamber settings
             auto chamber = m_settings->general()->chamber(guageId);
@@ -193,7 +213,7 @@ namespace App { namespace View { namespace Managers
             // Are we within pressure?
             state = (presssure > lower && presssure < upper) ? 1 : 2 ;
         }
-        else if(data["view_status"].toInt() != 3 && guageId >= 7)
+        else if(data["view_status"].toInt() != 3 && guageId >= 7 && m_pressure[guageIdS+"_trip"].toBool() == false)
         {
             // Get pump settings
             auto pump = m_settings->general()->pump(guageId - 6);
@@ -205,8 +225,12 @@ namespace App { namespace View { namespace Managers
             // Are we within pressure?
             state = (presssure > lower && presssure < upper) ? 1 : 2 ;
         }
+        else if(m_pressure[guageIdS+"_trip"].toBool() == true) // The guage has tripped
+        {
+            state = 4;
+        }
 
-        // Update valve
+        // Update guage
         m_pressure.insert(guageIdS + "_status", state);
 
         // Update barrel

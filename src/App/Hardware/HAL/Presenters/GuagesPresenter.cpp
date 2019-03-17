@@ -110,9 +110,9 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageReadTrip";
         presented["guage_id"] = commands["guage_id"];
 
-        // Logic
-        presented["status"] = bool(package.at(0).toInt());
-        presented["status_int"] = package.at(0).toInt();
+        // Logic (Invert logic as tripped is pulled low)
+        presented["status"] = !bool(package.at(0).toInt());
+        presented["status_int"] = presented["status"].toInt();
 
         return presented;
     }

@@ -37,6 +37,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
     {
         // Generate command
         QVariantMap command = m_commandConstructor.guageReadTrip(group);
+        //qDebug() << command;
 
         // Register id
         registerId(command.value("command_identifier").toString());
@@ -79,7 +80,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 // Data to pass on
                 successPackage.insert("requested_gauge_group", group);
-                successPackage.insert("trip", package.value("status").toBool());
+                successPackage.insert("status", package.value("status").toBool());
 
                 // Emit safe to proceed
                 emit emit_validationSuccess(successPackage);

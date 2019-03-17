@@ -87,6 +87,7 @@ namespace App { namespace View { namespace Managers
             void valveChange(QVariantMap data);
             void pumpChange(QVariantMap data);
             void guageReadingChanged(QVariantMap data);
+            void guageTripChanged(int group, bool state);
 
             void startVacuumGuages();
             void stopVacuumGuages();

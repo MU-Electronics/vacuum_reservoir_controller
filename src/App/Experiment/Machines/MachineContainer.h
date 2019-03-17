@@ -14,6 +14,7 @@
 
 // Include state machines
 #include "ReadPressure.h"
+#include "ReadGuageTrip.h"
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -35,6 +36,9 @@ namespace App { namespace Experiment { namespace Machines
             void startReadingVacuumGuages(QString mode = "manual_control_enabled");
             void stopReadVacuum();
 
+            void startReadingTripVacuumGuages(QString mode = "manual_control_enabled");
+            void stopReadTripVacuum();
+
             // Pump state machine control
 
             // Valve state machine control
@@ -48,12 +52,20 @@ namespace App { namespace Experiment { namespace Machines
             void emit_vacuumMachineFailed(QVariantMap params);
             void emit_vacuumMachineStopping(QVariantMap params);
 
+            void emit_vacuumTripMachineStarted(QString mode);
+            void emit_vacuumTripMachineStopped(QVariantMap params);
+            void emit_vacuumTripMachineFailed(QVariantMap params);
+            void emit_vacuumTripMachineStopping(QVariantMap params);
+            void emit_guageTripped(int guage, bool state);
+            void emit_guageTrippedFailed();
+
         private:
             // Holds the application settings
             Settings::Container* m_settings;
 
             // State machines
             ReadPressure& m_readPressure;
+            ReadGuageTrip& m_readGuageTrip;
 
     };
 }}}
