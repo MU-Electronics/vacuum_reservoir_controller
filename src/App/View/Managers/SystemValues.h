@@ -171,6 +171,8 @@ namespace App { namespace View { namespace Managers
                 beingToppedUp = 3,
                 disabled = 0
             };
+
+            QString currentMode();
     };
 }}}
 

@@ -162,9 +162,17 @@ namespace App { namespace View { namespace Managers
 
     }
 
+    QString SystemValues::currentMode()
+    {
+        QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
+        enableKey = (m_control["remote"] == true) ? "remote_control_enabled" : enableKey ;
+
+        return enableKey;
+    }
+
     void SystemValues::startVacuumGuages()
     {
-        m_experimentEngine->machines().startReadingVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+        m_experimentEngine->machines().startReadingVacuumGuages(currentMode());
     }
 
     void SystemValues::stopVacuumGuages()
@@ -174,7 +182,7 @@ namespace App { namespace View { namespace Managers
 
     void SystemValues::startVacuumTripGuages()
     {
-        m_experimentEngine->machines().startReadingTripVacuumGuages((m_control["manual_auto"].toBool()) ? "auto_control_enabled" : "manual_control_enabled");
+        m_experimentEngine->machines().startReadingTripVacuumGuages(currentMode());
     }
 
     void SystemValues::stopVacuumTripGuages()
@@ -189,6 +197,7 @@ namespace App { namespace View { namespace Managers
 
         // Start guage state machine
         startVacuumGuages();
+        startVacuumTripGuages();
     }
 
     void SystemValues::guageTripChanged(int group, bool state)
@@ -405,7 +414,7 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_6 = general->chamber(6);
 
         // System state
-        QString enableKey = (m_control["manual_auto"] == false) ? "manual_control_enabled" : "auto_control_enabled" ;
+        QString enableKey = currentMode();
 
         // Disable / Off values
         m_valve.insert("1_enabled", generalChamber_1[enableKey]);
