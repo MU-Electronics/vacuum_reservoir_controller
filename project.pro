@@ -15,3 +15,4 @@ src.depends = vendor/qutipi-cpp
 # Include read me files and licensing
 DISTFILES += \
     readme.md
+

@@ -78,7 +78,8 @@ SOURCES += \
     App/Experiment/Machines/Functions/PumpFunctions.cpp \
     App/Experiment/Machines/Functions/RemoteFunctions.cpp \
     App/Experiment/Machines/Functions/TemperatureSensorFunctions.cpp \
-    App/Experiment/Machines/ReadGuageTrip.cpp
+    App/Experiment/Machines/ReadGuageTrip.cpp \
+    App/Experiment/Machines/PumpControl.cpp
 
 # Include all the header files
 HEADERS += \
@@ -134,7 +135,8 @@ HEADERS += \
     App/Experiment/Machines/Functions/PumpFunctions.h \
     App/Experiment/Machines/Functions/RemoteFunctions.h \
     App/Experiment/Machines/Functions/TemperatureSensorFunctions.h \
-    App/Experiment/Machines/ReadGuageTrip.h
+    App/Experiment/Machines/ReadGuageTrip.h \
+    App/Experiment/Machines/PumpControl.h
 
 
 # Include the resource file

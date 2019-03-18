@@ -157,7 +157,6 @@ namespace App { namespace View { namespace Managers
         connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_guageTripped, this, &SystemValues::guageTripChanged);
         connect(&m_experimentEngine->machines(), &Experiment::Machines::MachineContainer::emit_vacuumTripMachineStopped, this, &SystemValues::startVacuumTripGuages);
 
-
         // Barrell status
 
     }
