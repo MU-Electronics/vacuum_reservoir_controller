@@ -78,7 +78,7 @@ Popup {
             anchors.topMargin: 0
             color: "#151515";
             maximumLength: 25
-            text: SystemValuesManager.commentState[popup.set + "_value"]
+            text: SystemValuesManager.commentSettings[popup.set + "_value"]
         }
 
         Rectangle{

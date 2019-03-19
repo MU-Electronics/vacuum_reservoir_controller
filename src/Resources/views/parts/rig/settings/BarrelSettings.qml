@@ -93,7 +93,7 @@ Popup {
                     id: barrelAutoState
                     width:150
                     model: ["Disable", "Enable"]
-                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_auto"]) ? 1 :0
+                    currentIndex: (SystemValuesManager.barrelSettings[popup.set + "_auto"]) ? 1 :0
                 }
 
                 Item{
@@ -123,7 +123,7 @@ Popup {
                     id: barrelManualState
                     width:150
                     model: ["Disable", "Enable"]
-                    currentIndex: (SystemValuesManager.barrelState[popup.set + "_manual"]) ? 1 : 0
+                    currentIndex: (SystemValuesManager.barrelSettings[popup.set + "_manual"]) ? 1 : 0
                 }
             }
         }
@@ -162,7 +162,7 @@ Popup {
                 SpinBox {
                     id: barrelAlarmSetPointState
                     width: 150
-                    value: SystemValuesManager.barrelState[popup.set + "_alarm_pressure"]
+                    value: SystemValuesManager.barrelSettings[popup.set + "_alarm_pressure"]
                     from:1
                     to:500
                 }
@@ -193,7 +193,7 @@ Popup {
                 SpinBox {
                     id: barrelAlarmTimeState
                     width: 180
-                    value: SystemValuesManager.barrelState[popup.set + "_alarm_time"]
+                    value: SystemValuesManager.barrelSettings[popup.set + "_alarm_time"]
                     from:1
                     to: 1000
                 }
@@ -235,7 +235,7 @@ Popup {
                 SpinBox {
                     id: barrelLowerSetPoint
                     width: 150
-                    value: SystemValuesManager.barrelState[popup.set + "_lower_set_point"]
+                    value: SystemValuesManager.barrelSettings[popup.set + "_lower_set_point"]
                     from: 1
                     to: 800
                 }
@@ -267,9 +267,9 @@ Popup {
                     id: barrelUpperSetPointstate
                     width: 150
                     value: {
-                        if(barrelLowerSetPoint.value + 50 > SystemValuesManager.barrelState[popup.set + "_upper_set_point"])
+                        if(barrelLowerSetPoint.value + 50 > SystemValuesManager.barrelSettings[popup.set + "_upper_set_point"])
                             return barrelLowerSetPoint.value + 50
-                        return SystemValuesManager.barrelState[popup.set + "_upper_set_point"]
+                        return SystemValuesManager.barrelSettings[popup.set + "_upper_set_point"]
                     }
                     from: barrelLowerSetPoint.value + 50
                     to: 900

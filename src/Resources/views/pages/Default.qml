@@ -73,7 +73,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["1_value"];
             pressure_name: SystemValuesManager.pressureState["1_name"];
 
-            comment: SystemValuesManager.commentState["1_value"];
+            comment: SystemValuesManager.commentSettings["1_value"];
         }
 
         DefaultChamber
@@ -93,7 +93,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["2_value"];
             pressure_name: SystemValuesManager.pressureState["2_name"];
 
-            comment: SystemValuesManager.commentState["2_value"];
+            comment: SystemValuesManager.commentSettings["2_value"];
         }
 
         DefaultChamber
@@ -113,7 +113,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["3_value"];
             pressure_name: SystemValuesManager.pressureState["3_name"];
 
-            comment: SystemValuesManager.commentState["3_value"];
+            comment: SystemValuesManager.commentSettings["3_value"];
         }
 
         DefaultChamber
@@ -133,7 +133,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["4_value"];
             pressure_name: SystemValuesManager.pressureState["4_name"];
 
-            comment: SystemValuesManager.commentState["4_value"];
+            comment: SystemValuesManager.commentSettings["4_value"];
         }
 
         DefaultChamber
@@ -153,7 +153,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["5_value"];
             pressure_name: SystemValuesManager.pressureState["5_name"];
 
-            comment: SystemValuesManager.commentState["5_value"];
+            comment: SystemValuesManager.commentSettings["5_value"];
         }
 
         DefaultChamber
@@ -173,7 +173,7 @@ Item{
             pressure_value: SystemValuesManager.pressureState["6_value"];
             pressure_name: SystemValuesManager.pressureState["6_name"];
 
-            comment: SystemValuesManager.commentState["6_value"];
+            comment: SystemValuesManager.commentSettings["6_value"];
         }
     }
 

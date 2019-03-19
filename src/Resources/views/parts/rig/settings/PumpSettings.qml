@@ -96,7 +96,7 @@ Popup {
                     id: pumpAutoState
                     width:150
                     model: ["Disable", "Enable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_auto"]) ? 1 : 0
+                    currentIndex: (SystemValuesManager.pumpSettings[popup.pumpId + "_auto"]) ? 1 : 0
                 }
 
                 Item{
@@ -126,7 +126,7 @@ Popup {
                     id: pumpManualState
                     width:150
                     model: ["Disable", "Enable"]
-                    currentIndex: (SystemValuesManager.pumpState[popup.pumpId + "_manual"]) ? 1 : 0
+                    currentIndex: (SystemValuesManager.pumpSettings[popup.pumpId + "_manual"]) ? 1 : 0
                 }
             }
         }
@@ -166,7 +166,7 @@ Popup {
                 SpinBox {
                     id: pumpAlarmState
                     width: 150
-                    value: SystemValuesManager.pumpState[popup.pumpId + "_alarm_pressure"]
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_pressure"]
                     from:1
                     to:500
                 }
@@ -197,7 +197,7 @@ Popup {
                 SpinBox {
                     id: pumpAlarmTimeState
                     width: 200
-                    value: SystemValuesManager.pumpState[popup.pumpId + "_alarm_time"]
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_time"]
                     from:1
                     to:1000
                 }
@@ -239,7 +239,7 @@ Popup {
                 SpinBox {
                     id: lowerPumpSetPoint
                     width: 120
-                    value: SystemValuesManager.pumpState[popup.pumpId + "_lower_set_point"]
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_lower_set_point"]
                     from:1
                     to:800
                 }
@@ -271,9 +271,9 @@ Popup {
                     id: pumpUpperSetPointState
                     width: 120
                     value: {
-                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpState[popup.pumpId + "_upper_set_point"])
+                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"])
                             return lowerPumpSetPoint.value + 50
-                        return SystemValuesManager.pumpState[popup.pumpId + "_upper_set_point"]
+                        return SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"]
                     }
                     from: lowerPumpSetPoint.value + 50
                     to:900
@@ -305,7 +305,7 @@ Popup {
                 SpinBox {
                     id: pumpWarmupState
                     width: 130
-                    value: SystemValuesManager.pumpState[popup.pumpId + "_warm_up"]
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_warm_up"]
                     from:1
                     to:100
                 }

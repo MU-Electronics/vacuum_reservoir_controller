@@ -38,9 +38,11 @@ namespace App { namespace View { namespace Managers
         Q_PROPERTY(QVariantMap valveState READ valveState NOTIFY emit_valveChanged)
         Q_PROPERTY(QVariantMap barrelState READ barrelState NOTIFY emit_barrelChanged)
         Q_PROPERTY(QVariantMap pressureState READ pressureState NOTIFY emit_pressureChanged)
-        Q_PROPERTY(QVariantMap commentState READ commentState NOTIFY emit_commentChanged)
+        Q_PROPERTY(QVariantMap commentSettings READ commentSettings NOTIFY emit_commentSettingsChanged)
         Q_PROPERTY(QVariantMap pumpState READ pumpState NOTIFY emit_pumpChanged)
         Q_PROPERTY(QVariantMap controlState READ controlState NOTIFY emit_controlChanged)
+        Q_PROPERTY(QVariantMap pumpSettings READ pumpSettings NOTIFY emit_pumpSettingsChanged)
+        Q_PROPERTY(QVariantMap barrelSettings READ barrelSettings NOTIFY emit_barrelSettingsChanged)
         AUTO_PROPERTY(bool, initialising)
 
         public:
@@ -55,9 +57,12 @@ namespace App { namespace View { namespace Managers
             QVariantMap valveState() const { return m_valve; }
             QVariantMap barrelState() const { return m_barrel; }
             QVariantMap pressureState() const { return m_pressure; }
-            QVariantMap commentState() const { return m_comment; }
             QVariantMap pumpState() const { return m_pump; }
             QVariantMap controlState() const { return m_control; }
+            QVariantMap pumpSettings() const { return m_pumpSettings; }
+            QVariantMap barrelSettings() const { return m_barrelSettings; }
+            QVariantMap commentSettings() const { return m_commentSettings; }
+
 
             void emergancyStopIntr();
 
@@ -66,9 +71,11 @@ namespace App { namespace View { namespace Managers
             void emit_valveChanged(QVariantMap);
             void emit_barrelChanged(QVariantMap);
             void emit_pressureChanged(QVariantMap);
-            void emit_commentChanged(QVariantMap);
             void emit_pumpChanged(QVariantMap);
             void emit_controlChanged(QVariantMap);
+            void emit_pumpSettingsChanged(QVariantMap);
+            void emit_barrelSettingsChanged(QVariantMap);
+            void emit_commentSettingsChanged(QVariantMap);
 
             // Hardware thread propergation
             void hardwareRequest(QVariantMap command);
@@ -117,15 +124,17 @@ namespace App { namespace View { namespace Managers
 
             // Holds all the barrel status data
             QVariantMap m_barrel;
+            QVariantMap m_barrelSettings;
 
             // Holds all the pressure sensor data
             QVariantMap m_pressure;
 
             // Holds all the pump data
             QVariantMap m_pump;
+            QVariantMap m_pumpSettings;
 
             // Holds all comments
-            QVariantMap m_comment;
+            QVariantMap m_commentSettings;
 
             // Status types
             enum class Statuses: int

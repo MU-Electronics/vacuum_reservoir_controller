@@ -313,13 +313,13 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_6 = general->chamber(6);
 
         // Comment values
-        m_comment.insert("1_value", generalChamber_1["comment"]);
-        m_comment.insert("2_value", generalChamber_2["comment"]);
-        m_comment.insert("3_value", generalChamber_3["comment"]);
-        m_comment.insert("4_value", generalChamber_4["comment"]);
-        m_comment.insert("5_value", generalChamber_5["comment"]);
-        m_comment.insert("6_value", generalChamber_6["comment"]);
-        emit_commentChanged(m_comment);
+        m_commentSettings.insert("1_value", generalChamber_1["comment"]);
+        m_commentSettings.insert("2_value", generalChamber_2["comment"]);
+        m_commentSettings.insert("3_value", generalChamber_3["comment"]);
+        m_commentSettings.insert("4_value", generalChamber_4["comment"]);
+        m_commentSettings.insert("5_value", generalChamber_5["comment"]);
+        m_commentSettings.insert("6_value", generalChamber_6["comment"]);
+        emit emit_commentSettingsChanged(m_commentSettings);
     }
 
 
@@ -341,35 +341,53 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_5 = general->chamber(5);
         auto generalChamber_6 = general->chamber(6);
 
-        m_barrel.insert("1_lower_set_point", generalChamber_1["lower_set_point"]);
-        m_barrel.insert("1_upper_set_point", generalChamber_1["upper_set_point"]);
-        m_barrel.insert("1_alarm_pressure", generalChamber_1["alarm_pressure"]);
-        m_barrel.insert("1_alarm_time", generalChamber_1["alarm_time"]);
+        m_barrelSettings.insert("1_lower_set_point", generalChamber_1["lower_set_point"]);
+        m_barrelSettings.insert("1_upper_set_point", generalChamber_1["upper_set_point"]);
+        m_barrelSettings.insert("1_alarm_pressure", generalChamber_1["alarm_pressure"]);
+        m_barrelSettings.insert("1_alarm_time", generalChamber_1["alarm_time"]);
 
-        m_barrel.insert("2_lower_set_point", generalChamber_2["lower_set_point"]);
-        m_barrel.insert("2_upper_set_point", generalChamber_2["upper_set_point"]);
-        m_barrel.insert("2_alarm_pressure", generalChamber_2["alarm_pressure"]);
-        m_barrel.insert("2_alarm_time", generalChamber_2["alarm_time"]);
+        m_barrelSettings.insert("2_lower_set_point", generalChamber_2["lower_set_point"]);
+        m_barrelSettings.insert("2_upper_set_point", generalChamber_2["upper_set_point"]);
+        m_barrelSettings.insert("2_alarm_pressure", generalChamber_2["alarm_pressure"]);
+        m_barrelSettings.insert("2_alarm_time", generalChamber_2["alarm_time"]);
 
-        m_barrel.insert("3_lower_set_point", generalChamber_3["lower_set_point"]);
-        m_barrel.insert("3_upper_set_point", generalChamber_3["upper_set_point"]);
-        m_barrel.insert("3_alarm_pressure", generalChamber_3["alarm_pressure"]);
-        m_barrel.insert("3_alarm_time", generalChamber_3["alarm_time"]);
+        m_barrelSettings.insert("3_lower_set_point", generalChamber_3["lower_set_point"]);
+        m_barrelSettings.insert("3_upper_set_point", generalChamber_3["upper_set_point"]);
+        m_barrelSettings.insert("3_alarm_pressure", generalChamber_3["alarm_pressure"]);
+        m_barrelSettings.insert("3_alarm_time", generalChamber_3["alarm_time"]);
 
-        m_barrel.insert("4_lower_set_point", generalChamber_4["lower_set_point"]);
-        m_barrel.insert("4_upper_set_point", generalChamber_4["upper_set_point"]);
-        m_barrel.insert("4_alarm_pressure", generalChamber_4["alarm_pressure"]);
-        m_barrel.insert("4_alarm_time", generalChamber_4["alarm_time"]);
+        m_barrelSettings.insert("4_lower_set_point", generalChamber_4["lower_set_point"]);
+        m_barrelSettings.insert("4_upper_set_point", generalChamber_4["upper_set_point"]);
+        m_barrelSettings.insert("4_alarm_pressure", generalChamber_4["alarm_pressure"]);
+        m_barrelSettings.insert("4_alarm_time", generalChamber_4["alarm_time"]);
 
-        m_barrel.insert("5_lower_set_point", generalChamber_5["lower_set_point"]);
-        m_barrel.insert("5_upper_set_point", generalChamber_5["upper_set_point"]);
-        m_barrel.insert("5_alarm_pressure", generalChamber_5["alarm_pressure"]);
-        m_barrel.insert("5_alarm_time", generalChamber_5["alarm_time"]);
+        m_barrelSettings.insert("5_lower_set_point", generalChamber_5["lower_set_point"]);
+        m_barrelSettings.insert("5_upper_set_point", generalChamber_5["upper_set_point"]);
+        m_barrelSettings.insert("5_alarm_pressure", generalChamber_5["alarm_pressure"]);
+        m_barrelSettings.insert("5_alarm_time", generalChamber_5["alarm_time"]);
 
-        m_barrel.insert("6_lower_set_point", generalChamber_6["lower_set_point"]);
-        m_barrel.insert("6_upper_set_point", generalChamber_6["upper_set_point"]);
-        m_barrel.insert("6_alarm_pressure", generalChamber_6["alarm_pressure"]);
-        m_barrel.insert("6_alarm_time", generalChamber_6["alarm_time"]);
+        m_barrelSettings.insert("6_lower_set_point", generalChamber_6["lower_set_point"]);
+        m_barrelSettings.insert("6_upper_set_point", generalChamber_6["upper_set_point"]);
+        m_barrelSettings.insert("6_alarm_pressure", generalChamber_6["alarm_pressure"]);
+        m_barrelSettings.insert("6_alarm_time", generalChamber_6["alarm_time"]);
+
+        m_barrelSettings.insert("1_manual", generalChamber_1["manual_control_enabled"]);
+        m_barrelSettings.insert("1_auto", generalChamber_1["auto_control_enabled"]);
+
+        m_barrelSettings.insert("2_manual", generalChamber_2["manual_control_enabled"]);
+        m_barrelSettings.insert("2_auto", generalChamber_2["auto_control_enabled"]);
+
+        m_barrelSettings.insert("3_manual", generalChamber_3["manual_control_enabled"]);
+        m_barrelSettings.insert("3_auto", generalChamber_3["auto_control_enabled"]);
+
+        m_barrelSettings.insert("4_manual", generalChamber_4["manual_control_enabled"]);
+        m_barrelSettings.insert("4_auto", generalChamber_4["auto_control_enabled"]);
+
+        m_barrelSettings.insert("5_manual", generalChamber_5["manual_control_enabled"]);
+        m_barrelSettings.insert("5_auto", generalChamber_5["auto_control_enabled"]);
+
+        m_barrelSettings.insert("6_manual", generalChamber_6["manual_control_enabled"]);
+        m_barrelSettings.insert("6_auto", generalChamber_6["auto_control_enabled"]);
 
 
 
@@ -377,22 +395,26 @@ namespace App { namespace View { namespace Managers
         auto generalPump_1 = general->pump(1);
         auto generalPump_2 = general->pump(1);
 
-        m_pump.insert("1_lower_set_point", generalPump_1["lower_set_point"]);
-        m_pump.insert("1_upper_set_point", generalPump_1["upper_set_point"]);
-        m_pump.insert("1_warm_up", generalPump_1["warm_up"]);
-        m_pump.insert("1_alarm_pressure", generalPump_1["alarm_pressure"]);
-        m_pump.insert("1_alarm_time", generalPump_1["alarm_time"]);
+        m_pumpSettings.insert("1_lower_set_point", generalPump_1["lower_set_point"]);
+        m_pumpSettings.insert("1_upper_set_point", generalPump_1["upper_set_point"]);
+        m_pumpSettings.insert("1_warm_up", generalPump_1["warm_up"]);
+        m_pumpSettings.insert("1_alarm_pressure", generalPump_1["alarm_pressure"]);
+        m_pumpSettings.insert("1_alarm_time", generalPump_1["alarm_time"]);
+        m_pumpSettings.insert("1_auto", generalPump_1["auto_control_enabled"]);
+        m_pumpSettings.insert("1_manual", generalPump_1["manual_control_enabled"]);
 
-        m_pump.insert("2_lower_set_point", generalPump_2["lower_set_point"]);
-        m_pump.insert("2_upper_set_point", generalPump_2["upper_set_point"]);
-        m_pump.insert("2_warm_up", generalPump_2["warm_up"]);
-        m_pump.insert("2_alarm_pressure", generalPump_2["alarm_pressure"]);
-        m_pump.insert("2_alarm_time", generalPump_2["alarm_time"]);
+        m_pumpSettings.insert("2_lower_set_point", generalPump_2["lower_set_point"]);
+        m_pumpSettings.insert("2_upper_set_point", generalPump_2["upper_set_point"]);
+        m_pumpSettings.insert("2_warm_up", generalPump_2["warm_up"]);
+        m_pumpSettings.insert("2_alarm_pressure", generalPump_2["alarm_pressure"]);
+        m_pumpSettings.insert("2_alarm_time", generalPump_2["alarm_time"]);
+        m_pumpSettings.insert("1_auto", generalPump_2["auto_control_enabled"]);
+        m_pumpSettings.insert("1_manual", generalPump_2["manual_control_enabled"]);
 
 
         // Update the interface
-        emit_barrelChanged(m_barrel);
-        emit_pumpChanged(m_pump);
+        emit emit_barrelSettingsChanged(m_barrelSettings);
+        emit emit_pumpSettingsChanged(m_pumpSettings);
     }
 
 
