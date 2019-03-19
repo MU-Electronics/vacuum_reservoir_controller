@@ -225,10 +225,10 @@ namespace App { namespace View { namespace Managers
 
             // Get pressure boundies
             int upper = chamber["upper_set_point"].toInt();
-            int lower = chamber["lower_set_point"].toInt();
+            // int lower = chamber["lower_set_point"].toInt();
 
             // Are we within pressure?
-            state = (presssure > lower && presssure < upper) ? 1 : 2 ;
+            state = (presssure < upper) ? 1 : 2 ;
         }
         else if(data["view_status"].toInt() != 3 && guageId >= 7 && m_pressure[guageIdS+"_trip"].toBool() == false)
         {
@@ -237,10 +237,10 @@ namespace App { namespace View { namespace Managers
 
             // Get pressure boundies
             int upper = pump["upper_set_point"].toInt();
-            int lower = pump["lower_set_point"].toInt();
+            // int lower = pump["lower_set_point"].toInt();
 
             // Are we within pressure?
-            state = (presssure > lower && presssure < upper) ? 1 : 2 ;
+            state = (presssure < upper) ? 1 : 2 ;
         }
         else if(m_pressure[guageIdS+"_trip"].toBool() == true) // The guage has tripped
         {
