@@ -74,6 +74,16 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
                 // Emit safe to proceed
                 emit emit_validationSuccess(successPackage);
 
+                // More helpful emit
+                if(pumpId == 1)
+                {
+                    emit emit_Pump1On(successPackage);
+                }
+                else if(pumpId == 2)
+                {
+                    emit emit_Pump2On(successPackage);
+                }
+
                 return;
             }
 

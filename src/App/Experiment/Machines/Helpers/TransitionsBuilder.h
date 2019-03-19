@@ -16,6 +16,12 @@
 #include "CommandValidatorState.h"
 
 // Include functions
+#include "../Functions/ValveFunctions.h"
+#include "../Functions/PumpFunctions.h"
+#include "../Functions/EmergancyStopFunctions.h"
+#include "../Functions/GuageFunctions.h"
+#include "../Functions/RemoteFunctions.h"
+#include "../Functions/TemperatureSensorFunctions.h"
 
 
 namespace App { namespace Experiment { namespace Machines { namespace Helpers
@@ -25,7 +31,10 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
     {
         Q_OBJECT
         public:
-            TransitionsBuilder(QObject *parent, Settings::Container* settings, Hardware::Access &hardware);
+            TransitionsBuilder(QObject *parent, Settings::Container *settings, Hardware::Access &hardware,
+                               Functions::EmergancyStopFunctions* emergnacyStop, Functions::ValveFunctions* valve,
+                               Functions::PumpFunctions* pump, Functions::GuageFunctions* guage,
+                               Functions::RemoteFunctions* remote, Functions::TemperatureSensorFunctions* temperature);
 
         signals:
 
@@ -40,8 +49,18 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
             // Hold the hardware gateway
             Hardware::Access &m_hardware;
 
-            // External states
-
+            // Valve related transistions
+            void openValve(QState* open, CommandValidatorState* openValidate,
+                           QState* finished, QState* failed);
+            void closeValve(QState* close, CommandValidatorState* closeValidate,
+                           QState* finished, QState* failed);
+            // Functions
+            Functions::EmergancyStopFunctions* m_emergancyStop;
+            Functions::ValveFunctions* m_valve;
+            Functions::PumpFunctions* m_pump;
+            Functions::GuageFunctions* m_guage;
+            Functions::RemoteFunctions* m_remote;
+            Functions::TemperatureSensorFunctions* m_temperature;
     };
 
 }}}}

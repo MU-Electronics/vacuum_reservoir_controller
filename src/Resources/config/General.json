@@ -13,7 +13,11 @@
             "upper_set_point": 100,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
         "2":
         {
@@ -27,7 +31,11 @@
             "upper_set_point": 1200,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
         "3":
         {
@@ -41,7 +49,11 @@
             "upper_set_point": 100,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
         "4":
         {
@@ -55,7 +67,11 @@
             "upper_set_point": 100,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
         "5":
         {
@@ -69,7 +85,11 @@
             "upper_set_point": 100,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
         "6":
         {
@@ -83,7 +103,11 @@
             "upper_set_point": 100,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         }
     },
 
@@ -107,7 +131,11 @@
             "warm_up": 10,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         },
 
         "2":
@@ -122,7 +150,11 @@
             "warm_up": 10,
 
             "alarm_pressure": 300,
-            "alarm_time": 120
+            "alarm_time": 120,
+
+            "leak_detection": true,
+            "leak_period": 1000,
+            "leak_max": 100
         }
-    }
+    },
 }

@@ -29,10 +29,11 @@ namespace App { namespace Experiment { namespace Machines
      * Set the commands to be used by the machine
      *
      */
-    void ValveControl::setParams(int valveId)
+    void ValveControl::setParams(int valveId, bool state)
     {       
         // Save valve working on
         m_valve = valveId;
+        m_state = state;
     }
 
 
@@ -54,6 +55,7 @@ namespace App { namespace Experiment { namespace Machines
      */
     void ValveControl::stopped()
     {
+
     }
 
 
@@ -64,10 +66,136 @@ namespace App { namespace Experiment { namespace Machines
      */
     void ValveControl::buildMachine()
     {
-        // Where to start the machine
-        sm_master.setInitialState(state("selectPump", true));
+        // Build and run the correct state machine
+        if(m_valve == 1)
+            valveOne(m_state);
+        if(m_valve == 2)
+            valveTwo(m_state);
+        if(m_valve == 3)
+            valveThree(m_state);
+        if(m_valve == 4)
+            valveFour(m_state);
+        if(m_valve == 5)
+            valveFive(m_state);
+        if(m_valve == 6)
+            valveSix(m_state);
+        if(m_valve == 7)
+            valveSeven(m_state);
+        if(m_valve == 8)
+            valveEight(m_state);
+    }
 
-   }
+    void ValveControl::closeAllChambers(QState* returnTo)
+    {
+
+
+    }
+
+    void ValveControl::valveOne(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+            // Close all valves
+
+            // Open valve
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveTwo(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveThree(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveFour(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveFive(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveSix(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveSeven(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
+
+    void ValveControl::valveEight(bool state)
+    {
+        // Open valve
+        if(state)
+        {
+
+        }
+        else // Close valve
+        {
+
+        }
+    }
 
 }}}
 

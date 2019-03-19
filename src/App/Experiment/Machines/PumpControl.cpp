@@ -23,6 +23,17 @@ namespace App { namespace Experiment { namespace Machines
         // Connect states to functions
         connect(state("selectPump", true), &QState::entered, this, &PumpControl::selectPump);
 
+        connect(state("turnPumpOneOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump1);
+        connect(state("turnPumpTwoOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
+
+        connect(state("validateTurnPumpOneOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump1);
+        connect(state("validateTurnPumpTwoOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
+
+        connect(state("warmupPumpOne", true), &QState::entered, this, &PumpControl::startWarmup);
+        connect(state("warmupPumpOne", true), &QState::entered, this, &PumpControl::startWarmup);
+
+        connect(validator("vacuumSufficent", true), &QState::entered, this, &PumpControl::isVacuumSufficent);
+
     }
 
     PumpControl::~PumpControl()
@@ -90,11 +101,34 @@ namespace App { namespace Experiment { namespace Machines
         // Where to start the machine
         sm_master.setInitialState(state("selectPump", true));
 
-        // Pump warmup
-            // Read pressure till hits set point
-                // Open valve
-                    // Wait for pressure to equalise
-                        // Check for leaks then finish
+        // Select pump
+        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump1, state("turnPumpOneOn", true));
+        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump2, state("turnPumpTwoOn", true));
+
+            // Turn on pump
+            state("turnPumpOneOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validateTurnPumpOneOn", true));
+            state("turnPumpTwoOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validateTurnPumpTwoOn", true));
+                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump1On, state("warmupPumpOne", true));
+                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validateTurnPumpOneOn", true));
+                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
+
+                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump2On, state("warmupPumpTwo", true));
+                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
+                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validateTurnPumpTwoOn", true));
+
+                // Warmup pump
+                state("warmupPumpOne", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
+                state("warmupPumpTwo", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
+
+                    // Read pressure till hits set point
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, validator("vacuumSufficent", true));
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openValve", true));
+
+                        // Open valve
+
+                            // Wait for pressure to equalise
+
+                                // Check for leaks then finish
    }
 
 
@@ -107,6 +141,35 @@ namespace App { namespace Experiment { namespace Machines
         }
 
         emit emit_usingPump2();
+    }
+
+
+    void PumpControl::isVacuumSufficent()
+    {
+        // Get the validator state instance
+        Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
+
+        // If cast successfull
+        if(command != nullptr && command->package.value("cast_status").toBool())
+        {
+            // Get the package data from the instance
+            QVariantMap package = command->package;
+
+            // Guage id
+            int guageId = package["requested_gauge_group"].toInt();
+
+            // Guage state
+            double pressure = package["pressure"].toDouble();
+
+            // Only update and alert if value has changed
+            if(guageId - 6 == m_pumpId && pressure < params["upper"].toDouble())
+            {
+                // Guage tripped emit
+                emit emit_vacuumSufficent();
+            }
+        }
+
+        emit emit_vaccumNotSufficient();
     }
 
 

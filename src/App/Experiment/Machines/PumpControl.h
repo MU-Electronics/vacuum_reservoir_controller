@@ -38,10 +38,14 @@ namespace App { namespace Experiment { namespace Machines
             void emit_usingPump1();
             void emit_usingPump2();
 
+            void emit_vacuumSufficent();
+            void emit_vaccumNotSufficient();
+
         public slots:
             void startWarmup();
-
             void selectPump();
+            void isVacuumSufficent();
+
 
         private:
             // Referance to QObject

@@ -59,6 +59,9 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void emit_validationSuccess(QVariantMap data);
             void emit_validationWrongId(QVariantMap data);
 
+            void emit_Pump1On(QVariantMap data);
+            void emit_Pump2On(QVariantMap data);
+
         public slots:
             void enablePump1();
             void enablePump2();

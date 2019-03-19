@@ -46,7 +46,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         ,   m_temperatureSensor(new Functions::TemperatureSensorFunctions(parent, settings, hardware, machine, params, m_commandConstructor))
 
             // Builders to build transition blocks for common state machine logic
-        ,   m_transitionsBuilder(new TransitionsBuilder(parent, settings, hardware))
+        ,   m_transitionsBuilder(new TransitionsBuilder(parent, settings, hardware, m_emergancyStop, m_valves, m_pumps, m_guages, m_remote, m_temperatureSensor))
 
         ,   // Main state for machine
             sm_master(&machine),

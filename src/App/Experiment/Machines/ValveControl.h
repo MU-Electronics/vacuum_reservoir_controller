@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~ValveControl();
 
-            void setParams(int valveId);
+            void setParams(int valveId, bool state);
 
             void beforeStart();
 
@@ -48,6 +48,18 @@ namespace App { namespace Experiment { namespace Machines
             Settings::Container* m_settings;
 
             int m_valve;
+            bool m_state;
+
+            void closeAllChambers(QState *returnTo);
+
+            void valveOne(bool state);
+            void valveTwo(bool state);
+            void valveThree(bool state);
+            void valveFour(bool state);
+            void valveFive(bool state);
+            void valveSix(bool state);
+            void valveSeven(bool state);
+            void valveEight(bool state);
     };
 }}}
 
