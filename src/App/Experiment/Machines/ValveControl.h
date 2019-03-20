@@ -50,16 +50,14 @@ namespace App { namespace Experiment { namespace Machines
             int m_valve;
             bool m_state;
 
-            void closeAllChambers(QState *returnTo);
-
-            void valveOne(bool state);
-            void valveTwo(bool state);
-            void valveThree(bool state);
-            void valveFour(bool state);
-            void valveFive(bool state);
-            void valveSix(bool state);
-            void valveSeven(bool state);
-            void valveEight(bool state);
+            void valveOne(bool logic);
+            void valveTwo(bool logic);
+            void valveThree(bool logic);
+            void valveFour(bool logic);
+            void valveFive(bool logic);
+            void valveSix(bool logic);
+            void valveSeven(bool logic);
+            void valveEight(bool logic);
     };
 }}}
 

@@ -36,6 +36,26 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
                                Functions::PumpFunctions* pump, Functions::GuageFunctions* guage,
                                Functions::RemoteFunctions* remote, Functions::TemperatureSensorFunctions* temperature);
 
+            // Valve related transistions
+            void openValve(QState* open, CommandValidatorState* openValidate,
+                           QState* finished, QState* failed);
+            void closeValve(QState* close, CommandValidatorState* closeValidate,
+                           QState* finished, QState* failed);
+            void closeAllChambers(QState* closeChamber1,
+                                CommandValidatorState* closeChamber1Validate,
+                                QState* closeChamber2,
+                                CommandValidatorState* closeChamber2Validate,
+                                QState* closeChamber3,
+                                CommandValidatorState* closeChamber3Validate,
+                                QState* closeChamber4,
+                                CommandValidatorState* closeChamber4Validate,
+                                QState* closeChamber5,
+                                CommandValidatorState* closeChamber5Validate,
+                                QState* closeChamber6,
+                                CommandValidatorState* closeChamber6Validate,
+                                QState* finished,
+                                QState* failed);
+
         signals:
 
 
@@ -49,11 +69,6 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
             // Hold the hardware gateway
             Hardware::Access &m_hardware;
 
-            // Valve related transistions
-            void openValve(QState* open, CommandValidatorState* openValidate,
-                           QState* finished, QState* failed);
-            void closeValve(QState* close, CommandValidatorState* closeValidate,
-                           QState* finished, QState* failed);
             // Functions
             Functions::EmergancyStopFunctions* m_emergancyStop;
             Functions::ValveFunctions* m_valve;
