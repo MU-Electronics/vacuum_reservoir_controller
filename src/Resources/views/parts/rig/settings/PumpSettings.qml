@@ -255,7 +255,6 @@ Popup {
                         color: "#f1f1f1"
                     }
                 }
-
                 Label{
                     text: "Upper (mbar)"
                     width: 90
@@ -350,6 +349,7 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
+                    console.log(popup.pumpId);
                     // Save values
                     SettingsUpdaterManager.updatePumpSettings(popup.pumpId, pumpAutoState.currentIndex, pumpManualState.currentIndex,
                                                               pumpAlarmState.value, pumpAlarmTimeState.value,

@@ -12,6 +12,9 @@ namespace App { namespace Experiment { namespace Machines
             // Settings container
         ,   m_settings(settings)
 
+            // Sub state machines
+        ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
+
             // Timers
         ,   t_warmup(*new QTimer(parent))
     {
@@ -23,16 +26,12 @@ namespace App { namespace Experiment { namespace Machines
         // Connect states to functions
         connect(state("selectPump", true), &QState::entered, this, &PumpControl::selectPump);
 
-        connect(state("turnPumpOneOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump1);
-        connect(state("turnPumpTwoOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
-
-        connect(state("validateTurnPumpOneOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump1);
-        connect(state("validateTurnPumpTwoOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
-
-        connect(state("warmupPumpOne", true), &QState::entered, this, &PumpControl::startWarmup);
         connect(state("warmupPumpOne", true), &QState::entered, this, &PumpControl::startWarmup);
 
         connect(validator("vacuumSufficent", true), &QState::entered, this, &PumpControl::isVacuumSufficent);
+
+        // Leak state machine
+        connect(state("checkForLeaks", true), &QState::entered, this, &PumpControl::leakDetecter);
 
     }
 
@@ -53,7 +52,7 @@ namespace App { namespace Experiment { namespace Machines
     void PumpControl::setParams(int pump, QString mode)
     {       
         // Time interval for pumps
-        params.insert("timeInter", m_settings->general()->pump(pump)["warm_up"].toInt());
+        params.insert("timeInter", m_settings->general()->pump(pump)["warm_up"].toInt() * 1000);
         t_warmup.setInterval(params["timeInter"].toInt());
 
         // What are enabled?
@@ -67,6 +66,29 @@ namespace App { namespace Experiment { namespace Machines
 
         // Save pump working on
         m_pumpId = pump;
+        transitionsBuilder()->openValve(state("openPumpValve", true), validator("vacuumSufficent", true), state("checkForLeaks", true), state("pumpOff", true));
+
+        if(m_pumpId == 1)
+        {
+            connect(state("pumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump1);
+            connect(validator("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump1);
+
+            connect(state("pumpOff", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump1);
+
+            connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup7);
+            connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup7);
+        }
+        else
+        {
+            connect(state("pumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
+            connect(state("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
+
+            connect(state("pumpOff", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump2);
+
+            connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup8);
+            connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup8);
+
+        }
     }
 
 
@@ -102,34 +124,66 @@ namespace App { namespace Experiment { namespace Machines
         sm_master.setInitialState(state("selectPump", true));
 
         // Select pump
-        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump1, state("turnPumpOneOn", true));
-        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump2, state("turnPumpTwoOn", true));
+        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump1, state("pumpOn", true));
+        state("selectPump", true)->addTransition(this, &PumpControl::emit_usingPump2, state("pumpOn", true));
 
             // Turn on pump
-            state("turnPumpOneOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validateTurnPumpOneOn", true));
-            state("turnPumpTwoOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validateTurnPumpTwoOn", true));
-                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump1On, state("warmupPumpOne", true));
-                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validateTurnPumpOneOn", true));
-                validator("validateTurnPumpOneOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
-
-                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump2On, state("warmupPumpTwo", true));
-                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
-                validator("validateTurnPumpTwoOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validateTurnPumpTwoOn", true));
+            state("pumpOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validatePumpOn", true));
+                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump2On, state("warmupPump", true));
+                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump1On, state("warmupPump", true));
+                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validatePumpOn", true));
+                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
 
                 // Warmup pump
-                state("warmupPumpOne", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
-                state("warmupPumpTwo", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
+                state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
 
                     // Read pressure till hits set point
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, validator("vacuumSufficent", true));
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, validator("warmupPump", true)); // THIS NEED TIMER TO RETEST
                     validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openValve", true));
 
-                        // Open valve
+                    // Check for leaks then finish
 
-                            // Wait for pressure to equalise
+                    // Open valve
+                    transitionsBuilder()->openValve(state("openPumpValve", true), validator("validateOpenPumpValve", true), state("checkForLeaks", true), state("pumpOff", true));
 
-                                // Check for leaks then finish
-   }
+                    // Check for leaks then finish
+                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFinished, &sm_stop);
+                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFailed, state("pumpOff", true));
+
+                    // Before failure turn pump off
+                    state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stopAsFailed);
+
+    }
+
+
+    /**
+     * start leak detector
+     *
+     * @brief PumpControl::leakDetecter
+     */
+    void PumpControl::leakDetecter()
+    {
+        // Set the params
+        m_leakDetection.setParams(m_pumpId + 6, params["period"].toInt(), params["fall"].toInt(), params["sample"].toInt());
+
+        // Build the machine
+        m_leakDetection.buildMachine();
+
+        // Start the machine
+        m_leakDetection.start();
+    }
+
+
+    /**
+     * Stop the leak detector
+     *
+     * @brief PumpControl::stopVent
+     */
+    void PumpControl::stopLeakDetecter()
+    {
+        // Start the machine
+        m_leakDetection.cancelStateMachine();
+    }
 
 
     void PumpControl::selectPump()

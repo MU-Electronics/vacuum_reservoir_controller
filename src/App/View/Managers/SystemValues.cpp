@@ -393,7 +393,7 @@ namespace App { namespace View { namespace Managers
 
         // Pump params
         auto generalPump_1 = general->pump(1);
-        auto generalPump_2 = general->pump(1);
+        auto generalPump_2 = general->pump(2);
 
         m_pumpSettings.insert("1_lower_set_point", generalPump_1["lower_set_point"]);
         m_pumpSettings.insert("1_upper_set_point", generalPump_1["upper_set_point"]);
@@ -408,8 +408,8 @@ namespace App { namespace View { namespace Managers
         m_pumpSettings.insert("2_warm_up", generalPump_2["warm_up"]);
         m_pumpSettings.insert("2_alarm_pressure", generalPump_2["alarm_pressure"]);
         m_pumpSettings.insert("2_alarm_time", generalPump_2["alarm_time"]);
-        m_pumpSettings.insert("1_auto", generalPump_2["auto_control_enabled"]);
-        m_pumpSettings.insert("1_manual", generalPump_2["manual_control_enabled"]);
+        m_pumpSettings.insert("2_auto", generalPump_2["auto_control_enabled"]);
+        m_pumpSettings.insert("2_manual", generalPump_2["manual_control_enabled"]);
 
 
         // Update the interface

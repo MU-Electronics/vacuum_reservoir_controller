@@ -61,6 +61,9 @@ namespace App { namespace View { namespace Managers
         chamber["upper_set_point"] = upperSetPoint;
         chamber["alarm_pressure"] = alarmPressure;
         chamber["alarm_time"] = alarmTime;
+        chamber["leak_detection"] = chamber["leak_detection"].toBool();
+        chamber["leak_period"] = chamber["leak_period"].toInt();
+        chamber["leak_max"] = chamber["leak_max"].toInt();
 
         // Save settings
         if(group == 1)
@@ -93,6 +96,11 @@ namespace App { namespace View { namespace Managers
         pump["alarm_pressure"] = alarmPressure;
         pump["alarm_time"] = alarmTime;
         pump["warm_up"] = warmupTime;
+        pump["leak_detection"] = pump["leak_detection"].toBool();
+        pump["leak_period"] = pump["leak_period"].toInt();
+        pump["leak_max"] = pump["leak_max"].toInt();
+
+        qDebug() << pump;
 
         // Save settings
         if(group == 1)

@@ -199,6 +199,9 @@ namespace App { namespace Settings
             chamber["upper_set_point"] = item["upper_set_point"].toInt();
             chamber["alarm_pressure"] = item["alarm_pressure"].toInt();
             chamber["alarm_time"] = item["alarm_time"].toInt();
+            chamber["leak_detection"] = item["leak_detection"].toBool();
+            chamber["leak_period"] = item["leak_period"].toInt();
+            chamber["leak_max"] = item["leak_max"].toInt();
 
             // Add to main chamber object
             chambers[QString::number(c)] = chamber;
@@ -240,6 +243,9 @@ namespace App { namespace Settings
             pump["alarm_pressure"] = item["alarm_pressure"].toInt();
             pump["alarm_time"] = item["alarm_time"].toInt();
             pump["warm_up"] = item["warm_up"].toInt();
+            pump["leak_detection"] = item["leak_detection"].toBool();
+            pump["leak_period"] = item["leak_period"].toInt();
+            pump["leak_max"] = item["leak_max"].toInt();
 
             // Add to main chamber object
             pumps[QString::number(p)] = pump;

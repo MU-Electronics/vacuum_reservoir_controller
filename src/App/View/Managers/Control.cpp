@@ -74,7 +74,8 @@ namespace App { namespace View { namespace Managers
     {
         if(status)
         {
-            emit hardwareRequest(m_commands.pumpEnable(group - 6));
+            m_experimentEngine->machines().startPumpsControl(group - 6, "auto_control_enabled");
+            //emit hardwareRequest(m_commands.pumpEnable(group - 6));
         }
         else
         {

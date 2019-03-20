@@ -15,6 +15,9 @@
 // Include possable machine states
 #include "Helpers/MachineStates.h"
 
+// Sub state machines
+#include "LeakDetection.h"
+
 namespace App { namespace Experiment { namespace Machines
 {
     class PumpControl :   public Helpers::MachineStates
@@ -45,6 +48,8 @@ namespace App { namespace Experiment { namespace Machines
             void startWarmup();
             void selectPump();
             void isVacuumSufficent();
+            void leakDetecter();
+            void stopLeakDetecter();
 
 
         private:
@@ -56,6 +61,9 @@ namespace App { namespace Experiment { namespace Machines
 
             // Timers
             QTimer& t_warmup;
+
+            // Leak detector
+            LeakDetection& m_leakDetection;
 
             int m_pumpId;
     };
