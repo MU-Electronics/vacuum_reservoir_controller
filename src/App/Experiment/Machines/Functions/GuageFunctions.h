@@ -60,6 +60,8 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
             void emit_validationSuccess(QVariantMap data);
             void emit_validationWrongId(QVariantMap data);
 
+            void emit_validationPressureReading(QVariantMap data);
+
         public slots:
 
             // Read guage states

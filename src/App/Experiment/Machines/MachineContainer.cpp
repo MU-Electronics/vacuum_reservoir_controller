@@ -132,9 +132,9 @@ namespace App { namespace Experiment { namespace Machines
 
 
     // Leak state machine control
-    void MachineContainer::startLeakDetection(int period, int group)
+    void MachineContainer::startLeakDetection(int group, int period, int fall, int sample)
     {
-        m_leakDetection.setParams(period, group);
+        m_leakDetection.setParams(group, period, fall, sample);
         m_leakDetection.start();
     }
     void MachineContainer::stopLeakDetection()

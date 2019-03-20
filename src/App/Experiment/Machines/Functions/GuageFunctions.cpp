@@ -171,7 +171,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
                 successPackage.insert("error", package.value("error").toString());
 
                 // Emit safe to proceed
-                emit emit_validationSuccess(successPackage);
+                emit emit_validationPressureReading(successPackage);
 
                 return;
             }

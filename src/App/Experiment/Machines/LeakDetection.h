@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~LeakDetection();
 
-            void setParams(int period, int group);
+            void setParams(int group, int period, int fall, int sample = 10);
 
             void beforeStart();
 
@@ -35,10 +35,14 @@ namespace App { namespace Experiment { namespace Machines
             void buildMachine();
 
         signals:
-
+            void emit_samplesReachedNoLeak();
+            void emit_leakDetected();
+            void emit_continue();
+            void emit_leakCastingError();
 
         public slots:
             void startLeakPeriod();
+            void checkPressure();
 
         private:
             // Referance to QObject
@@ -50,8 +54,8 @@ namespace App { namespace Experiment { namespace Machines
             // Timers
             QTimer& t_leakPeriod;
 
-            int m_period;
-            int m_group;
+            int m_count;
+            double m_pressure;
     };
 }}}
 

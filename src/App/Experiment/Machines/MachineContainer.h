@@ -52,7 +52,7 @@ namespace App { namespace Experiment { namespace Machines
             void stopVavlesControl();
 
             // Leak state machine control
-            void startLeakDetection(int period, int group);
+            void startLeakDetection(int group, int period = 10000, int fall = 5, int sample = 10);
             void stopLeakDetection();
 
             // Auto control state machine control
