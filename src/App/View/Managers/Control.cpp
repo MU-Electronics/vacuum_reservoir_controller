@@ -60,13 +60,13 @@ namespace App { namespace View { namespace Managers
     {
         if(status)
         {
-            //m_experimentEngine->machines().startValvesControl(group, status);
-            emit hardwareRequest(m_commands.valveOpen(group));
+            m_experimentEngine->machines().startValvesControl(group, status);
+            //emit hardwareRequest(m_commands.valveOpen(group));
         }
         else
         {
-            //m_experimentEngine->machines().startValvesControl(group, status);
-            emit hardwareRequest(m_commands.valveClose(group));
+            m_experimentEngine->machines().startValvesControl(group, status);
+            //emit hardwareRequest(m_commands.valveClose(group));
         }
     }
 

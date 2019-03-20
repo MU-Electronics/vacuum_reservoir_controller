@@ -54,6 +54,23 @@ namespace App { namespace Experiment { namespace Machines
         connect(validator("closeValve6Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup6);
         connect(validator("closeValve7Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup7);
         connect(validator("closeValve8Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup8);
+
+
+
+        // Init close valve state machine
+        connect(state("closeChamber1", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup1);
+        connect(state("closeChamber2", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup2);
+        connect(state("closeChamber3", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup3);
+        connect(state("closeChamber4", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup4);
+        connect(state("closeChamber5", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup5);
+        connect(state("closeChamber6", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup6);
+
+        connect(validator("closeChamber1Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup1);
+        connect(validator("closeChamber2Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup2);
+        connect(validator("closeChamber3Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup3);
+        connect(validator("closeChamber4Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup4);
+        connect(validator("closeChamber5Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup5);
+        connect(validator("closeChamber6Validate", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup6);
     }
 
     ValveControl::~ValveControl()

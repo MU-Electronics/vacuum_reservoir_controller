@@ -94,21 +94,6 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
                         QState* finished,
                         QState* failed)
     {
-        // Make connections
-        connect(closeChamber1, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup1);
-        connect(closeChamber2, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup2);
-        connect(closeChamber3, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup3);
-        connect(closeChamber4, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup4);
-        connect(closeChamber5, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup5);
-        connect(closeChamber6, &QState::entered, m_valve, &Functions::ValveFunctions::closeGroup6);
-
-        connect(closeChamber1Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup1);
-        connect(closeChamber2Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup2);
-        connect(closeChamber3Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup3);
-        connect(closeChamber4Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup4);
-        connect(closeChamber5Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup5);
-        connect(closeChamber6Validate, &QState::entered, m_valve, &Functions::ValveFunctions::validateCloseGroup6);
-
         // Close chamber 1
         closeValve(closeChamber1, closeChamber1Validate, closeChamber2, failed);
 

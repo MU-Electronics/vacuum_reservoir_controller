@@ -10,10 +10,10 @@ namespace App { namespace Experiment { namespace Machines
             // State machines
         ,   m_readPressure(*new ReadPressure(parent, settings, hardware))
         ,   m_readGuageTrip(*new ReadGuageTrip(parent, settings, hardware))
-        /*,   m_pumpControl(*new PumpControl(parent, settings, hardware))
+        ,   m_pumpControl(*new PumpControl(parent, settings, hardware))
         ,   m_autoControl(*new AutomaticControl(parent, settings, hardware))
         ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
-        ,   m_valveControl(*new ValveControl(parent, settings, hardware))*/
+        ,   m_valveControl(*new ValveControl(parent, settings, hardware))
     {
         // Connect the finished signals for the machine set pressure emit_pressuriseStopped
         connect(&m_readPressure, &ReadPressure::emit_machineStopping, this, &MachineContainer::emit_vacuumMachineStopping);
@@ -30,7 +30,7 @@ namespace App { namespace Experiment { namespace Machines
 
 
         // Valve control
-        /*connect(&m_valveControl, &ValveControl::emit_machineStopping, this, &MachineContainer::emit_valveMachineStopping);
+        connect(&m_valveControl, &ValveControl::emit_machineStopping, this, &MachineContainer::emit_valveMachineStopping);
         connect(&m_valveControl, &ValveControl::emit_machineFinished, this, &MachineContainer::emit_valveMachineStopped);
         connect(&m_valveControl, &ValveControl::emit_machineFailed, this, &MachineContainer::emit_valveMachineFailed);
 
@@ -51,7 +51,7 @@ namespace App { namespace Experiment { namespace Machines
         connect(&m_autoControl, &AutomaticControl::emit_machineStopping, this, &MachineContainer::emit_autoMachineStopping);
         connect(&m_autoControl, &AutomaticControl::emit_machineFinished, this, &MachineContainer::emit_autoMachineStopped);
         connect(&m_autoControl, &AutomaticControl::emit_machineFailed, this, &MachineContainer::emit_autoMachineFailed);
-*/
+
     }
 
     MachineContainer::~MachineContainer(){}
@@ -102,7 +102,7 @@ namespace App { namespace Experiment { namespace Machines
 
 
     // Pump state machine control
-    /*void MachineContainer::startPumpsControl(int pump, QString mode)
+   void MachineContainer::startPumpsControl(int pump, QString mode)
     {
         m_pumpControl.setParams(pump, mode);
         m_pumpControl.start();
@@ -156,6 +156,6 @@ namespace App { namespace Experiment { namespace Machines
     {
         m_autoControl.cancelStateMachine();
     }
-*/
+
 
 }}}
