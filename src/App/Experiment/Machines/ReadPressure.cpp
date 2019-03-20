@@ -132,53 +132,53 @@ namespace App { namespace Experiment { namespace Machines
         state("guage_1", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_1", true));
             // Validate
             validator("guage_1", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_1", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_1", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_1", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
         state("guage_2", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_2", true));
             // Validate
             validator("guage_2", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_2", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_2", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_2", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
         state("guage_3", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_3", true));
             // Validate
             validator("guage_3", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_3", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_3", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_3", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
         state("guage_4", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_4", true));
             // Validate
             validator("guage_4", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_4", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_4", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_4", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
 
         state("guage_5", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_5", true));
             // Validate
             validator("guage_5", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_5", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_5", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_5", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
 
         state("guage_6", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_6", true));
             // Validate
             validator("guage_6", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_6", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_6", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_6", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
 
         state("guage_7", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_7", true));
             // Validate
             validator("guage_7", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_7", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_7", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_7", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
 
         state("guage_8", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_8", true));
             // Validate
             validator("guage_8", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("startPressureMonitor", true));
-            validator("guage_8", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationSuccess, state("startPressureMonitor", true));
+            validator("guage_8", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, state("startPressureMonitor", true));
             //validator("guage_8", true)->addTransition(&t_pressureMonitor, &QTimer::timeout, state("startPressureMonitor", true));
 
 

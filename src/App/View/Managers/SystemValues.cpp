@@ -257,8 +257,6 @@ namespace App { namespace View { namespace Managers
             emit_barrelChanged(m_barrel);
         }
 
-        qDebug() << m_pressure;
-
         // Save the pressure value (rounded)
         m_pressure.insert(guageIdS + "_value", QString::number(presssure, 'f', 1));
 
