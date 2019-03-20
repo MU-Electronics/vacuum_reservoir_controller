@@ -36,7 +36,7 @@ namespace App { namespace View { namespace Managers
         Q_OBJECT
 
         public:
-            Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings);
+            Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container *settings, Experiment::Engine* experimentEngine);
 
             ~Control();
 
@@ -60,6 +60,9 @@ namespace App { namespace View { namespace Managers
 
             // Holds the application settings
             Settings::Container* m_settings;
+
+            // Hold experiment engine
+            Experiment::Engine* m_experimentEngine;
 
             // Command construcor
             Hardware::CommandConstructor m_commands;

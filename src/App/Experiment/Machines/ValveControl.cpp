@@ -126,6 +126,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
@@ -147,6 +150,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve1", true));
+
             transitionsBuilder()->closeValve(state("closeValve1", true), validator("closeValve1Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -155,6 +161,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
@@ -176,6 +185,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve2", true));
+
             transitionsBuilder()->closeValve(state("closeValve2", true), validator("closeValve2Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -184,6 +196,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
@@ -205,6 +220,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve3", true));
+
             transitionsBuilder()->closeValve(state("closeValve3", true), validator("closeValve3Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -213,6 +231,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
@@ -234,6 +255,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve4", true));
+
             transitionsBuilder()->closeValve(state("closeValve4", true), validator("closeValve4Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -242,6 +266,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
@@ -263,6 +290,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve5", true));
+
             transitionsBuilder()->closeValve(state("closeValve5", true), validator("closeValve5Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -271,14 +301,16 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(logic) // Open valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeChamber1", true));
+
             // Close all valves
             transitionsBuilder()->closeAllChambers(state("closeChamber1", true),
                                                    validator("closeChamber1Validate", true),
                                                    state("closeChamber2", true),
                                                    validator("closeChamber2Validate", true),
                                                    state("closeChamber3", true),
-                                                   validator("closeChamber3Validate", true),
-                                                   state("closeChamber4", true),
+                                                   validator("closeChamber3Validate", true),                                state("closeChamber4", true),
                                                    validator("closeChamber4Validate", true),
                                                    state("closeChamber5", true),
                                                    validator("closeChamber5Validate", true),
@@ -292,6 +324,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valve
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve6", true));
+
             transitionsBuilder()->closeValve(state("closeValve6", true), validator("closeValve6Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -301,6 +336,9 @@ namespace App { namespace Experiment { namespace Machines
         // Open valve
         if(logic)
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve8", true));
+
             transitionsBuilder()->closeValve(state("closeValve8", true), validator("closeValve8Validate", true), state("openValve7", true), &sm_stopAsFailed);
 
             transitionsBuilder()->openValve(state("openValve7", true), validator("openValve7Validate", true), &sm_stop, &sm_stopAsFailed);
@@ -308,6 +346,9 @@ namespace App { namespace Experiment { namespace Machines
         }
         else // Close valvestate
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve7", true));
+
             transitionsBuilder()->closeValve(state("closeValve7", true), validator("closeValve7Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }
@@ -317,13 +358,18 @@ namespace App { namespace Experiment { namespace Machines
         // Open valve
         if(logic)
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve7", true));
+
             transitionsBuilder()->closeValve(state("closeValve7", true), validator("closeValve7Validate", true), state("openValve8", true), &sm_stopAsFailed);
 
             transitionsBuilder()->openValve(state("openValve8", true), validator("openValve8Validate", true), &sm_stop, &sm_stopAsFailed);
-
         }
         else // Close valvestate
         {
+            // Where to start the machine
+            sm_master.setInitialState(state("closeValve8", true));
+
             transitionsBuilder()->closeValve(state("closeValve8", true), validator("closeValve8Validate", true), &sm_stop, &sm_stopAsFailed);
         }
     }

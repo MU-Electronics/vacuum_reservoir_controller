@@ -177,7 +177,7 @@ namespace App { namespace View { namespace Managers
             {
                 withinTolerance = 1,
                 requiresToppingUp = 2,
-                beingToppedUp = 3,
+                error = 3,
                 disabled = 0
             };
 

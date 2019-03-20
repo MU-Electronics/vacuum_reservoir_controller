@@ -100,7 +100,7 @@ namespace App
         manager_factory.create<View::Managers::SystemValues>("SystemValues", this,  m_engine, &settings_container, &experiment_engine);
         manager_factory.create<View::Managers::Power>("Power", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, &settings_container);
-        manager_factory.create<View::Managers::Control>("Control", this,  m_engine, &settings_container);
+        manager_factory.create<View::Managers::Control>("Control", this,  m_engine, &settings_container, &experiment_engine);
         manager_factory.create<View::Managers::SettingsUpdater>("SettingsUpdater", this,  m_engine, &settings_container);
     }
 

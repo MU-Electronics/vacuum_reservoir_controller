@@ -64,43 +64,43 @@ namespace App { namespace View { namespace Managers
         emit_valveChanged(m_valve);
 
         // Barrel values
-        m_barrel.insert("1_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("1_status", int(BarrelStatus::error));
         m_barrel.insert("1_name", "B1");
-        m_barrel.insert("2_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("2_status", int(BarrelStatus::error));
         m_barrel.insert("2_name", "B2");
-        m_barrel.insert("3_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("3_status", int(BarrelStatus::error));
         m_barrel.insert("3_name", "B3");
-        m_barrel.insert("4_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("4_status", int(BarrelStatus::error));
         m_barrel.insert("4_name", "B4");
-        m_barrel.insert("5_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("5_status", int(BarrelStatus::error));
         m_barrel.insert("5_name", "B5");
-        m_barrel.insert("6_status", int(BarrelStatus::withinTolerance));
+        m_barrel.insert("6_status", int(BarrelStatus::error));
         m_barrel.insert("6_name", "B6");
         emit_barrelChanged(m_barrel);
 
         // Pressure values
-        m_pressure.insert("1_status", int(PressureStatus::ok));
+        m_pressure.insert("1_status", int(PressureStatus::error));
         m_pressure.insert("1_name", "P1");
         m_pressure.insert("1_value", "0");
-        m_pressure.insert("2_status", int(PressureStatus::ok));
+        m_pressure.insert("2_status", int(PressureStatus::error));
         m_pressure.insert("2_name", "P2");
         m_pressure.insert("2_value", "0");
-        m_pressure.insert("3_status", int(PressureStatus::ok));
+        m_pressure.insert("3_status", int(PressureStatus::error));
         m_pressure.insert("3_name", "P3");
         m_pressure.insert("3_value", "0");
-        m_pressure.insert("4_status", int(PressureStatus::ok));
+        m_pressure.insert("4_status", int(PressureStatus::error));
         m_pressure.insert("4_name", "P4");
         m_pressure.insert("4_value", "0");
-        m_pressure.insert("5_status", int(PressureStatus::ok));
+        m_pressure.insert("5_status", int(PressureStatus::error));
         m_pressure.insert("5_name", "P5");
         m_pressure.insert("5_value", "0");
-        m_pressure.insert("6_status", int(PressureStatus::ok));
+        m_pressure.insert("6_status", int(PressureStatus::error));
         m_pressure.insert("6_name", "P6");
         m_pressure.insert("6_value", "0");
-        m_pressure.insert("7_status", int(PressureStatus::ok));
+        m_pressure.insert("7_status", int(PressureStatus::error));
         m_pressure.insert("7_name", "P7");
         m_pressure.insert("7_value", "0");
-        m_pressure.insert("8_status", int(PressureStatus::ok));
+        m_pressure.insert("8_status", int(PressureStatus::error));
         m_pressure.insert("8_name", "P8");
         m_pressure.insert("8_value", "0");
         emit_pressureChanged(m_pressure);
@@ -256,6 +256,8 @@ namespace App { namespace View { namespace Managers
             m_barrel.insert(guageIdS + "_status", state);
             emit_barrelChanged(m_barrel);
         }
+
+        qDebug() << m_pressure;
 
         // Save the pressure value (rounded)
         m_pressure.insert(guageIdS + "_value", QString::number(presssure, 'f', 1));

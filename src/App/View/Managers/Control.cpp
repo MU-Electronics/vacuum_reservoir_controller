@@ -18,11 +18,12 @@ namespace App { namespace View { namespace Managers
      * @param settings
      * @param experimentEngine
      */
-    Control::Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings)
+    Control::Control(QObject *parent, QQmlApplicationEngine *root, Settings::Container* settings, Experiment::Engine* experimentEngine)
         :   QObject(parent)
         ,   m_root(root)
         ,   m_settings(settings)
         ,   m_commands(*new Hardware::CommandConstructor(parent))
+        ,   m_experimentEngine(experimentEngine)
 
     {
 
@@ -49,7 +50,7 @@ namespace App { namespace View { namespace Managers
     }
 
 
-    /**
+    /**m_experimentEngine
      * Toggle the valve status
      *
      * @brief Control::toggleValve
@@ -59,10 +60,12 @@ namespace App { namespace View { namespace Managers
     {
         if(status)
         {
+            //m_experimentEngine->machines().startValvesControl(group, status);
             emit hardwareRequest(m_commands.valveOpen(group));
         }
         else
         {
+            //m_experimentEngine->machines().startValvesControl(group, status);
             emit hardwareRequest(m_commands.valveClose(group));
         }
     }

@@ -43,7 +43,7 @@ namespace App { namespace Experiment { namespace Machines
             void startReadingTripVacuumGuages(QString mode = "manual_control_enabled");
             void stopReadTripVacuum();
 
-            // Pump state machine control
+            /*// Pump state machine control
             void startPumpsControl(int pump, QString mode);
             void stopPumpsControl();
 
@@ -57,7 +57,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Auto control state machine control
             void startAutoControl();
-            void stopAutoControl();
+            void stopAutoControl();*/
 
 
 
@@ -106,10 +106,10 @@ namespace App { namespace Experiment { namespace Machines
             // State machines
             ReadPressure& m_readPressure;
             ReadGuageTrip& m_readGuageTrip;
-            PumpControl& m_pumpControl;
-            AutomaticControl& m_autoControl;
-            LeakDetection& m_leakDetection;
-            ValveControl& m_valveControl;
+            //PumpControl& m_pumpControl;
+            //AutomaticControl& m_autoControl;
+            //LeakDetection& m_leakDetection;
+           // ValveControl& m_valveControl;
 
     };
 }}}
