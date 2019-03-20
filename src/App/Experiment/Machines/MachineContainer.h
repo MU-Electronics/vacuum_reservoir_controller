@@ -15,6 +15,10 @@
 // Include state machines
 #include "ReadPressure.h"
 #include "ReadGuageTrip.h"
+#include "PumpControl.h"
+#include "AutomaticControl.h"
+#include "LeakDetection.h"
+#include "ValveControl.h"
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -40,10 +44,22 @@ namespace App { namespace Experiment { namespace Machines
             void stopReadTripVacuum();
 
             // Pump state machine control
+            void startPumpsControl(int pump, QString mode);
+            void stopPumpsControl();
 
             // Valve state machine control
+            void startValvesControl(int valveId, bool state);
+            void stopVavlesControl();
 
-            //
+            // Leak state machine control
+            void startLeakDetection(int period, int group);
+            void stopLeakDetection();
+
+            // Auto control state machine control
+            void startAutoControl();
+            void stopAutoControl();
+
+
 
         signals:
             // Vacuum guage state machine signals
@@ -59,6 +75,30 @@ namespace App { namespace Experiment { namespace Machines
             void emit_guageTripped(int guage, bool state);
             void emit_guageTrippedFailed();
 
+            // Pump control
+            void emit_pumpMachineStarted(QString mode);
+            void emit_pumpMachineStopped(QVariantMap params);
+            void emit_pumpMachineFailed(QVariantMap params);
+            void emit_pumpMachineStopping(QVariantMap params);
+
+            // Auto control
+            void emit_autoMachineStarted(QString mode);
+            void emit_autoMachineStopped(QVariantMap params);
+            void emit_autoMachineFailed(QVariantMap params);
+            void emit_autoMachineStopping(QVariantMap params);
+
+            // Leak detection
+            void emit_leakMachineStarted(QString mode);
+            void emit_leakMachineStopped(QVariantMap params);
+            void emit_leakMachineFailed(QVariantMap params);
+            void emit_leakMachineStopping(QVariantMap params);
+
+            // Valve control
+            void emit_valveMachineStarted(QString mode);
+            void emit_valveMachineStopped(QVariantMap params);
+            void emit_valveMachineFailed(QVariantMap params);
+            void emit_valveMachineStopping(QVariantMap params);
+
         private:
             // Holds the application settings
             Settings::Container* m_settings;
@@ -66,6 +106,10 @@ namespace App { namespace Experiment { namespace Machines
             // State machines
             ReadPressure& m_readPressure;
             ReadGuageTrip& m_readGuageTrip;
+            PumpControl& m_pumpControl;
+            AutomaticControl& m_autoControl;
+            LeakDetection& m_leakDetection;
+            ValveControl& m_valveControl;
 
     };
 }}}
