@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
         // Connect states to functions
         connect(state("selectPump", true), &QState::entered, this, &PumpControl::selectPump);
 
-        connect(state("warmupPumpOne", true), &QState::entered, this, &PumpControl::startWarmup);
+        connect(state("warmupPump", true), &QState::entered, this, &PumpControl::startWarmup);
 
         connect(validator("vacuumSufficent", true), &QState::entered, this, &PumpControl::isVacuumSufficent);
 
@@ -52,7 +52,7 @@ namespace App { namespace Experiment { namespace Machines
     void PumpControl::setParams(int pump, QString mode)
     {       
         // Time interval for pumps
-        params.insert("timeInter", m_settings->general()->pump(pump)["warm_up"].toInt() * 1000);
+        params.insert("timeInter", (m_settings->general()->pump(pump)["warm_up"].toInt() * 1000) * 60);
         t_warmup.setInterval(params["timeInter"].toInt());
 
         // What are enabled?
@@ -66,7 +66,6 @@ namespace App { namespace Experiment { namespace Machines
 
         // Save pump working on
         m_pumpId = pump;
-        transitionsBuilder()->openValve(state("openPumpValve", true), validator("vacuumSufficent", true), state("checkForLeaks", true), state("pumpOff", true));
 
         if(m_pumpId == 1)
         {
@@ -77,16 +76,24 @@ namespace App { namespace Experiment { namespace Machines
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup7);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup7);
+
+            connect(state("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::readGroup7);
+            connect(validator("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::validateReadGroup7);
         }
         else
         {
+            qDebug() << "Configure pump 2";
+
             connect(state("pumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
-            connect(state("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
+            connect(validator("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
 
             connect(state("pumpOff", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump2);
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup8);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup8);
+
+            connect(state("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::readGroup8);
+            connect(validator("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::validateReadGroup8);
 
         }
     }
@@ -129,17 +136,23 @@ namespace App { namespace Experiment { namespace Machines
 
             // Turn on pump
             state("pumpOn", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpEnabled, validator("validatePumpOn", true));
-                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump2On, state("warmupPump", true));
-                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump1On, state("warmupPump", true));
+                // validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_Pump2On, state("warmupPump", true));
+                validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationSuccess, state("warmupPump", true));
                 validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationWrongId, validator("validatePumpOn", true));
                 validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
 
                 // Warmup pump
-                state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("vacuumSufficent", true));
+                state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("guage_pressure", true));
+
+                    // Request read pressure
+                    state("guage_pressure", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_pressure", true));
+                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, validator("vacuumSufficent", true));
+                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationWrongId, state("guage_pressure", true));
+                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("pumpOff", true));
 
                     // Read pressure till hits set point
                     validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, validator("warmupPump", true)); // THIS NEED TIMER TO RETEST
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openValve", true));
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openPumpValve", true));
 
                     // Check for leaks then finish
 
@@ -200,6 +213,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void PumpControl::isVacuumSufficent()
     {
+        qDebug() << "Is vacuum sufficent";
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
 
@@ -220,6 +234,8 @@ namespace App { namespace Experiment { namespace Machines
             {
                 // Guage tripped emit
                 emit emit_vacuumSufficent();
+                qDebug() << "Yes it is";
+                return;
             }
         }
 
@@ -234,6 +250,7 @@ namespace App { namespace Experiment { namespace Machines
      */
     void PumpControl::startWarmup()
     {
+        qDebug() << "Timer started" << t_warmup.interval();
         // Setup timer
         t_warmup.setSingleShot(true);
         t_warmup.start();

@@ -128,7 +128,7 @@
             "lower_set_point": 15,
             "upper_set_point": 150,
 
-            "warm_up": 10,
+            "warm_up": 1,
 
             "alarm_pressure": 300,
             "alarm_time": 120,
@@ -147,7 +147,7 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "warm_up": 10,
+            "warm_up": 1,
 
             "alarm_pressure": 300,
             "alarm_time": 120,

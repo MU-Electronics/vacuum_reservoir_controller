@@ -79,6 +79,7 @@ namespace App { namespace View { namespace Managers
         }
         else
         {
+            m_experimentEngine->machines().stopPumpsControl();
             emit hardwareRequest(m_commands.pumpDisable(group - 6));
         }
     }

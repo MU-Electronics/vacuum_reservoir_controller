@@ -150,6 +150,9 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
                 errorDetails.insert("acutal_id", package.value("command_identifier").toInt());
                 errorDetails.insert("ids", stringOfIds());
 
+                qDebug () << errorDetails << package;
+
+
                 // Tell everyone the signal was wrong
                 emit emit_validationWrongId(errorDetails);
 

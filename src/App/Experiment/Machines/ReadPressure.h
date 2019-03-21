@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~ReadPressure();
 
-            void setParams(QString mode = "auto_control_enabled");
+            void setParams(QString mode = "auto_control_enabled ");
 
             void beforeStart();
 
