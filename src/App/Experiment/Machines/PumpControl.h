@@ -43,6 +43,7 @@ namespace App { namespace Experiment { namespace Machines
 
             void emit_vacuumSufficent();
             void emit_vaccumNotSufficient();
+            void emit_wrongGuage();
 
         public slots:
             void startWarmup();

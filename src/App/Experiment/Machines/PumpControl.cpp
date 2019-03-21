@@ -12,11 +12,11 @@ namespace App { namespace Experiment { namespace Machines
             // Settings container
         ,   m_settings(settings)
 
-            // Sub state machines
-        ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
-
             // Timers
         ,   t_warmup(*new QTimer(parent))
+
+            // Sub state machines
+        ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
     {
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
@@ -64,6 +64,11 @@ namespace App { namespace Experiment { namespace Machines
         // Lower set points
         params.insert("lower", m_settings->general()->pump(pump)["lower_set_point"].toInt());
 
+        // Leak detection
+        params.insert("period", m_settings->general()->pump(pump)["leak_period"].toInt());
+        params.insert("fall", m_settings->general()->pump(pump)["leak_max"].toInt());
+        params.insert("sample", 4);
+
         // Save pump working on
         m_pumpId = pump;
 
@@ -76,9 +81,6 @@ namespace App { namespace Experiment { namespace Machines
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup7);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup7);
-
-            connect(state("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::readGroup7);
-            connect(validator("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::validateReadGroup7);
         }
         else
         {
@@ -91,10 +93,6 @@ namespace App { namespace Experiment { namespace Machines
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup8);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup8);
-
-            connect(state("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::readGroup8);
-            connect(validator("guage_pressure", true), &QState::entered, this->guages(), &Functions::GuageFunctions::validateReadGroup8);
-
         }
     }
 
@@ -145,16 +143,15 @@ namespace App { namespace Experiment { namespace Machines
                 state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("guage_pressure", true));
 
                     // Request read pressure
-                    state("guage_pressure", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("guage_pressure", true));
-                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationPressureReading, validator("vacuumSufficent", true));
-                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationWrongId, state("guage_pressure", true));
-                        validator("guage_pressure", true)->addTransition(this->guages(), &Functions::GuageFunctions::emit_validationFailed, state("pumpOff", true));
+                    state("guage_pressure", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("vacuumSufficent", true));
 
-                    // Read pressure till hits set point
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, validator("warmupPump", true)); // THIS NEED TIMER TO RETEST
+                    // Read pressure till hits set point  emit_wrongGuage
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, state("guage_pressure", true)); // THIS NEED TIMER TO RETEST
+                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_wrongGuage, state("guage_pressure", true)); // THIS NEED TIMER TO RETEST
                     validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openPumpValve", true));
 
-                    // Check for leaks then finish
+                    // Check for leaks then finish here maybe
+
 
                     // Open valve
                     transitionsBuilder()->openValve(state("openPumpValve", true), validator("validateOpenPumpValve", true), state("checkForLeaks", true), state("pumpOff", true));
@@ -212,8 +209,7 @@ namespace App { namespace Experiment { namespace Machines
 
 
     void PumpControl::isVacuumSufficent()
-    {
-        qDebug() << "Is vacuum sufficent";
+    {            
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
 
@@ -224,7 +220,15 @@ namespace App { namespace Experiment { namespace Machines
             QVariantMap package = command->package;
 
             // Guage id
-            int guageId = package["requested_gauge_group"].toInt();
+            int guageId = package["guage_id"].toInt();
+
+            // Check correct valve
+            if(guageId != (m_pumpId + 6))
+            {
+                qDebug() << "wrong valve:" << guageId << "wanted:"<<(m_pumpId+6);
+                emit emit_wrongGuage();
+                return;
+            }
 
             // Guage state
             double pressure = package["pressure"].toDouble();

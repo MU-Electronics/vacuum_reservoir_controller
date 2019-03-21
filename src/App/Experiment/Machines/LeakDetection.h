@@ -39,6 +39,7 @@ namespace App { namespace Experiment { namespace Machines
             void emit_leakDetected();
             void emit_continue();
             void emit_leakCastingError();
+            void emit_wrongGuage();
 
         public slots:
             void startLeakPeriod();

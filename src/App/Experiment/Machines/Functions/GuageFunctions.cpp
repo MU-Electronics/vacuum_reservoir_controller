@@ -152,7 +152,6 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 qDebug () << errorDetails << package;
 
-
                 // Tell everyone the signal was wrong
                 emit emit_validationWrongId(errorDetails);
 
