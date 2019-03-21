@@ -167,7 +167,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 // Data to pass on
                 successPackage.insert("requested_gauge_group", group);
-                successPackage.insert("pressure", package.value("pressure").toDouble());
+                successPackage.insert("pressure", package.value("pressure_mbar").toDouble());
                 successPackage.insert("voltage", package.value("voltage").toDouble());
                 successPackage.insert("status", package.value("status").toInt());
                 successPackage.insert("error", package.value("error").toString());

@@ -18,6 +18,7 @@ namespace App { namespace Experiment { namespace Machines
             // Sub state machines
         ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
     {
+        shutDownMachines= false;
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
 
@@ -162,7 +163,6 @@ namespace App { namespace Experiment { namespace Machines
 
                     // Before failure turn pump off
                     state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stopAsFailed);
-
     }
 
 
@@ -231,7 +231,7 @@ namespace App { namespace Experiment { namespace Machines
             }
 
             // Guage state
-            double pressure = package["pressure"].toDouble();
+            double pressure = package["pressure_mbar"].toDouble();
 
             // Only update and alert if value has changed
             if(guageId - 6 == m_pumpId && pressure < params["upper"].toDouble())

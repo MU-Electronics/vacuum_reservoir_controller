@@ -134,8 +134,8 @@
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 5000,
-            "leak_max": 100
+            "leak_period": 20000,
+            "leak_max": 10
         },
 
         "2":
@@ -153,8 +153,8 @@
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 5000,
-            "leak_max": 100
+            "leak_period": 20000,
+            "leak_max": 10
         }
     }
 }

@@ -23,6 +23,8 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("startPressureMonitor", true), &QState::entered, this, &LeakDetection::startLeakPeriod);
 
         connect(validator("checkSamplePressure", true), &QState::entered, this, &LeakDetection::checkPressure);
+
+        shutDownMachines = false;
     }
 
     LeakDetection::~LeakDetection()
@@ -81,6 +83,8 @@ namespace App { namespace Experiment { namespace Machines
     }
 
 
+
+
     /**
      * Builds the machine connections7
      *
@@ -126,22 +130,26 @@ namespace App { namespace Experiment { namespace Machines
             int guageId = package["guage_id"].toInt();
 
             // Guage state
-            double pressure = package["pressure"].toDouble();
+            double pressure = package["pressure_mbar"].toDouble();
 
             // Check correct valve
             if(guageId != params["group"].toInt())
             {
-                qDebug() << "wrong valve:" << guageId << "wanted:"<<params["group"].toInt();
+                // qDebug() << "wrong valve:" << guageId << "wanted:"<<params["group"].toInt();
                 emit emit_wrongGuage();
                 return;
             }
 
             // First sample save pressure for later comparisions
             if(m_count == 1)
+            {
+                qDebug() << "Setting m_pressure to:"<<pressure;
                 m_pressure = pressure;
+            }
 
             // Only update and alert if value has changed
-            if(abs(pressure - m_pressure) >= params["fall"].toDouble() && params["sample"].toInt() >= m_count)
+            qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<params["fall"].toDouble();
+            if((pressure - m_pressure) >= params["fall"].toDouble() && params["sample"].toInt() >= m_count)
             {
                 // Guage tripped emit
                 emit emit_leakDetected();
