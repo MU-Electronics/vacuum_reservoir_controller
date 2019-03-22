@@ -217,6 +217,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         // Start the shut down machine if one present
         if(shutDownMachines)
         {
+            qDebug() << "running shutdown state machine";
             // Build the shutdown machine
             buildShutDownMachine();
 

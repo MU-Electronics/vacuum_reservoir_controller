@@ -152,7 +152,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
     void PumpFunctions::disablePump2()
     {
         // Generate command
-        QVariantMap command = m_commandConstructor.pumpDisable(1);
+        QVariantMap command = m_commandConstructor.pumpDisable(2);
 
         // Register id
         registerId(command.value("command_identifier").toString());

@@ -79,6 +79,7 @@ namespace App { namespace Experiment { namespace Machines
             connect(validator("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump1);
 
             connect(state("pumpOff", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump1);
+            connect(state("valveOff", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup7);
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup7);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup7);
@@ -91,6 +92,7 @@ namespace App { namespace Experiment { namespace Machines
             connect(validator("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
 
             connect(state("pumpOff", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump2);
+            connect(state("valveOff", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup8);
 
             connect(state("openPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::openGroup8);
             connect(validator("validateOpenPumpValve", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateOpenGroup8);
@@ -155,14 +157,15 @@ namespace App { namespace Experiment { namespace Machines
 
 
                     // Open valve
-                    transitionsBuilder()->openValve(state("openPumpValve", true), validator("validateOpenPumpValve", true), state("checkForLeaks", true), state("pumpOff", true));
+                    transitionsBuilder()->openValve(state("openPumpValve", true), validator("validateOpenPumpValve", true), state("checkForLeaks", true), state("valveOff", true));
 
                     // Check for leaks then finish
                     state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFinished, &sm_stop);
-                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFailed, state("pumpOff", true));
+                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_leakDetected, state("valveOff", true));
 
                     // Before failure turn pump off
-                    state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stopAsFailed);
+                    state("valveOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("pumpOff", true));
+                    state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stop);
     }
 
 
