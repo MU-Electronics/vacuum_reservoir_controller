@@ -104,8 +104,6 @@ namespace App { namespace Experiment { namespace Machines
         }
         else
         {
-            qDebug() << "Configure pump 2";
-
             connect(state("pumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
             connect(validator("validatePumpOn", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
 
@@ -268,7 +266,6 @@ namespace App { namespace Experiment { namespace Machines
             // Check correct valve
             if(guageId != (m_pumpId + 6))
             {
-                //qDebug() << "wrong valve:" << guageId << "wanted:"<<(m_pumpId+6);
                 emit emit_wrongGuage();
                 return;
             }
@@ -281,7 +278,6 @@ namespace App { namespace Experiment { namespace Machines
             {
                 // Guage tripped emit
                 emit emit_vacuumSufficent();
-                //qDebug() << "Yes it is";
                 return;
             }
         }
@@ -297,7 +293,6 @@ namespace App { namespace Experiment { namespace Machines
      */
     void PumpControl::startWarmup()
     {
-        //qDebug() << "Timer started" << t_warmup.interval();
         // Setup timer
         t_warmup.setSingleShot(true);
         t_warmup.start();
@@ -314,7 +309,6 @@ namespace App { namespace Experiment { namespace Machines
         if(t_pumpVoid.isActive())
             return;
 
-        qDebug() << "To valve timer started" << t_pumpVoid.interval();;
         // Setup timer
         t_pumpVoid.setSingleShot(true);
         t_pumpVoid.start();
@@ -327,11 +321,9 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(t_pumpVoid.isActive())
         {
-            qDebug() << "Valve timer running";
             emit emit_timerRunning();
             return;
         }
-        qDebug() << "Valve timer elapsed";
         emit emit_timeElapsed();
     }
 
@@ -346,8 +338,6 @@ namespace App { namespace Experiment { namespace Machines
         if(t_pumpManifoldVoid.isActive())
             return;
 
-        qDebug() << "To barrel timer started"<< t_pumpManifoldVoid.interval();;
-
         // Setup timer
         t_pumpManifoldVoid.setSingleShot(true);
         t_pumpManifoldVoid.start();
@@ -359,12 +349,10 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(t_pumpManifoldVoid.isActive())
         {
-            qDebug() << "Barrel timer running";
             emit emit_timerRunning();
             return;
         }
 
-         qDebug() << "Barrel timer elapsed";
         emit emit_timeElapsed();
     }
 }}}
