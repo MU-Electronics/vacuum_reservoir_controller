@@ -211,6 +211,7 @@ namespace App { namespace View { namespace Managers
     {
         // Get info we require
         double presssure = data["pressure_mbar"].toDouble();
+        double pressureBar = presssure / 1000;
         int guageId = data["guage_id"].toInt();
         QString guageIdS = data["guage_id"].toString();
 
@@ -258,7 +259,7 @@ namespace App { namespace View { namespace Managers
         }
 
         // Save the pressure value (rounded)
-        m_pressure.insert(guageIdS + "_value", QString::number(presssure, 'f', 1));
+        m_pressure.insert(guageIdS + "_value", QString::number(pressureBar, 'e', 2));
 
         // Let people know we've updated
         emit_pressureChanged(m_pressure);

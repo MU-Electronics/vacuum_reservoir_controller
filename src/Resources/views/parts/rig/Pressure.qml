@@ -23,7 +23,7 @@ Rectangle
     property int state: 1
 
     // State of sensor
-    property double value: 00.00
+    property var value: 00.00
 
     // Sensor name
     property string name: "P?"
@@ -175,7 +175,7 @@ Rectangle
                 if(pressure.state == 3)
                     return "ERROR"
 
-                return pressure.value + " mbar"
+                return pressure.value + " bar"
             }
 
             return "disabled"
