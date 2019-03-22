@@ -198,9 +198,14 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         shutDownMachine.stop();
 
         // Log error
-        qCCritical(machineStates)    <<  childClassName         << " stop state machine failed!"    << "\n";
-                                     //<< "Last pressure error: " << m_guage->errorDetails         << "\n"
-                                     //<< "Last valve error: "    << m_valve->errorDetails           << "\n"
+        qCCritical(machineStates)    << childClassName           << " state machine stopped becuase of an error"   << "\n"
+                                     << "Last pressure error: " << m_valves->errorDetails << "\n"
+                                     << "Last guages error: "    << m_guages->errorDetails   << "\n"
+                                     << "Last emergancy stop error: "    << m_emergancyStop->errorDetails   << "\n"
+                                     << "Last pumps error: "    << m_pumps->errorDetails   << "\n"
+                                     << "Last remote error: "    << m_remote->errorDetails   << "\n"
+                                     << "Last temperature sensor error: "    << m_temperatureSensor->errorDetails;
+
     }
 
 
@@ -275,9 +280,13 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         error = true;
 
         // Log error
-        qCCritical(machineStates)   << childClassName           << " run machine failed!"   << "\n";
-                                     //<< "Last pressure error: " << m_guage->errorDetails << "\n"
-                                     //<< "Last valve error: "    << m_valves->errorDetails   << "\n"
+        qCCritical(machineStates)    << childClassName           << " state machine stopped becuase of an error"   << "\n"
+                                     << "Last pressure error: " << m_valves->errorDetails << "\n"
+                                     << "Last guages error: "    << m_guages->errorDetails   << "\n"
+                                     << "Last emergancy stop error: "    << m_emergancyStop->errorDetails   << "\n"
+                                     << "Last pumps error: "    << m_pumps->errorDetails   << "\n"
+                                     << "Last remote error: "    << m_remote->errorDetails   << "\n"
+                                     << "Last temperature sensor error: "    << m_temperatureSensor->errorDetails;
 
         // Stop the machine
         if(machine.isRunning())

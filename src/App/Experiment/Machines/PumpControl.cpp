@@ -165,7 +165,7 @@ namespace App { namespace Experiment { namespace Machines
 
                     // Before failure turn pump off
                     state("valveOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("pumpOff", true));
-                    state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stop);
+                    state("pumpOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stopAsFailed);
     }
 
 

@@ -64,7 +64,7 @@ namespace App { namespace Experiment { namespace Machines
 
     /**
      * Start the state machine
-     *7
+     *7leakDetecter
      * @brief LeakDetection::start
      */
     void LeakDetection::beforeStart()
