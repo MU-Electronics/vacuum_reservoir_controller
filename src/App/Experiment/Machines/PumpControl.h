@@ -45,12 +45,22 @@ namespace App { namespace Experiment { namespace Machines
             void emit_vaccumNotSufficient();
             void emit_wrongGuage();
 
+            void emit_timerStarted();
+            void emit_timeElapsed();
+            void emit_timerRunning();
+
         public slots:
             void startWarmup();
+            void startToValve();
+            void startToBarrel();
+
             void selectPump();
             void isVacuumSufficent();
             void leakDetecter();
             void stopLeakDetecter();
+
+            void isBarrelTimerRunning();
+            void isValveTimerRunning();
 
 
         private:
@@ -62,6 +72,8 @@ namespace App { namespace Experiment { namespace Machines
 
             // Timers
             QTimer& t_warmup;
+            QTimer& t_pumpVoid;
+            QTimer& t_pumpManifoldVoid;
 
             // Leak detector
             LeakDetection& m_leakDetection;

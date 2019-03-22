@@ -14,6 +14,8 @@ namespace App { namespace Experiment { namespace Machines
 
             // Timers
         ,   t_warmup(*new QTimer(parent))
+        ,   t_pumpVoid(*new QTimer(parent))
+        ,   t_pumpManifoldVoid(*new QTimer(parent))
 
             // Sub state machines
         ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
@@ -30,10 +32,18 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("warmupPump", true), &QState::entered, this, &PumpControl::startWarmup);
 
         connect(validator("vacuumSufficent", true), &QState::entered, this, &PumpControl::isVacuumSufficent);
+        connect(validator("vacuumSufficent_2", true), &QState::entered, this, &PumpControl::isVacuumSufficent);
 
         // Leak state machine
         connect(state("checkForLeaks", true), &QState::entered, this, &PumpControl::leakDetecter);
 
+        // Max timers triggers
+        connect(state("startValvePumpTimer", true), &QState::entered, this, &PumpControl::startToValve);
+        connect(state("startBarrelPumpTimer", true), &QState::entered, this, &PumpControl::startToBarrel);
+
+        // Are max timers running
+        connect(state("maxPumpingValve", true), &QState::entered, this, &PumpControl::isValveTimerRunning);
+        connect(state("maxPumpingBarrel", true), &QState::entered, this, &PumpControl::isBarrelTimerRunning);
     }
 
     PumpControl::~PumpControl()
@@ -64,6 +74,14 @@ namespace App { namespace Experiment { namespace Machines
 
         // Lower set points
         params.insert("lower", m_settings->general()->pump(pump)["lower_set_point"].toInt());
+
+        // Max allowed time for pumping large pump to valve void
+        params.insert("pump_void", (m_settings->general()->pump(pump)["pump_void"].toInt() * 1000) * 60);
+        t_pumpVoid.setInterval(params["pump_void"].toInt());
+
+        // Max allowed time for pumping large pump to valve to barrel void
+        params.insert("pump_manifold_void", (m_settings->general()->pump(pump)["pump_manifold_void"].toInt() * 1000) * 60);
+        t_pumpManifoldVoid.setInterval(params["pump_manifold_void"].toInt());
 
         // Leak detection
         params.insert("period", m_settings->general()->pump(pump)["leak_period"].toInt());
@@ -143,25 +161,47 @@ namespace App { namespace Experiment { namespace Machines
                 validator("validatePumpOn", true)->addTransition(this->pumps(), &Functions::PumpFunctions::emit_validationFailed, &sm_stopAsFailed);
 
                 // Warmup pump
-                state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("guage_pressure", true));
+                state("warmupPump", true)->addTransition(&t_warmup, &QTimer::timeout, state("startValvePumpTimer", true));
+
+                    // Start timer
+                    state("startValvePumpTimer", true)->addTransition(this, &PumpControl::emit_timerStarted, state("guage_pressure", true));
 
                     // Request read pressure
                     state("guage_pressure", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("vacuumSufficent", true));
 
-                    // Read pressure till hits set point  emit_wrongGuage
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, state("guage_pressure", true)); // THIS NEED TIMER TO RETEST
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_wrongGuage, state("guage_pressure", true)); // THIS NEED TIMER TO RETEST
-                    validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openPumpValve", true));
+                        // Read pressure till hits set point
+                        validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, state("maxPumpingValve", true));
+                        validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_wrongGuage, state("guage_pressure", true));
+                        validator("vacuumSufficent", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, state("openPumpValve", true));
 
-                    // Check for leaks then finish here maybe
+                        // Check max timer
+                        state("maxPumpingValve", true)->addTransition(this, &PumpControl::emit_timeElapsed, state("valveOff", true));
+                        state("maxPumpingValve", true)->addTransition(this, &PumpControl::emit_timerRunning, state("guage_pressure", true));
 
+                    // Check for leaks here?
 
                     // Open valve
                     transitionsBuilder()->openValve(state("openPumpValve", true), validator("validateOpenPumpValve", true), state("checkForLeaks", true), state("valveOff", true));
 
                     // Check for leaks then finish
-                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFinished, &sm_stop);
+                    state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFinished, state("startBarrelPumpTimer", true));
                     state("checkForLeaks", true)->addTransition(&m_leakDetection, &LeakDetection::emit_leakDetected, state("valveOff", true));
+
+                    // Start max pumping timer
+                    state("startBarrelPumpTimer", true)->addTransition(this, &PumpControl::emit_timerStarted, state("guage_pressure_2", true));
+
+                    // Check new pressure
+                    state("guage_pressure_2", true)->addTransition(&m_hardware, &Hardware::Access::emit_guageReadVacuum, validator("vacuumSufficent_2", true));
+
+                        // Large manifold could increase vacuum above set point; hence read pressure till hits set point
+                        validator("vacuumSufficent_2", true)->addTransition(this, &PumpControl::emit_vaccumNotSufficient, state("maxPumpingBarrel", true));
+                        validator("vacuumSufficent_2", true)->addTransition(this, &PumpControl::emit_wrongGuage, state("guage_pressure_2", true));
+                        validator("vacuumSufficent_2", true)->addTransition(this, &PumpControl::emit_vacuumSufficent, &sm_stop);
+
+                        // Check max timer
+                        state("maxPumpingBarrel", true)->addTransition(this, &PumpControl::emit_timeElapsed, state("valveOff", true));
+                        state("maxPumpingBarrel", true)->addTransition(this, &PumpControl::emit_timerRunning, state("guage_pressure_2", true));
+
 
                     // Before failure turn pump off
                     state("valveOff", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("pumpOff", true));
@@ -228,7 +268,7 @@ namespace App { namespace Experiment { namespace Machines
             // Check correct valve
             if(guageId != (m_pumpId + 6))
             {
-                qDebug() << "wrong valve:" << guageId << "wanted:"<<(m_pumpId+6);
+                //qDebug() << "wrong valve:" << guageId << "wanted:"<<(m_pumpId+6);
                 emit emit_wrongGuage();
                 return;
             }
@@ -241,7 +281,7 @@ namespace App { namespace Experiment { namespace Machines
             {
                 // Guage tripped emit
                 emit emit_vacuumSufficent();
-                qDebug() << "Yes it is";
+                //qDebug() << "Yes it is";
                 return;
             }
         }
@@ -257,10 +297,75 @@ namespace App { namespace Experiment { namespace Machines
      */
     void PumpControl::startWarmup()
     {
-        qDebug() << "Timer started" << t_warmup.interval();
+        //qDebug() << "Timer started" << t_warmup.interval();
         // Setup timer
         t_warmup.setSingleShot(true);
         t_warmup.start();
+    }
+
+
+    /**
+     * Start timer for pump to valve vacuum
+     *
+     * @brief PumpControl::startToValve
+     */
+    void PumpControl::startToValve()
+    {
+        if(t_pumpVoid.isActive())
+            return;
+
+        qDebug() << "To valve timer started" << t_pumpVoid.interval();;
+        // Setup timer
+        t_pumpVoid.setSingleShot(true);
+        t_pumpVoid.start();
+
+        emit emit_timerStarted();
+    }
+
+
+    void PumpControl::isValveTimerRunning()
+    {
+        if(t_pumpVoid.isActive())
+        {
+            qDebug() << "Valve timer running";
+            emit emit_timerRunning();
+            return;
+        }
+        qDebug() << "Valve timer elapsed";
+        emit emit_timeElapsed();
+    }
+
+
+    /**
+     * Start timer for pump to valve to barrel vacuum
+     *
+     * @brief PumpControl::startToBarrel
+     */
+    void PumpControl::startToBarrel()
+    {
+        if(t_pumpManifoldVoid.isActive())
+            return;
+
+        qDebug() << "To barrel timer started"<< t_pumpManifoldVoid.interval();;
+
+        // Setup timer
+        t_pumpManifoldVoid.setSingleShot(true);
+        t_pumpManifoldVoid.start();
+
+        emit emit_timerStarted();
+    }
+
+    void PumpControl::isBarrelTimerRunning()
+    {
+        if(t_pumpManifoldVoid.isActive())
+        {
+            qDebug() << "Barrel timer running";
+            emit emit_timerRunning();
+            return;
+        }
+
+         qDebug() << "Barrel timer elapsed";
+        emit emit_timeElapsed();
     }
 }}}
 

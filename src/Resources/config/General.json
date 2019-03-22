@@ -133,6 +133,9 @@
             "alarm_pressure": 300,
             "alarm_time": 120,
 
+            "pump_void": 1,
+            "pump_manifold_void": 1,
+
             "leak_detection": true,
             "leak_period": 20000,
             "leak_max": 10
@@ -151,6 +154,9 @@
 
             "alarm_pressure": 300,
             "alarm_time": 120,
+
+            "pump_void": 1,
+            "pump_manifold_void": 1,
 
             "leak_detection": true,
             "leak_period": 20000,

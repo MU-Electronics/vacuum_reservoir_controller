@@ -243,6 +243,8 @@ namespace App { namespace Settings
             pump["alarm_pressure"] = item["alarm_pressure"].toInt();
             pump["alarm_time"] = item["alarm_time"].toInt();
             pump["warm_up"] = item["warm_up"].toInt();
+            pump["pump_void"] = item["pump_void"].toInt();
+            pump["pump_manifold_void"] = item["pump_manifold_void"].toInt();
             pump["leak_detection"] = item["leak_detection"].toBool();
             pump["leak_period"] = item["leak_period"].toInt();
             pump["leak_max"] = item["leak_max"].toInt();

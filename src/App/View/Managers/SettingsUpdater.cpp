@@ -96,6 +96,8 @@ namespace App { namespace View { namespace Managers
         pump["alarm_pressure"] = alarmPressure;
         pump["alarm_time"] = alarmTime;
         pump["warm_up"] = warmupTime;
+        pump["pump_void"] = pump["pump_void"].toInt();
+        pump["pump_manifold_void"] = pump["pump_manifold_void"].toInt();
         pump["leak_detection"] = pump["leak_detection"].toBool();
         pump["leak_period"] = pump["leak_period"].toInt();
         pump["leak_max"] = pump["leak_max"].toInt();
