@@ -97,7 +97,6 @@ Rectangle
         onClicked: {
             if(SystemValuesManager.showSettings())
             {
-                console.log("showing");
                 settingsloader.source = "../../parts/rig/settings/BarrelSettings.qml"
                 settingsloader.active = true
                 settingsloader.focus = true

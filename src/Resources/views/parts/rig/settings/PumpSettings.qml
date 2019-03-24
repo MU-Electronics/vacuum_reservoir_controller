@@ -22,18 +22,15 @@ Popup {
 
     property var settingsLoaderAliase: 0
 
+    property int rowHeights: 65
+
     width: 720
-    height: 320
+    height: 440
     //contentWidth: view.implicitWidth
     //contentHeight: view.implicitHeight
     x: {
         if(popup.settingx != 0)
             return popup.settingx
-
-        if(popup.set == 7)
-        {
-            return -42;
-        }
 
         return (-685)
     }
@@ -43,6 +40,7 @@ Popup {
             return popup.settingy
 
         return -290
+        //return -390
     }
     closePolicy: Popup.NoAutoClose
     modal: true
@@ -68,7 +66,7 @@ Popup {
         Rectangle{
             id: enables
             width: parent.width + 20
-            height: 70
+            height: popup.rowHeights
             color: "#f9f9f9"
             anchors.left: parent.left
             anchors.leftMargin: -10
@@ -134,11 +132,11 @@ Popup {
         }
 
 
-        // Sensors and valves
+        // Alarm
         Rectangle{
             id: sensors
             width: parent.width + 20
-            height: 70
+            height: popup.rowHeights
             color: "#f2f2f2"
             anchors.left: parent.left
             anchors.leftMargin: -10
@@ -165,12 +163,12 @@ Popup {
                     font.pointSize: 11
                 }
 
-                SpinBox {
+                DecimalSpinner{
                     id: pumpAlarmState
                     width: 150
-                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_pressure"]
-                    from:1
-                    to:500
+                    from: 0
+                    to: 500 * factor
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_pressure"] * factor
                 }
 
                 Item{
@@ -200,7 +198,7 @@ Popup {
                     id: pumpAlarmTimeState
                     width: 200
                     value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_time"]
-                    from:1
+                    from:0
                     to:1000
                 }
             }
@@ -211,8 +209,9 @@ Popup {
 
         // Targets
         Rectangle{
+            id: targets
             width: parent.width + 20
-            height: 70
+            height: popup.rowHeights
             color: "#f9f9f9"
             anchors.left: parent.left
             anchors.leftMargin: -10
@@ -234,7 +233,7 @@ Popup {
 
                 DecimalSpinner{
                     id: lowerPumpSetPoint
-                    width: 155
+                    width: 170
                     from: 0
                     to: 800 * factor
                     value: SystemValuesManager.pumpSettings[popup.pumpId + "_lower_set_point"] * factor
@@ -297,7 +296,161 @@ Popup {
 
 
 
+        // Timings
+        Rectangle{
+            id: pumpingTimings
+            width: parent.width + 20
+            height: popup.rowHeights
+            color: "#f2f2f2"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: targets.bottom
+            anchors.topMargin: 1
 
+            Row
+            {
+                width: parent.width
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+
+                DualColumnLabel{
+                    width: 165
+                    topLabel: "Max Pump -> Valve"
+                    bottomLabel: "(min)"
+                }
+
+
+                SpinBox {
+                    id: pumpMaxPumpValveTime
+                    width: 160
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_pump_void"]
+                    from:0
+                    to:1000
+                }
+
+                Item{
+                    width: 20
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f9f9f9"
+                    }
+                }
+
+                DualColumnLabel{
+                    width: 165
+                    topLabel: "Max Pump -> Barrels"
+                    bottomLabel: "(min)"
+                }
+
+                SpinBox {
+                    id: pumpMaxPumpBarrelsTime
+                    width: 160
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_pump_manifold_void"]
+                    from:0
+                    to:1000
+                }
+            }
+        }
+
+
+        // Leak detection
+        Rectangle{
+            id: leaks
+            width: parent.width + 20
+            height: popup.rowHeights
+            color: "#f9f9f9"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: pumpingTimings.bottom
+            anchors.topMargin: 1
+
+            Row
+            {
+                width: parent.width
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+                Label{
+                    text: "Leak Detection"
+                    width: 120
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                ComboBox {
+                    id: pumpLeakDetection
+                    width:120
+                    model: ["Disable", "Enable"]
+                    currentIndex: (SystemValuesManager.pumpSettings[popup.pumpId + "_leak_detection"]) ? 1 : 0
+                }
+
+                Item{
+                    width: 20
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f1f1f1"
+                    }
+                }
+
+                DualColumnLabel{
+                    topLabel: "Period"
+                    bottomLabel: "(secs)"
+                }
+
+                SpinBox {
+                    id: pumpLeakPeriod
+                    width: 130
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_leak_period"] / 1000
+                    from:1
+                    to:999
+                }
+
+                Item{
+                    width: 20
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f1f1f1"
+                    }
+                }
+
+                DualColumnLabel{
+                    topLabel: "Max Fall"
+                    bottomLabel: "(mbar)"
+                }
+
+                DecimalSpinner{
+                    id: pumpLeakFall
+                    width: 140
+                    from: 1
+                    to: 999 * factor
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_leak_max"] * factor
+                }
+            }
+        }
+
+
+        // Save / Cancel
         Rectangle{
             id: commands
 
@@ -333,11 +486,13 @@ Popup {
                 anchors.topMargin: 10
                 text: "Save"
                 onClicked: {
-                    console.log(popup.pumpId);
                     // Save values
                     SettingsUpdaterManager.updatePumpSettings(popup.pumpId, pumpAutoState.currentIndex, pumpManualState.currentIndex,
-                                                              pumpAlarmState.value, pumpAlarmTimeState.value,
-                                                              lowerPumpSetPoint.value, pumpUpperSetPointState.value, pumpWarmupState.value);
+                                                              (pumpAlarmState.value / pumpAlarmState.factor), pumpAlarmTimeState.value,
+                                                              (lowerPumpSetPoint.value / lowerPumpSetPoint.factor), (pumpUpperSetPointState.value/ pumpUpperSetPointState.factor), pumpWarmupState.value,
+                                                              pumpMaxPumpValveTime.value, pumpMaxPumpBarrelsTime.value,
+                                                              pumpLeakDetection.currentIndex, (pumpLeakPeriod.value*1000), (pumpLeakFall.value / pumpLeakFall.factor));
+
                     // Close popup
                     settingsLoaderAliase.active = false
                     settingsLoaderAliase.focus = false

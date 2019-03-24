@@ -291,6 +291,8 @@ Item{
         y:320
         waitx: 255
         waity: -200
+        settingx: -42
+        settingy: -390
         set: 7
         enabled: SystemValuesManager.pumpState["1_enabled"];
         state: SystemValuesManager.pumpState["1_status"];
@@ -385,7 +387,7 @@ Item{
         y:320
         set: 8
         settingx: -683
-        settingy: -290
+        settingy: -390
         waitx: -380
         waity: -200
         enabled: SystemValuesManager.pumpState["2_enabled"];

@@ -238,16 +238,16 @@ namespace App { namespace Settings
             // Add only the data we expect
             pump["auto_control_enabled"] = item["auto_control_enabled"].toBool();
             pump["manual_control_enabled"] = item["manual_control_enabled"].toBool();
-            pump["lower_set_point"] = item["manual_control_enabled"].toInt();
-            pump["upper_set_point"] = item["upper_set_point"].toInt();
-            pump["alarm_pressure"] = item["alarm_pressure"].toInt();
+            pump["lower_set_point"] = item["manual_control_enabled"].toDouble();
+            pump["upper_set_point"] = item["upper_set_point"].toDouble();
+            pump["alarm_pressure"] = item["alarm_pressure"].toDouble();
             pump["alarm_time"] = item["alarm_time"].toInt();
             pump["warm_up"] = item["warm_up"].toInt();
             pump["pump_void"] = item["pump_void"].toInt();
             pump["pump_manifold_void"] = item["pump_manifold_void"].toInt();
             pump["leak_detection"] = item["leak_detection"].toBool();
             pump["leak_period"] = item["leak_period"].toInt();
-            pump["leak_max"] = item["leak_max"].toInt();
+            pump["leak_max"] = item["leak_max"].toDouble();
 
             // Add to main chamber object
             pumps[QString::number(p)] = pump;

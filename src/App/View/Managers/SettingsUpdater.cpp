@@ -48,8 +48,9 @@ namespace App { namespace View { namespace Managers
 
 
     void SettingsUpdater::updateBarrelSettings(int group, int autoState, int manualstate,
-                              int alarmPressure, int alarmTime,
-                              int lowerSetPoint, int upperSetPoint)
+                              double alarmPressure, int alarmTime,
+                              double lowerSetPoint, double upperSetPoint,
+                              int leakDetection, int leakPeriod, double leakFall)
     {
         // Get chamber
         auto chamber = m_settings->general()->chamber(group);
@@ -61,9 +62,9 @@ namespace App { namespace View { namespace Managers
         chamber["upper_set_point"] = upperSetPoint;
         chamber["alarm_pressure"] = alarmPressure;
         chamber["alarm_time"] = alarmTime;
-        chamber["leak_detection"] = chamber["leak_detection"].toBool();
-        chamber["leak_period"] = chamber["leak_period"].toInt();
-        chamber["leak_max"] = chamber["leak_max"].toInt();
+        chamber["leak_detection"] = bool(leakDetection);
+        chamber["leak_period"] = leakPeriod;
+        chamber["leak_max"] = leakFall;
 
         // Save settings
         if(group == 1)
@@ -82,8 +83,10 @@ namespace App { namespace View { namespace Managers
 
 
     void SettingsUpdater::updatePumpSettings(int group, int autoState, int manualstate,
-                            int alarmPressure, int alarmTime,
-                            int lowerSetPoint, int upperSetPoint, int warmupTime)
+                            double alarmPressure, int alarmTime,
+                            double lowerSetPoint, double upperSetPoint, int warmupTime,
+                            int pumpToValve, int pumpToBarrel,
+                            int leakDetection, int leakPeriod, double leakFall)
     {
         // Get chamber
         auto pump = m_settings->general()->pump(group);
@@ -96,11 +99,11 @@ namespace App { namespace View { namespace Managers
         pump["alarm_pressure"] = alarmPressure;
         pump["alarm_time"] = alarmTime;
         pump["warm_up"] = warmupTime;
-        pump["pump_void"] = pump["pump_void"].toInt();
-        pump["pump_manifold_void"] = pump["pump_manifold_void"].toInt();
-        pump["leak_detection"] = pump["leak_detection"].toBool();
-        pump["leak_period"] = pump["leak_period"].toInt();
-        pump["leak_max"] = pump["leak_max"].toInt();
+        pump["pump_void"] = pumpToValve;
+        pump["pump_manifold_void"] = pumpToBarrel;
+        pump["leak_detection"] = bool(leakDetection);
+        pump["leak_period"] = leakPeriod;
+        pump["leak_max"] = leakFall;
 
         qDebug() << pump;
 

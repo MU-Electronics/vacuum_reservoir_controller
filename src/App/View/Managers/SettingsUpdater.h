@@ -39,11 +39,12 @@ namespace App { namespace View { namespace Managers
 
         public slots:
             void updateBarrelSettings(int group, int autoState, int manualstate,
-                                      int alarmPressure, int alarmTime,
-                                      int lowerSetPoint, int upperSetPoint);
+                                      double alarmPressure, int alarmTime,
+                                      double lowerSetPoint, double upperSetPoint,
+                                      int leakDetection, int leakPeriod, double leakFall);
             void updatePumpSettings(int group, int autoState, int manualstate,
-                                    int alarmPressure, int alarmTime,
-                                    int lowerSetPoint, int upperSetPoint, int warmupTime);
+                                    double alarmPressure, int alarmTime,
+                                    double lowerSetPoint, double upperSetPoint, int warmupTime, int pumpToValve, int pumpToBarrel, int leakDetection, int leakPeriod, double leakFall);
             void updateCommentSettings(int group, QString comment);
 
         private:

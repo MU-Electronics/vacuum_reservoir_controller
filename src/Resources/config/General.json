@@ -12,12 +12,12 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 5000,
+            "leak_max": 0.6
         },
         "2":
         {
@@ -30,12 +30,12 @@
             "lower_set_point": 15,
             "upper_set_point": 1200,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 5000,
+            "leak_max": 0.5
         },
         "3":
         {
@@ -48,12 +48,12 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 5000,
+            "leak_max": 0.5
         },
         "4":
         {
@@ -66,12 +66,12 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 5000,
+            "leak_max": 0.5
         },
         "5":
         {
@@ -84,12 +84,12 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 15000,
+            "leak_max": 0.5
         },
         "6":
         {
@@ -102,12 +102,12 @@
             "lower_set_point": 15,
             "upper_set_point": 100,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
-            "leak_period": 1000,
-            "leak_max": 100
+            "leak_period": 5000,
+            "leak_max": 0.5
         }
     },
 
@@ -125,20 +125,20 @@
             "manual_control_enabled": true,
             "remote_control_enabled": true,
 
-            "lower_set_point": 15,
-            "upper_set_point": 150,
+            "lower_set_point": 0.01,
+            "upper_set_point": 1.2,
 
             "warm_up": 1,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 10,
             "alarm_time": 120,
 
-            "pump_void": 1,
-            "pump_manifold_void": 1,
+            "pump_void": 5,
+            "pump_manifold_void": 10,
 
             "leak_detection": true,
-            "leak_period": 20000,
-            "leak_max": 10
+            "leak_period": 2100,
+            "leak_max": 1.5
         },
 
         "2":
@@ -147,20 +147,20 @@
             "manual_control_enabled": true,
             "remote_control_enabled": true,
 
-            "lower_set_point": 15,
-            "upper_set_point": 100,
+            "lower_set_point": 0.05,
+            "upper_set_point": 4.8,
 
             "warm_up": 1,
 
-            "alarm_pressure": 300,
+            "alarm_pressure": 10,
             "alarm_time": 120,
 
-            "pump_void": 1,
-            "pump_manifold_void": 1,
+            "pump_void": 2,
+            "pump_manifold_void": 3,
 
             "leak_detection": true,
             "leak_period": 20000,
-            "leak_max": 10
+            "leak_max": 1.5
         }
     }
 }
