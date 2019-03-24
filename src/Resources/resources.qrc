@@ -29,5 +29,7 @@
         <file>views/parts/rig/settings/ValveSettings.qml</file>
         <file>views/parts/rig/settings/AutoScroller.qml</file>
         <file>views/parts/BusyPopup.qml</file>
+        <file>views/parts/DecimalSpinner.qml</file>
+        <file>views/parts/DualColumnLabel.qml</file>
     </qresource>
 </RCC>

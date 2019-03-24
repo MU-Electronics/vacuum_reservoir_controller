@@ -6,6 +6,8 @@ import QtQuick.VirtualKeyboard.Settings 2.2
 import QtQuick.Controls.Material 2.2 as Materials
 
 
+import '../../'
+
 Popup {
 
     id: popup
@@ -225,23 +227,17 @@ Popup {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 2
 
-                Label{
-                    text: "Lower (mbar)"
-                    width: 90
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
+                DualColumnLabel{
+                    topLabel: "Lower"
+                    bottomLabel: "(mbar)"
                 }
 
-                SpinBox {
+                DecimalSpinner{
                     id: lowerPumpSetPoint
-                    width: 120
-                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_lower_set_point"]
-                    from:1
-                    to:800
+                    width: 155
+                    from: 0
+                    to: 800 * factor
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_lower_set_point"] * factor
                 }
 
                 Item{
@@ -255,27 +251,21 @@ Popup {
                         color: "#f1f1f1"
                     }
                 }
-                Label{
-                    text: "Upper (mbar)"
-                    width: 90
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
+
+                DualColumnLabel{
+                    topLabel: "Upper"
+                    bottomLabel: "(mbar)"
                 }
 
-                SpinBox {
+                DecimalSpinner{
                     id: pumpUpperSetPointState
-                    width: 120
+                    from: lowerPumpSetPoint.value + 0.1
+                    width: 170
                     value: {
-                        if(lowerPumpSetPoint.value + 50 > SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"])
-                            return lowerPumpSetPoint.value + 50
-                        return SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"]
+                        if(lowerPumpSetPoint.value + 50 > (SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"] * factor))
+                            return (lowerPumpSetPoint.value + 50)
+                        return (SystemValuesManager.pumpSettings[popup.pumpId + "_upper_set_point"]) * factor
                     }
-                    from: lowerPumpSetPoint.value + 50
-                    to:900
                 }
 
                 Item{
@@ -290,15 +280,9 @@ Popup {
                     }
                 }
 
-                Label{
-                    text: "Warm up (min)"
-                    width: 100
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
+                DualColumnLabel{
+                    topLabel: "Warm Up"
+                    bottomLabel: "(min)"
                 }
 
                 SpinBox {
