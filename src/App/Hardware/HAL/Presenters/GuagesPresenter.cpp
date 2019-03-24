@@ -128,7 +128,8 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["guage_id"] = commands["guage_id"];
 
         // Voltage
-        presented["voltage"] = package.at(0).toDouble() / 0.201793722;
+        presented["voltage"] = voltageAverage(presented["guage_id"].toInt(), (package.at(0).toDouble() / 0.201793722));
+        //presented["voltage"] = (package.at(0).toDouble() / 0.201793722);
 
         // Convert voltage to pressure in mbar
         if(presented["voltage"] <= 3)
