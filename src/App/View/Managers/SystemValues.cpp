@@ -610,6 +610,16 @@ namespace App { namespace View { namespace Managers
 
         // Tell everyone we've updated
         emit_controlChanged(m_control);
+
+        // If auto control
+        if(type == "manual_auto" && state)
+        {
+            m_experimentEngine->machines().startAutoControl();
+        }
+        else if(type == "manual_auto" && !state)
+        {
+            m_experimentEngine->machines().stopAutoControl();
+        }
     }
 
 }}}

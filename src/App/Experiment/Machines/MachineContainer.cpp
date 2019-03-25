@@ -11,7 +11,7 @@ namespace App { namespace Experiment { namespace Machines
         ,   m_readPressure(*new ReadPressure(parent, settings, hardware))
         ,   m_readGuageTrip(*new ReadGuageTrip(parent, settings, hardware))
         ,   m_pumpControl(*new PumpControl(parent, settings, hardware))
-        ,   m_autoControl(*new AutomaticControl(parent, settings, hardware))
+        ,   m_autoControl(*new AutomaticControl(parent, settings, hardware, m_readGuageTrip, m_pumpControl))
         ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
         ,   m_valveControl(*new ValveControl(parent, settings, hardware))
     {
@@ -149,7 +149,7 @@ namespace App { namespace Experiment { namespace Machines
     // Auto control state machine control
     void MachineContainer::startAutoControl()
     {
-        // m_autoControl.setParams(mode);
+        m_autoControl.setParams();
         m_autoControl.start();
     }
     void MachineContainer::stopAutoControl()

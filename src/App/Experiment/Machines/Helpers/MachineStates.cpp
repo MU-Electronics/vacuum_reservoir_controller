@@ -236,11 +236,13 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         // Stop main machine
         if(error && !shutDownMachines)
         {
+            qDebug() << "Shutdown with failure";
             // Tell every we have stopped becuase of an error
             emit emit_machineFailed(errorDetails);
         }
         else if(!error && !shutDownMachines)
         {
+            qDebug() << "Shutdown with success";
             // Tell every we have stopped becuase machine finished
             emit emit_machineFinished(errorDetails);
         }
