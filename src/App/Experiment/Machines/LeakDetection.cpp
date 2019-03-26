@@ -124,7 +124,7 @@ namespace App { namespace Experiment { namespace Machines
             // Get the package data from the instance
             QVariantMap package = command->package;
 
-            qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
+            //qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
 
             // Guage id
             int guageId = package["guage_id"].toInt();
@@ -143,38 +143,38 @@ namespace App { namespace Experiment { namespace Machines
             // First sample save pressure for later comparisions
             if(m_count == 1)
             {
-                qDebug() << "Setting m_pressure to:"<<pressure;
+                //qDebug() << "Setting m_pressure to:"<<pressure;
                 m_pressure = pressure;
             }
 
             // Only update and alert if value has changed
-            qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<params["fall"].toDouble();
+            //qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<params["fall"].toDouble();
             if((pressure - m_pressure) >= params["fall"].toDouble() && params["sample"].toInt() >= m_count)
             {
                 // Guage tripped emit
                 emit emit_leakDetected();
-                qDebug() << "Leak detected";
+                //qDebug() << "Leak detected";
                 return;
             }
 
             // Has we reached the end of sampling 4 < 1
             if(params["sample"].toInt() < m_count)
             {
-                qDebug() << "sample:" << params["sample"].toInt() << "count:" << m_count;
+                //qDebug() << "sample:" << params["sample"].toInt() << "count:" << m_count;
                 // No leak detected
                 emit emit_samplesReachedNoLeak();
-                qDebug() << "samples reached no leak detected";
+                //qDebug() << "samples reached no leak detected";
                 return;
             }
 
             // No leak detected
             emit emit_continue();
-            qDebug() << "continue";
+            //qDebug() << "continue";
             return;
         }
 
         // Some error occured
-        qDebug() << "Casting error";
+        //qDebug() << "Casting error";
         emit emit_leakCastingError();
     }
 
@@ -190,7 +190,7 @@ namespace App { namespace Experiment { namespace Machines
         // Increment count
         m_count++;
 
-        qDebug() << "leaker timer started:" << t_leakPeriod.interval() << " At count:" << m_count;
+        //qDebug() << "leaker timer started:" << t_leakPeriod.interval() << " At count:" << m_count;
 
         // Start timer for a single shot
         t_leakPeriod.setSingleShot(true);
