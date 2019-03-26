@@ -79,7 +79,7 @@ namespace App { namespace Experiment { namespace Machines
             QMap<int, double> m_pressures;
 
             // Mark pumps are usable
-            int m_currentPump = 0;
+            int m_currentPump = 1;
             int m_disabledPump1 = 0;
             int m_disabledPump2 = 0;
 

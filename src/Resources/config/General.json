@@ -133,8 +133,8 @@
             "alarm_pressure": 10,
             "alarm_time": 120,
 
-            "pump_void": 5,
-            "pump_manifold_void": 10,
+            "pump_void": 1,
+            "pump_manifold_void": 1,
 
             "leak_detection": true,
             "leak_period": 2100,
@@ -155,8 +155,8 @@
             "alarm_pressure": 10,
             "alarm_time": 120,
 
-            "pump_void": 2,
-            "pump_manifold_void": 3,
+            "pump_void": 1,
+            "pump_manifold_void": 1,
 
             "leak_detection": true,
             "leak_period": 20000,
