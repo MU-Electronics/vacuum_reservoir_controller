@@ -48,7 +48,7 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("maxPumpingBarrel", true), &QState::entered, this, &PumpControl::isBarrelTimerRunning);
 
 
-        // Pump selection
+        // Pump selection 1
         connect(state("pumpOn1", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump1);
         connect(validator("validatePumpOn1", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump1);
 
@@ -61,6 +61,9 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("valveOff1", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup7);
         connect(validator("validateValveOff1", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup7);
 
+
+
+        // Pump selection 2
         connect(state("pumpOn2", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::enablePump2);
         connect(validator("validatePumpOn2", true), &QState::entered, this->pumps(), &Functions::PumpFunctions::validateEnablePump2);
 

@@ -24,6 +24,8 @@ namespace App { namespace Experiment { namespace Machines
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
 
+        t_pumpBarrel.setInterval(10000);
+
         // Record when trips are triggered
         connect(&trips, &ReadGuageTrip::emit_guageTripped, this, &AutomaticControl::guageTripped);
 
@@ -42,7 +44,7 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("manifoldLeakDetect", true), &QState::entered, this, &AutomaticControl::manifoldLeakDetection);
 
         connect(state("closePumpValve", true), &QState::entered, this, &AutomaticControl::closePumpValve);
-        connect(state("closePumpValve", true), &QState::entered, this, &AutomaticControl::validateClosePumpValve);
+        connect(validator("closePumpValve", true), &QState::entered, this, &AutomaticControl::validateClosePumpValve);
 
         connect(state("openBarrel", true), &QState::entered, this, &AutomaticControl::openBarrelValve);
         connect(validator("openBarrel", true), &QState::entered, this, &AutomaticControl::validateOpenBarrelValve);
@@ -144,17 +146,16 @@ namespace App { namespace Experiment { namespace Machines
 
         state("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_invalidPumpNumber, &sm_stopAsFailed);
         state("closePumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, validator("closePumpValve", true));
-            validator("closePumpValve", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationWrongId, state("closePumpValve", true));
-            validator("closePumpValve", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationSuccess, state("openBarrel", true));
-            validator("closePumpValve", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationFailed, &sm_stopAsFailed);
+            validator("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_validationWrongId, state("closePumpValve", true));
+            validator("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_validationSuccess, state("openBarrel", true));
+            validator("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_validationFailed, &sm_stopAsFailed);
 
         state("openBarrel", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, validator("openBarrel", true));
-            validator("openBarrel", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationWrongId, state("openBarrel", true));
-            validator("openBarrel", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationSuccess, state("pumpingBarrelTimer", true));
-            validator("openBarrel", true)->addTransition(this->valves(), &Functions::ValveFunctions::emit_validationFailed, &sm_stopAsFailed);
+            validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationWrongId, state("openBarrel", true));
+            validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationSuccess, state("pumpingBarrelTimer", true));
+            validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationFailed, &sm_stopAsFailed);
 
         state("pumpingBarrelTimer", true)->addTransition(&t_pumpBarrel, &QTimer::timeout, state("barrelLeakDetect", true));
-
     }
 
 
@@ -166,7 +167,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::startBarrelPumpTimer()
     {
-        qDebug() << "starting barrel pumping timer";
+        qDebug() << "starting barrel pumping timer with inverval:"<<t_pumpBarrel.interval();
         t_pumpBarrel.setSingleShot(true);
         t_pumpBarrel.start();
     }
@@ -176,30 +177,32 @@ namespace App { namespace Experiment { namespace Machines
     void AutomaticControl::validateOpenBarrelValve()
     {
         qDebug() << "Validating valve" << m_currentBarrel;
-        switch(m_currentBarrel)
+
+        // Get the validator state instance
+        Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
+
+        // If cast successfull
+        if(command != nullptr && command->package.value("cast_status").toBool())
         {
-            case 1:
-                valves()->validateOpenGroup1();
-            break;
-            case 2:
-                valves()->validateOpenGroup2();
-            break;
-            case 3:
-                valves()->validateOpenGroup3();
-            break;
-            case 4:
-               valves()->validateOpenGroup4();
-            break;
-            case 5:
-                valves()->validateOpenGroup5();
-            break;
-            case 6:
-                valves()->validateOpenGroup6();
-            break;
-            default:
-                emit emit_invalidBarrelNumber();
+            // Get the package data from the instance
+            QVariantMap package = command->package;
+
+            qDebug() << package;
+
+            // Check valve is the same
+            if(package.value("group").toInt() == m_currentBarrel && true == package.value("value").toBool())
+            {
+                // Emit safe to proceed
+                emit emit_validationSuccess();
                 return;
+            }
+
+            emit emit_validationWrongId();
+            return;
         }
+
+        // Emit not safe to proceed
+        emit emit_validationFailed();
     }
 
     void AutomaticControl::openBarrelValve()
@@ -234,18 +237,33 @@ namespace App { namespace Experiment { namespace Machines
     void AutomaticControl::validateClosePumpValve()
     {
         qDebug() << "Validating close pump valve" << (m_currentPump + 6);
-        if((m_currentPump + 6) == 7)
+
+        // Get the validator state instance
+        Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
+
+        // If cast successfull
+        if(command != nullptr && command->package.value("cast_status").toBool())
         {
-            valves()->validateCloseGroup7();
-            return;
-        }
-        else if((m_currentPump + 6) == 8)
-        {
-            valves()->validateCloseGroup8();
+            // Get the package data from the instance
+            QVariantMap package = command->package;
+
+            qDebug() << package;
+
+            // Check valve is the same
+            if(package.value("group").toInt() == (m_currentPump + 6) && false == package.value("value").toBool())
+            {
+                // Emit safe to proceed
+                emit emit_validationSuccess();
+
+                return;
+            }
+
+            emit emit_validationWrongId();
             return;
         }
 
-        return emit_invalidPumpNumber();
+        // Emit not safe to proceed
+        emit emit_validationFailed();
     }
 
     void AutomaticControl::closePumpValve()
@@ -262,7 +280,7 @@ namespace App { namespace Experiment { namespace Machines
             return;
         }
 
-        return emit_invalidPumpNumber();
+        // return emit_invalidPumpNumber();
     }
 
 
@@ -276,7 +294,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::manifoldLeakDetection()
     {
-        qDebug() << "Manifold leak detect" << (m_currentPump + 6);
+        qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
         m_manifoldLeakDetection.setParams((m_currentPump + 6), 2000, 10, 4);
         m_manifoldLeakDetection.start();
     }
@@ -295,10 +313,10 @@ namespace App { namespace Experiment { namespace Machines
         }
 
         // Check if the pressure change from previous is none (possiable small leak event)
-        if(m_manifoldLastPressure > 0 && ((m_manifoldLastPressure - currentBarrel) > 0))
+        /*if(m_manifoldLastPressure > 0 && ((m_manifoldLastPressure - currentBarrel) > 0))
         {
             emit emit_possiablePumpManifoldLeak();
-        }
+        }*/
 
         // Mark last check
         m_manifoldLastPressure = currentBarrel;
@@ -343,6 +361,9 @@ namespace App { namespace Experiment { namespace Machines
 
                 // This barrel needs topping up
                 m_currentBarrel = a;
+
+                // Set pumping time for barrel
+                t_pumpBarrel.setInterval(10000);
 
                 m_manifoldLastPressure = -1;
 

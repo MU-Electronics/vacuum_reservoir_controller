@@ -59,6 +59,10 @@ namespace App { namespace Experiment { namespace Machines
 
             void emit_invalidBarrelNumber();
 
+            void emit_validationSuccess();
+            void emit_validationFailed();
+            void emit_validationWrongId();
+
         public slots:
             void guageTripped(int group, bool state);
             void guagePressures(QVariantMap package);
