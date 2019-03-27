@@ -246,10 +246,10 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::startBarrelLeakDetect()
     {
-        qDebug() << "Barrel leak detect"<<m_currentBarrel;
+        qDebug() << "Barrel leak detector on : "<<m_currentBarrel;
         auto barrel = m_settings->general()->chamber(m_currentBarrel);
 
-        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4);
+        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4, 2000);
         m_barrelLeakDetection.start();
     }
 
@@ -380,7 +380,7 @@ namespace App { namespace Experiment { namespace Machines
     void AutomaticControl::manifoldLeakDetection()
     {
         qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
-        m_manifoldLeakDetection.setParams((m_currentPump + 6), 10000, 1, 10);
+        m_manifoldLeakDetection.setParams((m_currentPump + 6), 10000, 1, 10, 3000);
         m_manifoldLeakDetection.start();
     }
 

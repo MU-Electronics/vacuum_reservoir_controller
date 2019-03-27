@@ -14,11 +14,14 @@ namespace App { namespace Experiment { namespace Machines
 
             // Timers
         ,   t_leakPeriod(*new QTimer(parent))
+        ,   t_initDelay(*new QTimer(parent))
     {
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
 
         // Update params when settings change @TODO
+
+        connect(state("initDelay", true), &QState::entered, this, &LeakDetection::startInitDelay);
 
         connect(state("startPressureMonitor", true), &QState::entered, this, &LeakDetection::startLeakPeriod);
 
@@ -37,7 +40,7 @@ namespace App { namespace Experiment { namespace Machines
      * Set the commands to be used by the machine
      *
      */
-    void LeakDetection::setParams(int group, int period, int fall, int sample)
+    void LeakDetection::setParams(int group, int period, int fall, int sample, int initDelay)
     {               
         // Group to monitor for leak
         params.insert("group", group);
@@ -50,6 +53,10 @@ namespace App { namespace Experiment { namespace Machines
 
         // Number of times to sample over set period
         params.insert("sample", sample);
+
+        // Allow inital delay before running for pressure to equalise
+        params.insert("init_delay", initDelay);
+        t_initDelay.setInterval(initDelay);
 
         // Set timer for pressure monitoring
         t_leakPeriod.setInterval(int(period / sample));
@@ -93,7 +100,11 @@ namespace App { namespace Experiment { namespace Machines
     void LeakDetection::buildMachine()
     {
         // Where to start the machine
-        sm_master.setInitialState(state("startPressureMonitor", true));
+        sm_master.setInitialState(state("initDelay", true));
+
+        // Init delay to allow pressure to equalise
+        state("initDelay", true)->addTransition(&t_initDelay, &QTimer::timeout, state("startPressureMonitor", true));
+
 
         // Timer for checking pressure on timeout OR emit_samplesReached final decision
         state("startPressureMonitor", true)->addTransition(&t_leakPeriod, &QTimer::timeout, state("takePressureReading", true));
@@ -178,6 +189,12 @@ namespace App { namespace Experiment { namespace Machines
         emit emit_leakCastingError();
     }
 
+
+    void LeakDetection::startInitDelay()
+    {
+        t_initDelay.setSingleShot(true);
+        t_initDelay.start();
+    }
 
 
     /**

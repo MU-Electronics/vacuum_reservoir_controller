@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~LeakDetection();
 
-            void setParams(int group, int period, int fall, int sample = 10);
+            void setParams(int group, int period, int fall, int sample = 10, int initDelay=0);
 
             void beforeStart();
 
@@ -44,6 +44,7 @@ namespace App { namespace Experiment { namespace Machines
         public slots:
             void startLeakPeriod();
             void checkPressure();
+            void startInitDelay();
 
         private:
             // Referance to QObject
@@ -54,6 +55,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Timers
             QTimer& t_leakPeriod;
+            QTimer& t_initDelay;
 
             int m_count;
             double m_pressure;
