@@ -189,7 +189,7 @@ namespace App { namespace Experiment { namespace Machines
             // Close barrel X valve @todo needs validation
             state("failureCloseBarrel", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("failureMarkBarrel", true));
             state("failureMarkBarrel", true)->addTransition(this, &AutomaticControl::emit_barrelMarkedAsLeaked ,state("failureOpenPumpValve", true));
-            state("failureOpenPumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, state("selectBarrel", true));
+            state("failureOpenPumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, state("noBarrelsWait", true));
 
 
         // Open pump valve and start pumping @todo needs validation
@@ -203,10 +203,7 @@ namespace App { namespace Experiment { namespace Machines
 
 
         // Close barrel valve return to select barrel @todo needs validation
-        state("closeBarrelValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("selectBarrel", true));
-
-
-        // Slight delay here @TODO
+        state("closeBarrelValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("noBarrelsWait", true));
     }
 
 
