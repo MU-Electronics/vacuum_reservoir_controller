@@ -20,6 +20,7 @@ namespace App { namespace Experiment { namespace Machines
             // state machines
         ,   m_pumpController(pumpController)
         ,   m_manifoldLeakDetection(*new LeakDetection(parent, settings, hardware))
+        ,   m_barrelLeakDetection(*new LeakDetection(parent, settings, hardware))
     {
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
@@ -27,6 +28,7 @@ namespace App { namespace Experiment { namespace Machines
         t_pumpBarrel.setInterval(10000);
 
         // Record when trips are triggered
+        connect(&m_hardware, &Hardware::Access::emit_guageReadVacuum, this, &AutomaticControl::guagePressures);
         connect(&trips, &ReadGuageTrip::emit_guageTripped, this, &AutomaticControl::guageTripped);
 
         // State machine connections
@@ -38,9 +40,10 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("markPumpFailure", true), &QState::entered, this, &AutomaticControl::markPumpFailure);
 
         connect(state("selectBarrel", true), &QState::entered, this, &AutomaticControl::selectBarrel);
+        connect(state("noBarrelsWait", true), &QState::entered, this, &AutomaticControl::manifoldLeakDetection);
 
         connect(state("manifoldPressure", true), &QState::entered, this, &AutomaticControl::manifoldPressure);
-        connect(state("manifoldPumpTimer", true), &QState::entered, this, &AutomaticControl::startManifoldPumpTimer);
+        connect(state("manifoldPumpTimer", true), &QState::entered, this, &AutomaticControl::isRunningManifoldPumpTimer);
         connect(state("manifoldLeakDetect", true), &QState::entered, this, &AutomaticControl::manifoldLeakDetection);
 
         connect(state("closePumpValve", true), &QState::entered, this, &AutomaticControl::closePumpValve);
@@ -49,10 +52,11 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("openBarrel", true), &QState::entered, this, &AutomaticControl::openBarrelValve);
         connect(validator("openBarrel", true), &QState::entered, this, &AutomaticControl::validateOpenBarrelValve);
 
-        connect(state("pumpingBarrelTimer", true), &QState::entered, this, &AutomaticControl::startBarrelPumpTimer);
-
         connect(state("barrelLeakDetect", true), &QState::entered, this, &AutomaticControl::startBarrelLeakDetect);
 
+        connect(state("failureCloseBarrel", true), &QState::entered, this, &AutomaticControl::closeBarrelValve);
+        connect(state("failureMarkBarrel", true), &QState::entered, this, &AutomaticControl::failureMarkBarrel);
+        connect(state("failureOpenPumpValve", true), &QState::entered, this, &AutomaticControl::failureOpenPumpValve);
 
     }
 
@@ -123,6 +127,7 @@ namespace App { namespace Experiment { namespace Machines
         state("requestPump2", true)->addTransition(&m_pumpController, &PumpControl::emit_machineFinished, state("selectBarrel", true));
         state("requestPump2", true)->addTransition(&m_pumpController, &PumpControl::emit_machineFailed, state("markPumpFailure", true));
 
+        // Mark as failed pump AND @TODO shutdown pump 2
         state("markPumpFailure", true)->addTransition(this, &AutomaticControl::emit_pumpMarkedAsFailed, state("selectPump", true));
 
 
@@ -133,17 +138,25 @@ namespace App { namespace Experiment { namespace Machines
         state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_goTo_4, state("manifoldPressure", true));
         state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_goTo_5, state("manifoldPressure", true));
         state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_goTo_6, state("manifoldPressure", true));
+        state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_noBarrelAvailable, state("noBarrelsWait", true));
+
+            // Manifold leak detect
+            state("noBarrelsWait", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("selectPump", true));
+            state("noBarrelsWait", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("selectBarrel", true));
 
         // Check manifold pressure
         state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_possiablePumpManifoldLeak, state("selectPump", true));
-        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldNotSufficent, state("manifoldPumpTimer", true));
-        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldSufficent, state("manifoldPumpTimer", true));
+        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldNotSufficent, state("manifoldPumpTimer", true));  // state("manifoldPumpTimer", true)
+        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldSufficent, state("closePumpValve", true));
 
-            state("manifoldPumpTimer", true)->addTransition(&t_pumpManifold, &QTimer::timeout, state("manifoldLeakDetect", true));
+            // How long have we been pumping
+            state("manifoldPumpTimer", true)->addTransition(this, &AutomaticControl::emit_totalTimeOk, state("manifoldLeakDetect", true));
+            state("manifoldPumpTimer", true)->addTransition(this, &AutomaticControl::emit_totalTimeExceeded, state("selectPump", true));
 
-            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("manifoldPressure", true));
-            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("closePumpValve", true));
+            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("selectPump", true));
+            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("manifoldPressure", true));
 
+        // Check barrel
         state("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_invalidPumpNumber, &sm_stopAsFailed);
         state("closePumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, validator("closePumpValve", true));
             validator("closePumpValve", true)->addTransition(this, &AutomaticControl::emit_validationWrongId, state("closePumpValve", true));
@@ -152,26 +165,93 @@ namespace App { namespace Experiment { namespace Machines
 
         state("openBarrel", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, validator("openBarrel", true));
             validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationWrongId, state("openBarrel", true));
-            validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationSuccess, state("pumpingBarrelTimer", true));
+            validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationSuccess, state("barrelLeakDetect", true));
             validator("openBarrel", true)->addTransition(this, &AutomaticControl::emit_validationFailed, &sm_stopAsFailed);
 
-        state("pumpingBarrelTimer", true)->addTransition(&t_pumpBarrel, &QTimer::timeout, state("barrelLeakDetect", true));
+        state("barrelLeakDetect", true)->addTransition(&m_barrelLeakDetection, &LeakDetection::emit_machineFailed, state("failureCloseBarrel", true));
+        state("barrelLeakDetect", true)->addTransition(&m_barrelLeakDetection, &LeakDetection::emit_machineFinished, state("openPumpValve", true));
+
+            // Close barrel X valve @todo needs validation
+            state("failureCloseBarrel", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("failureMarkBarrel", true));
+            state("failureMarkBarrel", true)->addTransition(this, &AutomaticControl::emit_barrelMarkedAsLeaked ,state("failureOpenPumpValve", true));
+            state("failureOpenPumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, state("selectBarrel", true));
+
+
+        // Open pump valve and start pumping
+
+
+        // Do other barrels need pumping?
+
+
+        // Close barrel valve return to select barrel
+
+    }
+
+
+    void AutomaticControl::closeBarrelValve()
+    {
+        qDebug() << "Closing barrel valve" << m_currentBarrel;
+
+        switch(m_currentBarrel)
+        {
+            case 1:
+                valves()->closeGroup1();
+            break;
+            case 2:
+                valves()->closeGroup2();
+            break;
+            case 3:
+                valves()->closeGroup3();
+            break;
+            case 4:
+               valves()->closeGroup4();
+            break;
+            case 5:
+                valves()->closeGroup5();
+            break;
+            case 6:
+                valves()->closeGroup6();
+            break;
+            default:
+                emit emit_invalidBarrelNumber();
+                return;
+        }
+    }
+
+    void AutomaticControl::failureMarkBarrel()
+    {
+        qDebug() << "Marking barrel as leaked" << m_currentBarrel;
+
+        if(!m_leaked.contains(m_currentBarrel))
+            m_leaked.append(m_currentBarrel);
+
+        emit emit_barrelMarkedAsLeaked(m_currentBarrel);
+    }
+
+    void AutomaticControl::failureOpenPumpValve()
+    {
+        qDebug() << "Failuring opening pump valve" << (m_currentPump + 6);
+        if((m_currentPump + 6) == 7)
+        {
+            valves()->openGroup7();
+            return;
+        }
+        else if((m_currentPump + 6) == 8)
+        {
+            valves()->openGroup8();
+            return;
+        }
     }
 
 
     void AutomaticControl::startBarrelLeakDetect()
     {
-        qDebug() << "Barrel leak detect";
+        qDebug() << "Barrel leak detect"<<m_currentBarrel;
+        auto barrel = m_settings->general()->chamber(m_currentBarrel);
+
+        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4);
+        m_barrelLeakDetection.start();
     }
-
-
-    void AutomaticControl::startBarrelPumpTimer()
-    {
-        qDebug() << "starting barrel pumping timer with inverval:"<<t_pumpBarrel.interval();
-        t_pumpBarrel.setSingleShot(true);
-        t_pumpBarrel.start();
-    }
-
 
 
     void AutomaticControl::validateOpenBarrelValve()
@@ -284,18 +364,23 @@ namespace App { namespace Experiment { namespace Machines
     }
 
 
-    void AutomaticControl::startManifoldPumpTimer()
+    void AutomaticControl::isRunningManifoldPumpTimer()
     {
         qDebug() << "Manifold pumping timer" << (m_currentPump + 6);
-        t_pumpManifold.setSingleShot(true);
-        t_pumpManifold.start();
+        if(t_pumpManifold.isActive())
+        {
+            emit emit_totalTimeOk();
+            return;
+        }
+
+        emit emit_totalTimeExceeded();
     }
 
 
     void AutomaticControl::manifoldLeakDetection()
     {
         qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
-        m_manifoldLeakDetection.setParams((m_currentPump + 6), 2000, 10, 4);
+        m_manifoldLeakDetection.setParams((m_currentPump + 6), 10000, 1, 10);
         m_manifoldLeakDetection.start();
     }
 
@@ -305,9 +390,19 @@ namespace App { namespace Experiment { namespace Machines
         // Current barrel reading
         auto currentBarrel = m_pressures[m_currentBarrel];
 
+        if(!m_manifoldTimerStarted)
+        {
+            qDebug() << "Starting mani timer" << t_pumpManifold.interval();
+            t_pumpManifold.setSingleShot(true);
+            t_pumpManifold.start();
+            m_manifoldTimerStarted = true;
+        }
+
         // If less than barrel pressure we're good to go
         if(m_pressures[(m_currentPump + 6)] < currentBarrel)
         {
+            m_manifoldTimerStarted = false;
+            t_pumpManifold.stop();
             emit emit_vacuumManifoldSufficent();
             return;
         }
@@ -315,6 +410,8 @@ namespace App { namespace Experiment { namespace Machines
         // Check if the pressure change from previous is none (possiable small leak event)
         /*if(m_manifoldLastPressure > 0 && ((m_manifoldLastPressure - currentBarrel) > 0))
         {
+            m_manifoldTimerStarted = false;
+            t_pumpManifold.stop();
             emit emit_possiablePumpManifoldLeak();
         }*/
 
@@ -328,18 +425,24 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::selectBarrel()
     {
-        // Increment current by one so we dont repeat it
-        if(m_currentBarrel == 6)
-        {
-            m_currentBarrel = 1;
-        }
-        else
-        {
-            m_currentBarrel++;
+        // Find max enabled barrel
+        int maxBarrelId = 1; // Down to up
+        for (auto i : m_enabled) {
+            maxBarrelId = qMax(maxBarrelId, i);
         }
 
+        // Find lowest enabled barrel
+        int minBarrelId = 6; // Up to down
+        for (auto i : m_enabled) {
+            minBarrelId = qMin(minBarrelId, i);
+        }
+
+        // Increment current by one so we dont repeat it
+        int startingPoint = (m_currentBarrel == maxBarrelId) ? minBarrelId : m_currentBarrel+1;
+
         // Find next barrel
-        for(int a = m_currentBarrel; a <= 6; ++a)
+        int foundBarrel = false;
+        for(int a = startingPoint; a <= 6; ++a)
         {
             if(m_enabled.contains(a))
             {
@@ -359,12 +462,16 @@ namespace App { namespace Experiment { namespace Machines
                 if(m_heavyLoad.contains(a))
                     continue;
 
+                // We have found a barrel that we can work on next
+                foundBarrel = true;
+
                 // This barrel needs topping up
                 m_currentBarrel = a;
 
                 // Set pumping time for barrel
                 t_pumpBarrel.setInterval(10000);
 
+                // Reset the manifold last pressure
                 m_manifoldLastPressure = -1;
 
                 // Break from loop
@@ -372,6 +479,12 @@ namespace App { namespace Experiment { namespace Machines
             }
         }
 
+        if(!foundBarrel)
+        {
+            qDebug() << "No barrel found";
+            emit emit_noBarrelAvailable();
+            return;
+        }
 
         qDebug() << "Selecting barrel:" << m_currentBarrel;
 
@@ -437,7 +550,7 @@ namespace App { namespace Experiment { namespace Machines
             emit emit_usePump2();
 
             // Set manifold timer
-            t_pumpManifold.setInterval(m_settings->general()->pump(2)["pump_manifold_void"].toInt());
+            t_pumpManifold.setInterval((m_settings->general()->pump(2)["pump_manifold_void"].toInt() * 60) * 1000 );
 
             // No more work here
             return;

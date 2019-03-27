@@ -50,10 +50,14 @@ namespace App { namespace Experiment { namespace Machines
             void emit_goTo_4();
             void emit_goTo_5();
             void emit_goTo_6();
+            void emit_noBarrelAvailable();
 
             void emit_vacuumManifoldSufficent();
             void emit_vacuumManifoldNotSufficent();
             void emit_possiablePumpManifoldLeak();
+
+            void emit_totalTimeOk();
+            void emit_totalTimeExceeded();
 
             void emit_invalidPumpNumber();
 
@@ -62,6 +66,8 @@ namespace App { namespace Experiment { namespace Machines
             void emit_validationSuccess();
             void emit_validationFailed();
             void emit_validationWrongId();
+
+            void emit_barrelMarkedAsLeaked(int barrel);
 
         public slots:
             void guageTripped(int group, bool state);
@@ -77,7 +83,7 @@ namespace App { namespace Experiment { namespace Machines
             void selectBarrel();
 
             void manifoldPressure();
-            void startManifoldPumpTimer();
+            void isRunningManifoldPumpTimer();
             void manifoldLeakDetection();
 
             void closePumpValve();
@@ -86,9 +92,11 @@ namespace App { namespace Experiment { namespace Machines
             void openBarrelValve();
             void validateOpenBarrelValve();
 
-            void startBarrelPumpTimer();
-
             void startBarrelLeakDetect();
+
+            void closeBarrelValve();
+            void failureMarkBarrel();
+            void failureOpenPumpValve();
 
         private:
             // Referance to QObject
@@ -106,6 +114,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Leak detection state machine for manifold
             LeakDetection& m_manifoldLeakDetection;
+            LeakDetection& m_barrelLeakDetection;
 
             // Barrel that have been tripped
             QList<int> m_tripped;
@@ -127,6 +136,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Keep record of last maifold pressure check (small leak detection)
             double m_manifoldLastPressure;
+            bool m_manifoldTimerStarted = false;
 
             // Mark pumps are usable
             int m_currentPump = 1;
