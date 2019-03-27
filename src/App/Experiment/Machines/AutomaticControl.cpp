@@ -21,6 +21,7 @@ namespace App { namespace Experiment { namespace Machines
         ,   m_pumpController(pumpController)
         ,   m_manifoldLeakDetection(*new LeakDetection(parent, settings, hardware))
         ,   m_barrelLeakDetection(*new LeakDetection(parent, settings, hardware))
+        ,   m_pumpingLeakDetection(*new LeakDetection(parent, settings, hardware))
     {
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
@@ -56,7 +57,12 @@ namespace App { namespace Experiment { namespace Machines
 
         connect(state("failureCloseBarrel", true), &QState::entered, this, &AutomaticControl::closeBarrelValve);
         connect(state("failureMarkBarrel", true), &QState::entered, this, &AutomaticControl::failureMarkBarrel);
-        connect(state("failureOpenPumpValve", true), &QState::entered, this, &AutomaticControl::failureOpenPumpValve);
+        connect(state("failureOpenPumpValve", true), &QState::entered, this, &AutomaticControl::openPumpValve);
+
+        connect(state("openPumpValve", true), &QState::entered, this, &AutomaticControl::openPumpValve);
+        connect(state("pumpingBarrelLeakDetect", true), &QState::entered, this, &AutomaticControl::pumpingBarrelLeakDetect);
+        connect(state("closeBarrelValve", true), &QState::entered, this, &AutomaticControl::closeBarrelValve);
+
 
     }
 
@@ -103,6 +109,15 @@ namespace App { namespace Experiment { namespace Machines
      */
     void AutomaticControl::stopped()
     {
+        // Stop pump controller m_pumpController
+
+        // Stop leak detector m_manifoldLeakDetection
+
+        // Stop leak detector m_barrelLeakDetection
+
+        // Close all barrel valves
+
+        // Turn off pump 1 & 2
     }
 
 
@@ -177,14 +192,29 @@ namespace App { namespace Experiment { namespace Machines
             state("failureOpenPumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, state("selectBarrel", true));
 
 
-        // Open pump valve and start pumping
+        // Open pump valve and start pumping @todo needs validation
+        state("openPumpValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveOpened, state("pumpingBarrelLeakDetect", true));
+
+        // Do some pumping with leak detection
+        state("pumpingBarrelLeakDetect", true)->addTransition(&m_pumpingLeakDetection, &LeakDetection::emit_machineFailed, state("closeBarrelValve", true));
+        state("pumpingBarrelLeakDetect", true)->addTransition(&m_pumpingLeakDetection, &LeakDetection::emit_machineFinished, state("closeBarrelValve", true));
+
+        // Do other barrels need pumping if not we could continue the current barrel? @ TODO
 
 
-        // Do other barrels need pumping?
+        // Close barrel valve return to select barrel @todo needs validation
+        state("closeBarrelValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("selectBarrel", true));
 
 
-        // Close barrel valve return to select barrel
+        // Slight delay here @TODO
+    }
 
+
+    void AutomaticControl::pumpingBarrelLeakDetect()
+    {
+        // Pumping
+        m_pumpingLeakDetection.setParams(m_currentBarrel, 20000, 1, 20, 2000);
+        m_pumpingLeakDetection.start();
     }
 
 
@@ -228,9 +258,9 @@ namespace App { namespace Experiment { namespace Machines
         emit emit_barrelMarkedAsLeaked(m_currentBarrel);
     }
 
-    void AutomaticControl::failureOpenPumpValve()
+    void AutomaticControl::openPumpValve()
     {
-        qDebug() << "Failuring opening pump valve" << (m_currentPump + 6);
+        qDebug() << "Opening pump valve" << (m_currentPump + 6);
         if((m_currentPump + 6) == 7)
         {
             valves()->openGroup7();

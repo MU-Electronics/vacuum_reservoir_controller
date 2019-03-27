@@ -96,7 +96,9 @@ namespace App { namespace Experiment { namespace Machines
 
             void closeBarrelValve();
             void failureMarkBarrel();
-            void failureOpenPumpValve();
+            void openPumpValve();
+
+            void pumpingBarrelLeakDetect();
 
         private:
             // Referance to QObject
@@ -115,6 +117,7 @@ namespace App { namespace Experiment { namespace Machines
             // Leak detection state machine for manifold
             LeakDetection& m_manifoldLeakDetection;
             LeakDetection& m_barrelLeakDetection;
+            LeakDetection& m_pumpingLeakDetection;
 
             // Barrel that have been tripped
             QList<int> m_tripped;
