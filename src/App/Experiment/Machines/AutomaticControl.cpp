@@ -76,7 +76,7 @@ namespace App { namespace Experiment { namespace Machines
      * Set the commands to be used by the machine
      *
      */
-    void AutomaticControl::setParams()
+    void AutomaticControl::setParams(bool ignoreCurrentTrips)
     {       
         // Set enabled valves
         for(int i : {1,2,3,4,5,6})
@@ -88,6 +88,10 @@ namespace App { namespace Experiment { namespace Machines
         // Set pump states
         m_disabledPump1 = (m_settings->general()->pump(1)["auto_control_enabled"].toBool()) ? 0 : 1;
         m_disabledPump2 = (m_settings->general()->pump(2)["auto_control_enabled"].toBool()) ? 0 : 1;
+
+        // Should we account for current guage trips?
+        if(ignoreCurrentTrips)
+            m_tripped.clear();
     }
 
 
@@ -276,7 +280,7 @@ namespace App { namespace Experiment { namespace Machines
         qDebug() << "Barrel leak detector on : "<<m_currentBarrel;
         auto barrel = m_settings->general()->chamber(m_currentBarrel);
 
-        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4, 2000);
+        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4, 5000);
         m_barrelLeakDetection.start();
     }
 
@@ -416,6 +420,10 @@ namespace App { namespace Experiment { namespace Machines
     {
         // Current barrel reading
         auto currentBarrel = m_pressures[m_currentBarrel];
+        auto currentPump  = m_pressures[m_currentPump + 6];
+
+        qDebug() <<"Mani pressure: "<< currentPump << "Barrel Pressure:" << currentBarrel;
+
 
         if(!m_manifoldTimerStarted)
         {
@@ -426,7 +434,7 @@ namespace App { namespace Experiment { namespace Machines
         }
 
         // If less than barrel pressure we're good to go
-        if(m_pressures[(m_currentPump + 6)] < currentBarrel)
+        if(currentBarrel > currentPump)
         {
             m_manifoldTimerStarted = false;
             t_pumpManifold.stop();
@@ -443,7 +451,7 @@ namespace App { namespace Experiment { namespace Machines
         }*/
 
         // Mark last check
-        m_manifoldLastPressure = currentBarrel;
+        m_manifoldLastPressure = currentPump;
 
         // Requires more pumping
         emit emit_vacuumManifoldNotSufficent();
@@ -467,13 +475,15 @@ namespace App { namespace Experiment { namespace Machines
         // Increment current by one so we dont repeat it
         int startingPoint = (m_currentBarrel == maxBarrelId) ? minBarrelId : m_currentBarrel+1;
 
+        //qDebug() << "max:"<<maxBarrelId<<"Min"<<minBarrelId<<"starting at"<<startingPoint;
+
         // Find next barrel
         int foundBarrel = false;
-        for(int a = startingPoint; a <= 6; ++a)
+        for(int a = startingPoint; a <= maxBarrelId; ++a)
         {
             if(m_enabled.contains(a))
             {
-                // Check barrel pressure above lower set point
+                // Check barrel pressure above lower set point (pressure in mbar, settings in mbar)
                 if(m_pressures[a] <= m_settings->general()->chamber(a)["lower_set_point"].toDouble())
                     continue;
 
@@ -489,14 +499,17 @@ namespace App { namespace Experiment { namespace Machines
                 if(m_heavyLoad.contains(a))
                     continue;
 
+                if(m_error.contains(a))
+                    continue;
+
                 // We have found a barrel that we can work on next
                 foundBarrel = true;
 
                 // This barrel needs topping up
                 m_currentBarrel = a;
 
-                // Set pumping time for barrel
-                t_pumpBarrel.setInterval(10000);
+                // Set pumping time for barrel pumping_time
+                t_pumpBarrel.setInterval(m_settings->general()->chamber(a)["pumping_time"].toInt());
 
                 // Reset the manifold last pressure
                 m_manifoldLastPressure = -1;
@@ -512,9 +525,6 @@ namespace App { namespace Experiment { namespace Machines
             emit emit_noBarrelAvailable();
             return;
         }
-
-        qDebug() << "Selecting barrel:" << m_currentBarrel;
-
 
         // Return the state to transition to
         switch(m_currentBarrel)
@@ -664,10 +674,24 @@ namespace App { namespace Experiment { namespace Machines
      */
     void AutomaticControl::guagePressures(QVariantMap package)
     {
+        // Take data we need form package
         int group = package.value("guage_id").toInt();
         double value = package.value("pressure_mbar").toDouble();
+        int error = package.value("view_status").toInt();
 
+        // Save current pressure value
         m_pressures.insert(group, value);
+
+        // Was there an error in reading of the guage
+        int find = m_error.indexOf(group);
+        if(error == 3 && find != -1)
+        {
+            m_error.append(group);
+        }
+        else
+        {
+            m_error.removeAt(find);
+        }
     }
 
 

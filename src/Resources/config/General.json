@@ -10,14 +10,16 @@
             "comment": "Turbo Charger 1918957487A",
 
             "lower_set_point": 1,
-            "upper_set_point": 100,
+            "upper_set_point": 10,
 
             "alarm_pressure": 20,
             "alarm_time": 120,
 
             "leak_detection": true,
             "leak_period": 10000,
-            "leak_max": 0.6
+            "leak_max": 10,
+
+            "pumping_time": 10000
         },
         "2":
         {
@@ -35,7 +37,9 @@
 
             "leak_detection": true,
             "leak_period": 5000,
-            "leak_max": 0.5
+            "leak_max": 0.5,
+
+            "pumping_time": 10000
         },
         "3":
         {
@@ -53,7 +57,9 @@
 
             "leak_detection": true,
             "leak_period": 5000,
-            "leak_max": 0.5
+            "leak_max": 0.5,
+
+            "pumping_time": 10000
         },
         "4":
         {
@@ -71,7 +77,9 @@
 
             "leak_detection": true,
             "leak_period": 5000,
-            "leak_max": 0.5
+            "leak_max": 0.5,
+
+            "pumping_time": 10000
         },
         "5":
         {
@@ -89,7 +97,9 @@
 
             "leak_detection": true,
             "leak_period": 15000,
-            "leak_max": 0.5
+            "leak_max": 0.5,
+
+            "pumping_time": 10000
         },
         "6":
         {
@@ -107,7 +117,9 @@
 
             "leak_detection": true,
             "leak_period": 5000,
-            "leak_max": 0.5
+            "leak_max": 0.5,
+
+            "pumping_time": 10000
         }
     },
 

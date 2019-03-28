@@ -129,7 +129,6 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
         // Voltage
         presented["voltage"] = voltageAverage(presented["guage_id"].toInt(), (package.at(0).toDouble() / 0.201793722));
-        //presented["voltage"] = (package.at(0).toDouble() / 0.201793722);
 
         // Convert voltage to pressure in mbar
         if(presented["voltage"] <= 3)
@@ -140,6 +139,17 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         {
             presented["pressure_mbar"] = vacuumAverage(presented["guage_id"].toInt(), pow(10, (presented["voltage"].toDouble()-6)));
         }
+
+        // Define the guage tolerance
+        auto calculatedPressure = presented["pressure_mbar"].toDouble();
+        presented["tolerance_upper"] = toleranceUpper;
+        presented["tolerance_upper"] = toleranceLower;
+        presented["pressure_mbar_upper"] = calculatedPressure + (calculatedPressure * toleranceUpper);
+        presented["pressure_mbar_lower"] = calculatedPressure- (calculatedPressure * toleranceLower);
+
+        //if(commands["guage_id"] == 1)
+         //   qDebug() <<commands["guage_id"]<< presented["pressure_mbar"]  << presented["voltage"];
+
 
         // Find status of device
         presented["view_status"] = 3; // Assume error condition

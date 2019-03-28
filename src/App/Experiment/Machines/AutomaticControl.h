@@ -125,6 +125,9 @@ namespace App { namespace Experiment { namespace Machines
             // Barrels that have been marked as leaking
             QList<int> m_leaked;
 
+            // Barrels where the the pressure reading was invalid
+            QList<int> m_error;
+
             // Barrels that have been marked as having too heavy load
             QList<int> m_heavyLoad;
 

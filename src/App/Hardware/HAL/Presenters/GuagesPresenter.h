@@ -25,6 +25,9 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
 
 
         private:
+            double toleranceUpper = 0.15;
+            double toleranceLower = 0.15;
+
             QVariantMap enabled(QVariantMap commands, QStringList package);
             QVariantMap disabled(QVariantMap commands, QStringList package);
             QVariantMap readTrip(QVariantMap commands, QStringList package);
@@ -45,7 +48,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
                 {
                     value += i;
                 }
-                value = value / 4;
+                value = value / m_vacuum[id].count();
 
                 // Return the average
                 return value;
@@ -66,7 +69,7 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
                 {
                     value += i;
                 }
-                value = value / 4;
+                value = value / m_voltage[id].count();
 
                 // Return the average
                 return value;

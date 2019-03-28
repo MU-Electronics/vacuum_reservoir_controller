@@ -35,6 +35,9 @@
 
         "trip_poll": 500,
 
+        "tolerance_upper": 0.15,
+        "tolerance_lower": 0.15,
+
         "mappings_1-4":
         {
             "1": 1,

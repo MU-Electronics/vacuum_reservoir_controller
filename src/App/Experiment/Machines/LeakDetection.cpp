@@ -135,13 +135,14 @@ namespace App { namespace Experiment { namespace Machines
             // Get the package data from the instance
             QVariantMap package = command->package;
 
-            //qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
+            qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
 
             // Guage id
             int guageId = package["guage_id"].toInt();
 
             // Guage state
             double pressure = package["pressure_mbar"].toDouble();
+
 
             // Check correct valve
             if(guageId != params["group"].toInt())
@@ -158,9 +159,13 @@ namespace App { namespace Experiment { namespace Machines
                 m_pressure = pressure;
             }
 
+            // Max change
+            double maxFall = params["fall"].toDouble() + package["tolerance_upper"].toDouble();
+
+            qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<maxFall;
+
             // Only update and alert if value has changed
-            //qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<params["fall"].toDouble();
-            if((pressure - m_pressure) >= params["fall"].toDouble() && params["sample"].toInt() >= m_count)
+            if((pressure - m_pressure) >= maxFall && params["sample"].toInt() >= m_count)
             {
                 // Guage tripped emit
                 emit emit_leakDetected();
@@ -192,6 +197,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void LeakDetection::startInitDelay()
     {
+        qDebug()<< "inital delay of" <<t_initDelay.interval();
         t_initDelay.setSingleShot(true);
         t_initDelay.start();
     }

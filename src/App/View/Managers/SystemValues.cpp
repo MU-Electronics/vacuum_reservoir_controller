@@ -212,6 +212,7 @@ namespace App { namespace View { namespace Managers
         // Get info we require
         double presssure = data["pressure_mbar"].toDouble();
         double pressureBar = presssure / 1000;
+        //qDebug() << presssure <<"vs"<<pressureBar;
         int guageId = data["guage_id"].toInt();
         QString guageIdS = data["guage_id"].toString();
 
