@@ -37,6 +37,8 @@ namespace App { namespace Experiment { namespace Machines
 
             void buildMachine();
 
+            void buildShutDownMachine();
+
         signals:
             void emit_usingPump1();
             void emit_usingPump2();

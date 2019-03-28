@@ -145,6 +145,12 @@ namespace App { namespace Experiment { namespace Machines
     }
 
 
+    void PumpControl::buildShutDownMachine()
+    {
+
+    }
+
+
     /**
      * Builds the machine connections
      *

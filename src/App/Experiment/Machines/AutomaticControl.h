@@ -29,13 +29,15 @@ namespace App { namespace Experiment { namespace Machines
 
             ~AutomaticControl();
 
-            void setParams();
+            void setParams(bool ignoreCurrentTrips = true);
 
             void beforeStart();
 
             void stopped();
 
             void buildMachine();
+
+            void buildShutDownMachine();
 
         signals:
             void emit_usePump1();

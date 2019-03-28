@@ -64,6 +64,14 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("closeBarrelValve", true), &QState::entered, this, &AutomaticControl::closeBarrelValve);
 
 
+
+        // @todo connect for shut down state machine
+        /*
+        pumpController     barrelLeak     manifoldLeak    pumpingLeak
+        closeChamber1    closeChamber1Validate    closeChamber2    closeChamber2Validate
+        closeChamber3    closeChamber3Validate    closeChamber4    closeChamber4Validate
+        closeChamber5    closeChamber5Validate    closeChamber6    closeChamber6Validate
+        */
     }
 
     AutomaticControl::~AutomaticControl()
@@ -113,16 +121,105 @@ namespace App { namespace Experiment { namespace Machines
      */
     void AutomaticControl::stopped()
     {
+        t_pumpManifold.stop();
+        t_pumpBarrel.stop();
+    }
+
+    void AutomaticControl::buildShutDownMachine()
+    {
         // Stop pump controller m_pumpController
+        shutDownMachine.setInitialState(state("pumpController", false));
 
         // Stop leak detector m_manifoldLeakDetection
+        state("pumpController", false)->addTransition(&m_pumpController, &PumpControl::emit_machineFinished, state("barrelLeak", false));
+        state("pumpController", false)->addTransition(&m_pumpController, &PumpControl::emit_machineFailed, state("barrelLeak", false));
+        state("pumpController", false)->addTransition(this, &AutomaticControl::emit_machineAlreadyStopped, state("barrelLeak", false));
 
         // Stop leak detector m_barrelLeakDetection
+        state("barrelLeak", false)->addTransition(&m_barrelLeakDetection, &LeakDetection::emit_machineFinished, state("manifoldLeak", false));
+        state("barrelLeak", false)->addTransition(&m_barrelLeakDetection, &LeakDetection::emit_machineFailed, state("manifoldLeak", false));
+        state("barrelLeak", false)->addTransition(this, &AutomaticControl::emit_machineAlreadyStopped, state("manifoldLeak", false));
+
+        // Stop manifold leak detector
+        state("manifoldLeak", false)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("pumpingLeak", false));
+        state("manifoldLeak", false)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("pumpingLeak", false));
+        state("manifoldLeak", false)->addTransition(this, &AutomaticControl::emit_machineAlreadyStopped, state("pumpingLeak", false));
+
+        // Stop pumping leak detector
+        state("pumpingLeak", false)->addTransition(&m_pumpingLeakDetection, &LeakDetection::emit_machineFinished, state("closeChamber1", false));
+        state("pumpingLeak", false)->addTransition(&m_pumpingLeakDetection, &LeakDetection::emit_machineFailed, state("closeChamber1", false));
+        state("pumpingLeak", false)->addTransition(this, &AutomaticControl::emit_machineAlreadyStopped, state("closeChamber1", false));
 
         // Close all barrel valves
+        transitionsBuilder()->closeAllChambers(state("closeChamber1", false),
+                                               validator("closeChamber1Validate", false),
+                                               state("closeChamber2", false),
+                                               validator("closeChamber2Validate", false),
+                                               state("closeChamber3", false),
+                                               validator("closeChamber3Validate", false),
+                                               state("closeChamber4", false),
+                                               validator("closeChamber4Validate", false),
+                                               state("closeChamber5", false),
+                                               validator("closeChamber5Validate", false),
+                                               state("closeChamber6", false),
+                                               validator("closeChamber6Validate", false),
+                                               state("valveOff1", false),
+                                               state("valveOff1", false));
 
-        // Turn off pump 1 & 2
+        state("valveOff1", false)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("valveOff2", false));
+        state("valveOff2", false)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("pumpOff1", false));
+
+        state("pumpOff1", false)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, state("pumpOff2", false));
+        state("pumpOff2", false)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stop);
+
     }
+
+
+    void AutomaticControl::shutdownPumpController()
+    {
+        if(m_pumpController.machine.isRunning())
+        {
+            m_pumpController.cancelStateMachine();
+            return;
+        }
+
+        emit emit_machineAlreadyStopped();
+    }
+
+    void AutomaticControl::shutdownBarrelLeakDetector()
+    {
+        if(m_barrelLeakDetection.machine.isRunning())
+        {
+            m_barrelLeakDetection.cancelStateMachine();
+            return;
+        }
+
+        emit emit_machineAlreadyStopped();
+    }
+
+    void AutomaticControl::shutdownManiFoldLeakDetector()
+    {
+        if(m_manifoldLeakDetection.machine.isRunning())
+        {
+            m_manifoldLeakDetection.cancelStateMachine();
+            return;
+        }
+
+        emit emit_machineAlreadyStopped();
+    }
+
+    void AutomaticControl::shutdownPumpingLeakDetector()
+    {
+        if(m_pumpingLeakDetection.machine.isRunning())
+        {
+            m_pumpingLeakDetection.cancelStateMachine();
+            return;
+        }
+
+        emit emit_machineAlreadyStopped();
+    }
+
+
 
 
     /**
