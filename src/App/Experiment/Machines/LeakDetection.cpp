@@ -38,7 +38,7 @@ namespace App { namespace Experiment { namespace Machines
      * Set the commands to be used by the machine
      *
      */
-    void LeakDetection::setParams(int group, int period, int fall, int sample, int initDelay)
+    void LeakDetection::setParams(int group, int period, double fall, int sample, int initDelay)
     {               
         // Group to monitor for leak
         params.insert("group", group);

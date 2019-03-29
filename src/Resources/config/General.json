@@ -19,7 +19,6 @@
             "leak_period": 10000,
             "leak_max": 10,
             "heavy_load": 5,
-
             "pumping_time": 10000
         },
         "2":
@@ -156,7 +155,7 @@
             "pump_manifold_void": 1,
 
             "leak_detection": true,
-            "leak_period": 2100,
+            "leak_period": 10000,
             "leak_max": 10
         },
 
@@ -178,7 +177,7 @@
             "pump_manifold_void": 1,
 
             "leak_detection": true,
-            "leak_period": 2100,
+            "leak_period": 10000,
             "leak_max": 10
         }
     }

@@ -26,7 +26,7 @@ namespace App { namespace Experiment { namespace Machines
 
             ~LeakDetection();
 
-            void setParams(int group, int period, int fall, int sample = 10, int initDelay=0);
+            void setParams(int group, int period, double fall, int sample = 10, int initDelay=0);
 
             void beforeStart();
 
