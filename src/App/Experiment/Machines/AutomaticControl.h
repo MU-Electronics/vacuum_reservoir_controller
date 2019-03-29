@@ -106,6 +106,9 @@ namespace App { namespace Experiment { namespace Machines
             void validateShutdownPump();
 
 
+            void continuousLeakDetection();
+
+
             // Shutdown state machine functions
             void shutdownPumpController();
             void shutdownManiFoldLeakDetector();
@@ -122,6 +125,7 @@ namespace App { namespace Experiment { namespace Machines
             // Timers
             QTimer& t_pumpManifold;
             QTimer& t_pumpBarrel;
+            QTimer& t_continuousLeakDetection;
 
             // Pump controller
             PumpControl& m_pumpController;
@@ -148,7 +152,8 @@ namespace App { namespace Experiment { namespace Machines
 
             // Pressures
             QMap<int, double> m_pressures;
-            QMap<int, QMap<int, double>> m_majorLeakMonitoring;
+            QMap<int, QMap<QString, QVariant>> m_majorLeakMonitoring;
+            int m_continuousLeakPeriod = 1000;
 
             // Current barrel
             int m_currentBarrel = 0;

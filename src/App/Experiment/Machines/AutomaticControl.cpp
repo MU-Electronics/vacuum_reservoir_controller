@@ -1,5 +1,6 @@
 #include "AutomaticControl.h"
 
+#include "Hal/time_api.h"
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -13,6 +14,7 @@ namespace App { namespace Experiment { namespace Machines
             // Timers
         ,   t_pumpManifold(*new QTimer(parent))
         ,   t_pumpBarrel(*new QTimer(parent))
+        ,   t_continuousLeakDetection(*new QTimer(parent))
 
             // state machines
         ,   m_pumpController(pumpController)
@@ -25,6 +27,10 @@ namespace App { namespace Experiment { namespace Machines
 
         // Set default barrel interval
         t_pumpBarrel.setInterval(10000);
+
+        // How often should the global leak detect occure
+        t_continuousLeakDetection.setInterval(m_continuousLeakPeriod);
+        t_continuousLeakDetection.setSingleShot(false);
 
         // Enable the shutdown state machine
         shutDownMachines = true;
@@ -70,6 +76,9 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("turnPumpOffFailure", true), &QState::entered, this, &AutomaticControl::shutdownPump);
         connect(validator("turnPumpOffFailure", true), &QState::entered, this, &AutomaticControl::validateShutdownPump);
 
+
+
+        connect(&t_continuousLeakDetection, &QTimer::timeout, this, &AutomaticControl::continuousLeakDetection);
 
 
 
@@ -143,7 +152,7 @@ namespace App { namespace Experiment { namespace Machines
      */
     void AutomaticControl::beforeStart()
     {
-
+        t_continuousLeakDetection.start();
     }
 
 
@@ -156,6 +165,7 @@ namespace App { namespace Experiment { namespace Machines
     {
         t_pumpManifold.stop();
         t_pumpBarrel.stop();
+        t_continuousLeakDetection.stop();
     }
 
     void AutomaticControl::buildShutDownMachine()
@@ -343,6 +353,58 @@ namespace App { namespace Experiment { namespace Machines
 
         // Close barrel valve return to select barrel @todo needs validation
         state("closeBarrelValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("noBarrelsWait", true));
+    }
+
+    // @todo remove timestamp not required
+    void AutomaticControl::continuousLeakDetection()
+    {
+        // Check for leak and heavy load in each chamber
+        for(auto chamber: m_enabled)
+        {
+            // Check if the chamber is not disabled already
+            if(!m_error.contains(chamber) && !m_tripped.contains(chamber) && !m_leaked.contains(chamber))
+            {
+                // Create a new reading record
+                QMap<QString, QVariant> value;
+                value["time"] = millis();
+                value["value"] =  m_pressures[chamber];
+
+                // First reading with timestamp
+                if(!m_majorLeakMonitoring.contains(chamber) && m_pressures.contains(chamber))
+                {
+                    m_majorLeakMonitoring[chamber] = value;
+                    return;
+                }
+
+                // Get chamber info
+                auto settings = m_settings->general()->chamber(chamber);
+
+                // Calculations
+//                double pressureTolerance = value["value"].toDouble() * 0.15;
+//                double pressureDrop = (value["value"].toDouble() - m_majorLeakMonitoring[chamber]["value"].toDouble()) - pressureTolerance;
+//                double maxFall = (settings["leak_max"].toDouble() / settings["leak_period"].toInt()) * m_continuousLeakPeriod;
+//                double heavyLoadFall = (settings["heavy_load"].toDouble() / settings["leak_period"].toInt()) * m_continuousLeakPeriod;
+
+                double pressureDrop = (value["value"].toDouble() - m_majorLeakMonitoring[chamber]["value"].toDouble());
+                double maxFall = settings["leak_max"].toDouble();
+                double heavyLoadFall = settings["heavy_load"].toDouble();
+
+                qDebug() << millis() << chamber << pressureDrop << maxFall << heavyLoadFall;
+                // Compare for a leak threashold
+                if(pressureDrop > maxFall)
+                {
+                    qDebug() << "Leak detected in chamber" << chamber << pressureDrop << maxFall;
+                }
+                else if(pressureDrop > heavyLoadFall) // Compare for a heavy load threashold
+                {
+                    qDebug() << "Heavy load detected in chamber" << chamber << pressureDrop << heavyLoadFall;
+                }
+
+                // Update old value
+                m_majorLeakMonitoring[chamber] = value;
+            }
+        }
+
     }
 
 
