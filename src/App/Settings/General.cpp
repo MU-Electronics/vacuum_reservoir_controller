@@ -133,6 +133,18 @@ namespace App { namespace Settings
     }
 
 
+    /**
+     * Return the default pump
+     *
+     * @brief General::defaultPump
+     * @return
+     */
+    int General::defaultPump()
+    {
+        return m_defaultPump;
+    }
+
+
 
 
 
@@ -161,6 +173,7 @@ namespace App { namespace Settings
 
         // Pump data
         auto pumps = rootMap["pumps"].toMap();
+        m_defaultPump = pumps["auto_control_default"].toInt();
         m_pump1 = pumps["1"].toMap();
         m_pump2 = pumps["2"].toMap();
     }

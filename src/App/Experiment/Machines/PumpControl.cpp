@@ -1,9 +1,5 @@
 #include "PumpControl.h"
 
-// Include extenral deps
-#include <QObject>
-
-
 namespace App { namespace Experiment { namespace Machines
 {
     PumpControl::PumpControl(QObject *parent, Settings::Container* settings, Hardware::Access& hardware)
@@ -20,10 +16,10 @@ namespace App { namespace Experiment { namespace Machines
             // Sub state machines
         ,   m_leakDetection(*new LeakDetection(parent, settings, hardware))
     {
-        shutDownMachines= false;
+        shutDownMachines= true;
         // Set class name
-        childClassName = QString::fromStdString(typeid(this).name());
-
+        //childClassName = QString::fromStdString(typeid(this).name());
+        childClassName = "PumpController";
         // Update params when settings change @TODO
 
         // Connect states to functions
@@ -75,6 +71,10 @@ namespace App { namespace Experiment { namespace Machines
 
         connect(state("valveOff2", true), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup8);
         connect(validator("validateValveOff2", true), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup8);
+
+
+        // Shutdown state machine
+        connect(state("leakDetector", false), &QState::entered, this, &PumpControl::shutdownLeakDetector);
     }
 
     PumpControl::~PumpControl()
@@ -147,7 +147,25 @@ namespace App { namespace Experiment { namespace Machines
 
     void PumpControl::buildShutDownMachine()
     {
+        // Stop pump controller m_pumpController
+        shutDownMachine.setInitialState(state("leakDetector", false));
 
+        // Stop leak detector
+        state("leakDetector", false)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFinished, &ssm_stop);
+        state("leakDetector", false)->addTransition(&m_leakDetection, &LeakDetection::emit_machineFailed, &ssm_stop);
+        state("leakDetector", false)->addTransition(this, &PumpControl::emit_machineAlreadyStopped, &ssm_stop);
+    }
+
+    void PumpControl::shutdownLeakDetector()
+    {
+        qDebug() << "Stopping leak dector on pump controller";
+        if(m_leakDetection.machine.isRunning())
+        {
+            m_leakDetection.cancelStateMachine();
+            return;
+        }
+
+        emit emit_machineAlreadyStopped();
     }
 
 

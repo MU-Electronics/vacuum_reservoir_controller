@@ -1,8 +1,5 @@
 #include "LeakDetection.h"
 
-// Include extenral deps
-#include <QObject>
-
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -17,7 +14,8 @@ namespace App { namespace Experiment { namespace Machines
         ,   t_initDelay(*new QTimer(parent))
     {
         // Set class name
-        childClassName = QString::fromStdString(typeid(this).name());
+        //childClassName = QString::fromStdString(typeid(this).name());
+        childClassName = "LeakDetector";
 
         // Update params when settings change @TODO
 
@@ -76,7 +74,7 @@ namespace App { namespace Experiment { namespace Machines
      */
     void LeakDetection::beforeStart()
     {
-
+        qDebug() << "Leak detector" << shutDownMachines;
     }
 
 

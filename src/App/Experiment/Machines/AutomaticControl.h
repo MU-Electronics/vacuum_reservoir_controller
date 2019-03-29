@@ -102,6 +102,16 @@ namespace App { namespace Experiment { namespace Machines
 
             void pumpingBarrelLeakDetect();
 
+            void shutdownPump();
+            void validateShutdownPump();
+
+
+            // Shutdown state machine functions
+            void shutdownPumpController();
+            void shutdownManiFoldLeakDetector();
+            void shutdownBarrelLeakDetector();
+            void shutdownPumpingLeakDetector();
+
         private:
             // Referance to QObject
             //QObject *parent;

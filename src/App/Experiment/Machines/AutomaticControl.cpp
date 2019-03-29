@@ -1,8 +1,5 @@
 #include "AutomaticControl.h"
 
-// Include extenral deps
-#include <QObject>
-
 
 namespace App { namespace Experiment { namespace Machines
 {
@@ -26,7 +23,11 @@ namespace App { namespace Experiment { namespace Machines
         // Set class name
         childClassName = QString::fromStdString(typeid(this).name());
 
+        // Set default barrel interval
         t_pumpBarrel.setInterval(10000);
+
+        // Enable the shutdown state machine
+        shutDownMachines = true;
 
         // Record when trips are triggered
         connect(&m_hardware, &Hardware::Access::emit_guageReadVacuum, this, &AutomaticControl::guagePressures);
@@ -63,15 +64,40 @@ namespace App { namespace Experiment { namespace Machines
         connect(state("pumpingBarrelLeakDetect", true), &QState::entered, this, &AutomaticControl::pumpingBarrelLeakDetect);
         connect(state("closeBarrelValve", true), &QState::entered, this, &AutomaticControl::closeBarrelValve);
 
+        connect(state("turnValveOffFailure", true), &QState::entered, this, &AutomaticControl::closePumpValve);
+        connect(validator("turnValveOffFailure", true), &QState::entered, this, &AutomaticControl::validateClosePumpValve);
+
+        connect(state("turnPumpOffFailure", true), &QState::entered, this, &AutomaticControl::shutdownPump);
+        connect(validator("turnPumpOffFailure", true), &QState::entered, this, &AutomaticControl::validateShutdownPump);
 
 
-        // @todo connect for shut down state machine
-        /*
-        pumpController     barrelLeak     manifoldLeak    pumpingLeak
-        closeChamber1    closeChamber1Validate    closeChamber2    closeChamber2Validate
-        closeChamber3    closeChamber3Validate    closeChamber4    closeChamber4Validate
-        closeChamber5    closeChamber5Validate    closeChamber6    closeChamber6Validate
-        */
+
+
+        // Connect for shut down state machine states to functions
+        connect(state("pumpController", false), &QState::entered, this, &AutomaticControl::shutdownPumpController);
+        connect(state("barrelLeak", false), &QState::entered, this, &AutomaticControl::shutdownBarrelLeakDetector);
+        connect(state("manifoldLeak", false), &QState::entered, this, &AutomaticControl::shutdownManiFoldLeakDetector);
+        connect(state("pumpingLeak", false), &QState::entered, this, &AutomaticControl::shutdownPumpingLeakDetector);
+
+        connect(state("closeChamber1", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup1);
+        connect(state("closeChamber2", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup2);
+        connect(state("closeChamber3", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup3);
+        connect(state("closeChamber4", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup4);
+        connect(state("closeChamber5", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup5);
+        connect(state("closeChamber6", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup6);
+
+        connect(validator("closeChamber1Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup1);
+        connect(validator("closeChamber2Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup2);
+        connect(validator("closeChamber3Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup3);
+        connect(validator("closeChamber4Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup4);
+        connect(validator("closeChamber5Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup5);
+        connect(validator("closeChamber6Validate", false), &QState::entered, this->valves(), &Functions::ValveFunctions::validateCloseGroup6);
+
+        connect(state("valveOff1", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup7);
+        connect(state("valveOff2", false), &QState::entered, this->valves(), &Functions::ValveFunctions::closeGroup8);
+
+        connect(state("pumpOff1", false), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump1);
+        connect(state("pumpOff2", false), &QState::entered, this->pumps(), &Functions::PumpFunctions::disablePump2);
     }
 
     AutomaticControl::~AutomaticControl()
@@ -100,6 +126,9 @@ namespace App { namespace Experiment { namespace Machines
         // Should we account for current guage trips?
         if(ignoreCurrentTrips)
             m_tripped.clear();
+
+        // Set starting pump position
+        m_currentPump = (m_settings->general()->defaultPump() == 1) ? 0 : 1;
     }
 
 
@@ -170,13 +199,14 @@ namespace App { namespace Experiment { namespace Machines
         state("valveOff2", false)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("pumpOff1", false));
 
         state("pumpOff1", false)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, state("pumpOff2", false));
-        state("pumpOff2", false)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &sm_stop);
+        state("pumpOff2", false)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, &ssm_stop);
 
     }
 
 
     void AutomaticControl::shutdownPumpController()
     {
+        qDebug() << "Stopping pump controller";
         if(m_pumpController.machine.isRunning())
         {
             m_pumpController.cancelStateMachine();
@@ -188,6 +218,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownBarrelLeakDetector()
     {
+        qDebug() << "Stopping shutdown barrel leak dector";
         if(m_barrelLeakDetection.machine.isRunning())
         {
             m_barrelLeakDetection.cancelStateMachine();
@@ -199,6 +230,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownManiFoldLeakDetector()
     {
+        qDebug() << "Stopping shutdown manifold leak dector";
         if(m_manifoldLeakDetection.machine.isRunning())
         {
             m_manifoldLeakDetection.cancelStateMachine();
@@ -210,6 +242,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownPumpingLeakDetector()
     {
+        qDebug() << "Stopping shutdown pumping leak dector";
         if(m_pumpingLeakDetection.machine.isRunning())
         {
             m_pumpingLeakDetection.cancelStateMachine();
@@ -244,8 +277,9 @@ namespace App { namespace Experiment { namespace Machines
         state("requestPump2", true)->addTransition(&m_pumpController, &PumpControl::emit_machineFailed, state("markPumpFailure", true));
 
         // Mark as failed pump AND @TODO shutdown pump 2
-        state("markPumpFailure", true)->addTransition(this, &AutomaticControl::emit_pumpMarkedAsFailed, state("selectPump", true));
-
+        state("markPumpFailure", true)->addTransition(this, &AutomaticControl::emit_pumpMarkedAsFailed, state("turnValveOffFailure", true));
+            state("turnValveOffFailure", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("turnPumpOffFailure", true));
+            state("turnPumpOffFailure", true)->addTransition(&m_hardware, &Hardware::Access::emit_pumpDisabled, state("selectPump", true));
 
         // Select barrel
         state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_goTo_1, state("manifoldPressure", true));
@@ -305,6 +339,25 @@ namespace App { namespace Experiment { namespace Machines
 
         // Close barrel valve return to select barrel @todo needs validation
         state("closeBarrelValve", true)->addTransition(&m_hardware, &Hardware::Access::emit_valveClosed, state("noBarrelsWait", true));
+    }
+
+
+    void AutomaticControl::shutdownPump()
+    {
+        if(m_currentPump == 1)
+        {
+           this->pumps()->disablePump1();
+        }
+        else if(m_currentPump == 2)
+        {
+            this->pumps()->disablePump2();
+        }
+    }
+
+
+    void AutomaticControl::validateShutdownPump()
+    {
+
     }
 
 

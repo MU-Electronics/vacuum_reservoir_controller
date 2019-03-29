@@ -64,6 +64,8 @@ namespace App { namespace Experiment { namespace Machines
             void isBarrelTimerRunning();
             void isValveTimerRunning();
 
+            void shutdownLeakDetector();
+
 
         private:
             // Referance to QObject

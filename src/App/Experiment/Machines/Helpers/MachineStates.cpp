@@ -84,20 +84,20 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
     void MachineStates::connectStatesToMethods()
     {
         // Connect cancel state machine signal
-        connect(&machine, &QStateMachine::finished, this, &MachineStates::stopMachineWithoutError);
+        connect(&machine, &QStateMachine::finished, this, &MachineStates::stopMachineWithoutError, Qt::UniqueConnection);
 
         // Tell the machine to stop becuase of success or error
-        connect(&sm_stop, &QState::entered, this, &MachineStates::stopMachineWithoutError);
-        connect(&sm_stopAsFailed, &QState::entered, this, &MachineStates::stopMachineWithError);
+        connect(&sm_stop, &QState::entered, this, &MachineStates::stopMachineWithoutError, Qt::UniqueConnection);
+        connect(&sm_stopAsFailed, &QState::entered, this, &MachineStates::stopMachineWithError, Qt::UniqueConnection);
 
         // When machine has stopped running the stopped method in each machine
-        connect(&machine, &QStateMachine::stopped, this, &MachineStates::emitStopped);
-        connect(this, &MachineStates::emit_machineAlreadyStopped, this, &MachineStates::emitStopped);
+        connect(&machine, &QStateMachine::stopped, this, &MachineStates::emitStopped, Qt::UniqueConnection);
+        connect(this, &MachineStates::emit_machineAlreadyStopped, this, &MachineStates::emitStopped, Qt::UniqueConnection);
 
         // Shut down sub state machines
-        connect(&ssm_stop, &QState::entered, this, &MachineStates::stopShutDownSubMachineWithoutError);
-        connect(&ssm_stopAsFailed, &QState::entered, this, &MachineStates::stopShutDownSubMachineWithError);
-        connect(&shutDownMachine, &QStateMachine::stopped, this, &MachineStates::afterSubMachinesStopped);
+        connect(&ssm_stop, &QState::entered, this, &MachineStates::stopShutDownSubMachineWithoutError, Qt::UniqueConnection);
+        connect(&ssm_stopAsFailed, &QState::entered, this, &MachineStates::stopShutDownSubMachineWithError, Qt::UniqueConnection);
+        connect(&shutDownMachine, &QStateMachine::stopped, this, &MachineStates::afterSubMachinesStopped, Qt::UniqueConnection);
     }
 
 
@@ -220,9 +220,8 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         stopped();
 
         // Start the shut down machine if one present
-        if(shutDownMachines)
+        if(shutDownMachines && !shutDownMachine.isRunning())
         {
-            qDebug() << "running shutdown state machine";
             // Build the shutdown machine
             buildShutDownMachine();
 

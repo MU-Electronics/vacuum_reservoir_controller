@@ -21,6 +21,7 @@ namespace App { namespace Settings
             QVariantMap chamber(int id);
             QVariantMap valves();
             QVariantMap pump(int id);
+            int defaultPump();
 
             // Types
             enum class Type: int
@@ -57,6 +58,7 @@ namespace App { namespace Settings
             QVariantMap m_valves;
 
             // Pump data
+            int m_defaultPump = 1;
             QVariantMap m_pump1;
             QVariantMap m_pump2;
     };
