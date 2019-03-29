@@ -261,7 +261,7 @@ namespace App { namespace Experiment { namespace Machines
     void PumpControl::leakDetecter()
     {
         // Set the params
-        m_leakDetection.setParams(m_pumpId + 6, params["period"].toInt(), params["fall"].toInt(), params["sample"].toInt());
+        m_leakDetection.setParams(m_pumpId + 6, params["period"].toInt(), params["fall"].toInt(), params["sample"].toInt(), 3000);
 
         // Build the machine
         m_leakDetection.buildMachine();

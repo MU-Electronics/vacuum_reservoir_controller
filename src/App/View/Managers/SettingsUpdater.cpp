@@ -65,6 +65,8 @@ namespace App { namespace View { namespace Managers
         chamber["leak_detection"] = bool(leakDetection);
         chamber["leak_period"] = leakPeriod;
         chamber["leak_max"] = leakFall;
+        chamber["pumping_time"] = chamber["pumping_time"];
+        chamber["heavy_load"] = chamber["heavy_load"];
 
         // Save settings
         if(group == 1)

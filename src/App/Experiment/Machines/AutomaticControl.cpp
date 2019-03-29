@@ -127,6 +127,10 @@ namespace App { namespace Experiment { namespace Machines
         if(ignoreCurrentTrips)
             m_tripped.clear();
 
+        // Reset old leak& heavy load params
+        m_leaked.clear();
+        m_heavyLoad.clear();
+
         // Set starting pump position
         m_currentPump = (m_settings->general()->defaultPump() == 1) ? 0 : 1;
     }
@@ -845,6 +849,10 @@ namespace App { namespace Experiment { namespace Machines
     }
 
 
+    void majorLeakDetection()
+    {
+
+    }
 
 }}}
 

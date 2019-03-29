@@ -148,6 +148,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Pressures
             QMap<int, double> m_pressures;
+            QMap<int, QMap<int, double>> m_majorLeakMonitoring;
 
             // Current barrel
             int m_currentBarrel = 0;
@@ -162,6 +163,7 @@ namespace App { namespace Experiment { namespace Machines
             int m_disabledPump2 = 0;
 
             void generateChamberTransitions(int id);
+            void majorLeakDetection();
 
     };
 }}}
