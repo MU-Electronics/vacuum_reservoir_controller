@@ -361,7 +361,13 @@ namespace App { namespace Experiment { namespace Machines
         // Check for leak and heavy load in each chamber
         for(auto chamber: m_enabled)
         {
-            // Check if the chamber is not disabled already
+            // Check if leak detect is disabled in settings
+            if(chamber <= 6 && m_settings->general()->chamber(chamber)["leak_detection"].toBool())
+                continue;
+            if(chamber >= 7 && m_settings->general()->pump(chamber - 6)["leak_detection"].toBool())
+                continue;
+
+            // Check if the chamber is not disabled via previous error already
             if(!m_error.contains(chamber) && !m_tripped.contains(chamber) && !m_leaked.contains(chamber))
             {
                 // Create a new reading record
