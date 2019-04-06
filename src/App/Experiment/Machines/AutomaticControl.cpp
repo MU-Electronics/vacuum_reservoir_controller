@@ -389,7 +389,7 @@ namespace App { namespace Experiment { namespace Machines
                 double maxFall = settings["leak_max"].toDouble();
                 double heavyLoadFall = settings["heavy_load"].toDouble();
 
-                qDebug() << millis() << chamber << pressureDrop << maxFall << heavyLoadFall;
+                //qDebug() << value["value"].toDouble() << m_majorLeakMonitoring[chamber]["value"].toDouble() << chamber << pressureDrop << maxFall << heavyLoadFall << (value["value"].toDouble() * 0.15);
                 // Compare for a leak threashold
                 if(pressureDrop > maxFall)
                 {

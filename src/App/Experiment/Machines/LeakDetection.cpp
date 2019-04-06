@@ -43,6 +43,13 @@ namespace App { namespace Experiment { namespace Machines
         // Group to monitor for leak
         params.insert("group", group);
 
+        // Check is leak detection is enabled
+        params.insert("enabled", false);
+        if(group <= 6 && m_settings->general()->chamber(group)["leak_detection"].toBool())
+            params.insert("enabled", true);
+        if(group >= 7 && m_settings->general()->pump(group - 6)["leak_detection"].toBool())
+            params.insert("enabled", true);
+
         // Period of monitoring
         params.insert("period", period);
 
@@ -123,7 +130,7 @@ namespace App { namespace Experiment { namespace Machines
 
 
     void LeakDetection::checkPressure()
-    {
+    {   
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
 
@@ -147,6 +154,19 @@ namespace App { namespace Experiment { namespace Machines
             {
                 // qDebug() << "wrong valve:" << guageId << "wanted:"<<params["group"].toInt();
                 emit emit_wrongGuage();
+                return;
+            }
+
+            // If not leak detect
+            if(!params["enabled"].toBool())
+            {
+                // We should still wait for time X
+                if(params["sample"].toInt() < m_count)
+                {
+                    emit emit_samplesReachedNoLeak();
+                    return;
+                }
+                emit emit_continue();
                 return;
             }
 
