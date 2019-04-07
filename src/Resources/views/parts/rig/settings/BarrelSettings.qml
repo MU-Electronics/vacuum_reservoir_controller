@@ -134,81 +134,6 @@ Popup {
         }
 
 
-        // Sensors and valves
-        Rectangle{
-            id: sensors
-            width: parent.width + 20
-            height: 70
-            color: "#f2f2f2"
-            anchors.left: parent.left
-            anchors.leftMargin: -10
-            anchors.top: enables.bottom
-            anchors.topMargin: 1
-
-            Row
-            {
-                width: parent.width
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 2
-
-                Label{
-                    text: "Alarm set point (mbar)"
-                    width: 170
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
-                }
-
-                DecimalSpinner{
-                    id: barrelAlarmSetPointState
-                    width: 150
-                    from: 1
-                    to: 500 * factor
-                    value: SystemValuesManager.barrelSettings[popup.set + "_alarm_pressure"] * factor
-                }
-
-
-                Item{
-                    width: 50
-                    height: 50
-                    Rectangle{
-                        width:2
-                        height: 50
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#f1f1f1"
-                    }
-                }
-
-                Label{
-                    text: "Alarm time (sec)"
-                    width: 140
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
-                }
-
-                SpinBox {
-                    id: barrelAlarmTimeState
-                    width: 180
-                    value: SystemValuesManager.barrelSettings[popup.set + "_alarm_time"]
-                    from:1
-                    to: 1000
-                }
-            }
-        }
-
-
-
-
         // Targets
         Rectangle{
             id: targets
@@ -217,7 +142,7 @@ Popup {
             color: "#f9f9f9"
             anchors.left: parent.left
             anchors.leftMargin: -10
-            anchors.top: sensors.bottom
+            anchors.top: enables.bottom
             anchors.topMargin: 1
 
             Row
@@ -378,6 +303,87 @@ Popup {
 
 
 
+
+        // Pumping settings
+        Rectangle{
+            id: sensors
+            width: parent.width + 20
+            height: 70
+            color: "#f2f2f2"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: leaks.bottom
+            anchors.topMargin: 1
+
+            Row
+            {
+                width: parent.width
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+                Label{
+                    text: "Pumping Time (sec)"
+                    width: 170
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                SpinBox{
+                    id: barrelPumpingTime
+                    width: 150
+                    from: 10
+                    to: 999
+                    value: SystemValuesManager.barrelSettings[popup.set + "_pumping_time"] / 1000
+                }
+
+
+                Item{
+                    width: 50
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f1f1f1"
+                    }
+                }
+
+                Label{
+                    text: "Heavy Load (mbar)"
+                    width: 140
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                DecimalSpinner {
+                    id: barrelHeavyLoad
+                    width: 180
+                    value: {
+                        //if(barrelLowerSetPoint.value + 0.1 > (SystemValuesManager.barrelSettings[popup.set + "_heavy_load"] * factor))
+                        //    return (barrelLowerSetPoint.value + 0.1)
+                        return (SystemValuesManager.barrelSettings[popup.set + "_heavy_load"]) * factor
+                    }
+                    from: 1
+                    to: barrelLeakFall.value
+                }
+            }
+        }
+
+
+
+
+
         Rectangle{
             id: commands
 
@@ -415,7 +421,7 @@ Popup {
                 onClicked: {
                     // Save info
                     SettingsUpdaterManager.updateBarrelSettings(popup.set, barrelAutoState.currentIndex, barrelManualState.currentIndex,
-                                                                (barrelAlarmSetPointState.value / barrelAlarmSetPointState.factor), barrelAlarmTimeState.value,
+                                                                barrelPumpingTime.value, (barrelHeavyLoad.value / barrelHeavyLoad.factor),
                                                                 (barrelLowerSetPoint.value / barrelLowerSetPoint.factor), (barrelUpperSetPointstate.value / barrelUpperSetPointstate.factor),
                                                                 barrelLeakDetection.currentIndex, (barrelLeakPeriod.value * 1000), (barrelLeakFall.value / barrelLowerSetPoint.factor));
 

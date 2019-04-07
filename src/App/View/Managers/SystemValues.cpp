@@ -343,6 +343,8 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_5 = general->chamber(5);
         auto generalChamber_6 = general->chamber(6);
 
+        m_barrelSettings.insert("1_manual", generalChamber_1["manual_control_enabled"]);
+        m_barrelSettings.insert("1_auto", generalChamber_1["auto_control_enabled"]);
         m_barrelSettings.insert("1_lower_set_point", generalChamber_1["lower_set_point"]);
         m_barrelSettings.insert("1_upper_set_point", generalChamber_1["upper_set_point"]);
         m_barrelSettings.insert("1_alarm_pressure", generalChamber_1["alarm_pressure"]);
@@ -350,7 +352,11 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("1_leak_detection", generalChamber_1["leak_detection"]);
         m_barrelSettings.insert("1_leak_period", generalChamber_1["leak_period"]);
         m_barrelSettings.insert("1_leak_max", generalChamber_1["leak_max"]);
+        m_barrelSettings.insert("1_heavy_load", generalChamber_1["heavy_load"]);
+        m_barrelSettings.insert("1_pumping_time", generalChamber_1["pumping_time"]);
 
+        m_barrelSettings.insert("2_manual", generalChamber_2["manual_control_enabled"]);
+        m_barrelSettings.insert("2_auto", generalChamber_2["auto_control_enabled"]);
         m_barrelSettings.insert("2_lower_set_point", generalChamber_2["lower_set_point"]);
         m_barrelSettings.insert("2_upper_set_point", generalChamber_2["upper_set_point"]);
         m_barrelSettings.insert("2_alarm_pressure", generalChamber_2["alarm_pressure"]);
@@ -358,7 +364,11 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("2_leak_detection", generalChamber_2["leak_detection"]);
         m_barrelSettings.insert("2_leak_period", generalChamber_2["leak_period"]);
         m_barrelSettings.insert("2_leak_max", generalChamber_2["leak_max"]);
+        m_barrelSettings.insert("2_heavy_load", generalChamber_2["heavy_load"]);
+        m_barrelSettings.insert("2_pumping_time", generalChamber_2["pumping_time"]);
 
+        m_barrelSettings.insert("3_manual", generalChamber_3["manual_control_enabled"]);
+        m_barrelSettings.insert("3_auto", generalChamber_3["auto_control_enabled"]);
         m_barrelSettings.insert("3_lower_set_point", generalChamber_3["lower_set_point"]);
         m_barrelSettings.insert("3_upper_set_point", generalChamber_3["upper_set_point"]);
         m_barrelSettings.insert("3_alarm_pressure", generalChamber_3["alarm_pressure"]);
@@ -366,7 +376,11 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("3_leak_detection", generalChamber_3["leak_detection"]);
         m_barrelSettings.insert("3_leak_period", generalChamber_3["leak_period"]);
         m_barrelSettings.insert("3_leak_max", generalChamber_3["leak_max"]);
+        m_barrelSettings.insert("3_heavy_load", generalChamber_3["heavy_load"]);
+        m_barrelSettings.insert("3_pumping_time", generalChamber_3["pumping_time"]);
 
+        m_barrelSettings.insert("4_manual", generalChamber_4["manual_control_enabled"]);
+        m_barrelSettings.insert("4_auto", generalChamber_4["auto_control_enabled"]);
         m_barrelSettings.insert("4_lower_set_point", generalChamber_4["lower_set_point"]);
         m_barrelSettings.insert("4_upper_set_point", generalChamber_4["upper_set_point"]);
         m_barrelSettings.insert("4_alarm_pressure", generalChamber_4["alarm_pressure"]);
@@ -374,7 +388,11 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("4_leak_detection", generalChamber_4["leak_detection"]);
         m_barrelSettings.insert("4_leak_period", generalChamber_4["leak_period"]);
         m_barrelSettings.insert("4_leak_max", generalChamber_4["leak_max"]);
+        m_barrelSettings.insert("4_heavy_load", generalChamber_4["heavy_load"]);
+        m_barrelSettings.insert("4_pumping_time", generalChamber_4["pumping_time"]);
 
+        m_barrelSettings.insert("5_manual", generalChamber_5["manual_control_enabled"]);
+        m_barrelSettings.insert("5_auto", generalChamber_5["auto_control_enabled"]);
         m_barrelSettings.insert("5_lower_set_point", generalChamber_5["lower_set_point"]);
         m_barrelSettings.insert("5_upper_set_point", generalChamber_5["upper_set_point"]);
         m_barrelSettings.insert("5_alarm_pressure", generalChamber_5["alarm_pressure"]);
@@ -382,7 +400,11 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("5_leak_detection", generalChamber_5["leak_detection"]);
         m_barrelSettings.insert("5_leak_period", generalChamber_5["leak_period"]);
         m_barrelSettings.insert("5_leak_max", generalChamber_5["leak_max"]);
+        m_barrelSettings.insert("5_heavy_load", generalChamber_5["heavy_load"]);
+        m_barrelSettings.insert("5_pumping_time", generalChamber_5["pumping_time"]);
 
+        m_barrelSettings.insert("6_manual", generalChamber_6["manual_control_enabled"]);
+        m_barrelSettings.insert("6_auto", generalChamber_6["auto_control_enabled"]);
         m_barrelSettings.insert("6_lower_set_point", generalChamber_6["lower_set_point"]);
         m_barrelSettings.insert("6_upper_set_point", generalChamber_6["upper_set_point"]);
         m_barrelSettings.insert("6_alarm_pressure", generalChamber_6["alarm_pressure"]);
@@ -390,25 +412,8 @@ namespace App { namespace View { namespace Managers
         m_barrelSettings.insert("6_leak_detection", generalChamber_6["leak_detection"]);
         m_barrelSettings.insert("6_leak_period", generalChamber_6["leak_period"]);
         m_barrelSettings.insert("6_leak_max", generalChamber_6["leak_max"]);
-
-        m_barrelSettings.insert("1_manual", generalChamber_1["manual_control_enabled"]);
-        m_barrelSettings.insert("1_auto", generalChamber_1["auto_control_enabled"]);
-
-        m_barrelSettings.insert("2_manual", generalChamber_2["manual_control_enabled"]);
-        m_barrelSettings.insert("2_auto", generalChamber_2["auto_control_enabled"]);
-
-        m_barrelSettings.insert("3_manual", generalChamber_3["manual_control_enabled"]);
-        m_barrelSettings.insert("3_auto", generalChamber_3["auto_control_enabled"]);
-
-        m_barrelSettings.insert("4_manual", generalChamber_4["manual_control_enabled"]);
-        m_barrelSettings.insert("4_auto", generalChamber_4["auto_control_enabled"]);
-
-        m_barrelSettings.insert("5_manual", generalChamber_5["manual_control_enabled"]);
-        m_barrelSettings.insert("5_auto", generalChamber_5["auto_control_enabled"]);
-
-        m_barrelSettings.insert("6_manual", generalChamber_6["manual_control_enabled"]);
-        m_barrelSettings.insert("6_auto", generalChamber_6["auto_control_enabled"]);
-
+        m_barrelSettings.insert("6_heavy_load", generalChamber_6["heavy_load"]);
+        m_barrelSettings.insert("6_pumping_time", generalChamber_6["pumping_time"]);
 
 
         // Pump params

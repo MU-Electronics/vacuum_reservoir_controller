@@ -39,7 +39,7 @@ namespace App { namespace View { namespace Managers
 
         public slots:
             void updateBarrelSettings(int group, int autoState, int manualstate,
-                                      double alarmPressure, int alarmTime,
+                                      int pumpingTime, double heavyLoad,
                                       double lowerSetPoint, double upperSetPoint,
                                       int leakDetection, int leakPeriod, double leakFall);
             void updatePumpSettings(int group, int autoState, int manualstate,

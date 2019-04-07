@@ -48,7 +48,7 @@ namespace App { namespace View { namespace Managers
 
 
     void SettingsUpdater::updateBarrelSettings(int group, int autoState, int manualstate,
-                              double alarmPressure, int alarmTime,
+                              int pumpingTime, double heavyLoad,
                               double lowerSetPoint, double upperSetPoint,
                               int leakDetection, int leakPeriod, double leakFall)
     {
@@ -60,13 +60,13 @@ namespace App { namespace View { namespace Managers
         chamber["manual_control_enabled"] = bool(manualstate);
         chamber["lower_set_point"] = lowerSetPoint;
         chamber["upper_set_point"] = upperSetPoint;
-        chamber["alarm_pressure"] = alarmPressure;
-        chamber["alarm_time"] = alarmTime;
+        chamber["alarm_pressure"] = chamber["alarm_pressure"]; // No interface for these atm as they are not used
+        chamber["alarm_time"] = chamber["alarm_time"]; // No interface for these atm as they are not used
         chamber["leak_detection"] = bool(leakDetection);
         chamber["leak_period"] = leakPeriod;
         chamber["leak_max"] = leakFall;
-        chamber["pumping_time"] = chamber["pumping_time"];
-        chamber["heavy_load"] = chamber["heavy_load"];
+        chamber["pumping_time"] = pumpingTime * 1000;
+        chamber["heavy_load"] = heavyLoad;
 
         // Save settings
         if(group == 1)
