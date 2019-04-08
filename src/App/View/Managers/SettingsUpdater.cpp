@@ -143,7 +143,7 @@ namespace App { namespace View { namespace Managers
     }
 
 
-    void SettingsUpdater::updateGeneralSettings(bool valveMode, bool defaultPump)
+    void SettingsUpdater::updateGeneralSettings(bool valveMode, bool defaultPump, bool ignoreTrips)
     {
         // Set default pump
         if(defaultPump)
@@ -157,6 +157,9 @@ namespace App { namespace View { namespace Managers
 
         // Set valve mode
         m_settings->general()->save(Settings::General::Type::manual_safety_valve, valveMode);
+
+        // Ignore inital trips
+        m_settings->general()->save(Settings::General::Type::ignore_trips, ignoreTrips);
     }
 
 }}}

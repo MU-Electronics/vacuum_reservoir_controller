@@ -25,7 +25,13 @@ namespace App { namespace View { namespace Managers
         ,   m_experimentEngine(experimentEngine)
     {
         // Show initialising screen
-        initialising(false); // << false for debug
+        initialising(true);
+
+        // Wait awhile to fill moving averages
+        QTimer::singleShot(10000, [this]()
+        {
+            initialising(false);
+        });
 
 
         // Control status
@@ -344,6 +350,7 @@ namespace App { namespace View { namespace Managers
         auto generalChamber_6 = general->chamber(6);
 
         m_barrelSettings.insert("manual_safety_valve", general->manualSafetyValve());
+        m_barrelSettings.insert("ignore_trips", general->ignoreTrips());
 
         m_barrelSettings.insert("1_manual", generalChamber_1["manual_control_enabled"]);
         m_barrelSettings.insert("1_auto", generalChamber_1["auto_control_enabled"]);
@@ -611,6 +618,39 @@ namespace App { namespace View { namespace Managers
             return true;
 
         return false;
+    }
+
+
+    void SystemValues::autoControlFailed()
+    {
+        // Set control
+        m_control["manual_auto"] = false;
+
+        // Update view
+        setGeneralSettingEnables();
+
+        // Stop (with will then restart) vacuum gauge state machine
+        stopVacuumGuages();
+        stopVacuumTripGuages();
+
+        // Tell everyone we've updated
+        emit_controlChanged(m_control);
+    }
+
+    void SystemValues::autoControlFinished()
+    {
+        // Set control
+        m_control["manual_auto"] = false;
+
+        // Update view
+        setGeneralSettingEnables();
+
+        // Stop (with will then restart) vacuum gauge state machine
+        stopVacuumGuages();
+        stopVacuumTripGuages();
+
+        // Tell everyone we've updated
+        emit_controlChanged(m_control);
     }
 
 

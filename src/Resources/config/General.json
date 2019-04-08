@@ -1,6 +1,7 @@
 {
     "chambers":
     {
+        "ignore_trips": true,
         "manual_safety_valve": false,
         "1":
         {

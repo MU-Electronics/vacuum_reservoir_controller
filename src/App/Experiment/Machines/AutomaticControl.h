@@ -137,6 +137,7 @@ namespace App { namespace Experiment { namespace Machines
 
             // Barrel that have been tripped
             QList<int> m_tripped;
+            QList<int> m_trippedRecorder;
 
             // Barrels that have been marked as leaking
             QList<int> m_leaked;

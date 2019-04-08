@@ -23,6 +23,7 @@ namespace App { namespace Settings
             QVariantMap pump(int id);
             int defaultPump();
             bool manualSafetyValve();
+            bool ignoreTrips();
 
             // Types
             enum class Type: int
@@ -37,7 +38,8 @@ namespace App { namespace Settings
                 pump_1 = 8,
                 pump_2 = 9,
                 default_pump = 10,
-                manual_safety_valve = 11
+                manual_safety_valve = 11,
+                ignore_trips = 12
             };
 
             void save(Type type, QVariantMap data);
@@ -53,6 +55,7 @@ namespace App { namespace Settings
 
             // Chamber data
             bool m_manualSafetyValve;
+            bool m_ignoreTrips;
             QVariantMap m_chamber1;
             QVariantMap m_chamber2;
             QVariantMap m_chamber3;

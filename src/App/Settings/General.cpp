@@ -83,6 +83,9 @@ namespace App { namespace Settings
             case Type::manual_safety_valve:
                 m_manualSafetyValve = data;
             break;
+            case Type::ignore_trips:
+                m_ignoreTrips = data;
+            break;
             default:
                 return;
         }
@@ -204,6 +207,18 @@ namespace App { namespace Settings
     }
 
 
+    /**
+     * Return whether to ignore trips in auto control
+     *
+     * @brief General::ignoreTrips
+     * @return
+     */
+    bool General::ignoreTrips()
+    {
+        return m_ignoreTrips;
+    }
+
+
 
 
 
@@ -227,6 +242,7 @@ namespace App { namespace Settings
         m_chamber5 = chambers["5"].toMap();
         m_chamber6 = chambers["6"].toMap();
         m_manualSafetyValve = chambers["manual_safety_valve"].toBool();
+        m_ignoreTrips = chambers["ignore_trips"].toBool();
 
         // Valve data
         m_valves = rootMap["valves"].toMap();
@@ -283,7 +299,10 @@ namespace App { namespace Settings
             // Add to main chamber object
             chambers[QString::number(c)] = chamber;
         }
+
+        // Addtion settings within chamber object
         chambers["manual_safety_valve"] = m_manualSafetyValve;
+        chambers["ignore_trips"] = m_ignoreTrips;
 
         // Add chambers to json
         json["chambers"] = chambers;

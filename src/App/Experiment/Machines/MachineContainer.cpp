@@ -149,7 +149,7 @@ namespace App { namespace Experiment { namespace Machines
     // Auto control state machine control
     void MachineContainer::startAutoControl()
     {
-        m_autoControl.setParams();
+        m_autoControl.setParams(m_settings->general()->ignoreTrips());
         m_autoControl.start();
     }
     void MachineContainer::stopAutoControl()

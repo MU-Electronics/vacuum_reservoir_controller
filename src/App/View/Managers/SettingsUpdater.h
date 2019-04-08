@@ -45,7 +45,7 @@ namespace App { namespace View { namespace Managers
             void updatePumpSettings(int group, int autoState, int manualstate, int maniFoldLeakDelay,
                                     double lowerSetPoint, double upperSetPoint, int warmupTime, int pumpToValve, int pumpToBarrel, int leakDetection, int leakPeriod, double leakFall);
             void updateCommentSettings(int group, QString comment);
-            void updateGeneralSettings(bool valveMode, bool defaultPump);
+            void updateGeneralSettings(bool valveMode, bool defaultPump, bool ignoreTrips);
 
         private:
             QQmlApplicationEngine* m_root;

@@ -104,6 +104,9 @@ namespace App { namespace View { namespace Managers
 
             void hardwardThreadStart();
 
+            void autoControlFailed();
+            void autoControlFinished();
+
         private:
             QQmlApplicationEngine* m_root;
 

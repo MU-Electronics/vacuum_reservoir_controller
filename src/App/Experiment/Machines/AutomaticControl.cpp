@@ -134,7 +134,13 @@ namespace App { namespace Experiment { namespace Machines
 
         // Should we account for current guage trips?
         if(ignoreCurrentTrips)
+        {
             m_tripped.clear();
+        }
+        else
+        {
+            m_tripped = m_trippedRecorder;
+        }
 
         // Reset old leak& heavy load params
         m_leaked.clear();
@@ -874,8 +880,11 @@ namespace App { namespace Experiment { namespace Machines
      */
     void AutomaticControl::guageTripped(int group, bool state)
     {
+        // Does exsist in containers?
         int i = m_tripped.indexOf(group);
+        int ii = m_trippedRecorder.indexOf(group);
 
+        // Modifed by state machine
         if(i == -1)
         {
             if(state)
@@ -885,6 +894,18 @@ namespace App { namespace Experiment { namespace Machines
         {
             if(!state)
                 m_tripped.removeAt(i);
+        }
+
+        // Un-touched for referance
+        if(ii == -1)
+        {
+            if(state)
+                m_trippedRecorder.append(group);
+        }
+        else
+        {
+            if(!state)
+                m_trippedRecorder.removeAt(ii);
         }
     }
 
