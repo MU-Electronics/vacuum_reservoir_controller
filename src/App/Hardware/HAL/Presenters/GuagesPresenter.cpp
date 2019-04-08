@@ -127,17 +127,37 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageReadVacuum";
         presented["guage_id"] = commands["guage_id"];
 
-        // Voltage
-        presented["voltage"] = voltageAverage(presented["guage_id"].toInt(), (package.at(0).toDouble() / 0.201793722));
+        double voltage = (package.at(0).toDouble() / 0.201793722);
+        int id = presented["guage_id"].toInt();
 
-        // Convert voltage to pressure in mbar
-        if(presented["voltage"] <= 3)
+        // Check drop gradient not too sharp (invalid reading)
+        bool skipReading = false;
+        if(abs(voltage - voltageAverage(id)) > 5 && largeDrop == 0)
         {
-            presented["pressure_mbar"] = vacuumAverage(presented["guage_id"].toInt(), pow(10, -4));
+            skipReading = true;
+            largeDrop++;
+            qCWarning(halAccessGuagesPresenter) << "**Possible** invalid reading detected skipping this one but not the next:" << package << commands;
         }
         else
         {
-            presented["pressure_mbar"] = vacuumAverage(presented["guage_id"].toInt(), pow(10, (presented["voltage"].toDouble()-6)));
+            largeDrop = 0;
+        }
+
+        // Voltage
+        presented["voltage"] = voltageAverage(id, voltage);
+
+        // Convert voltage to pressure in mbar
+        if(presented["voltage"] <= 3 && !skipReading)
+        {
+            presented["pressure_mbar"] = vacuumAverage(id, pow(10, -4));
+        }
+        else if(!skipReading)
+        {
+            presented["pressure_mbar"] = vacuumAverage(id, pow(10, (presented["voltage"].toDouble()-6)));
+        }
+        else if(skipReading)
+        {
+            presented["pressure_mbar"] = vacuumAverage(id);
         }
 
         // Define the guage tolerance

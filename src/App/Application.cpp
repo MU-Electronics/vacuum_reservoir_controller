@@ -15,6 +15,8 @@
 #include "View/Managers/Logs.h"
 #include "View/Managers/Control.h"
 #include "View/Managers/SettingsUpdater.h"
+#include "View/Managers/Graphs/PressureVsTime.h"
+#include "View/Managers/Graphs/ValvesVsTime.h"
 
 namespace App
 {
@@ -102,6 +104,10 @@ namespace App
         manager_factory.create<View::Managers::Logs>("Logs", this,  m_engine, &settings_container);
         manager_factory.create<View::Managers::Control>("Control", this,  m_engine, &settings_container, &experiment_engine);
         manager_factory.create<View::Managers::SettingsUpdater>("SettingsUpdater", this,  m_engine, &settings_container);
+
+        // Graphs
+        manager_factory.create<View::Managers::Graphs::PressureVsTime>("GuageOne", this,  m_engine, &settings_container, &experiment_engine, 1);
+        manager_factory.create<View::Managers::Graphs::ValvesVsTime>("ValvesVsTime", this,  m_engine, &settings_container, &experiment_engine);
     }
 
 
@@ -119,6 +125,11 @@ namespace App
         m_engine->rootContext()->setContextProperty("LogsManager", manager_factory.get<View::Managers::Logs>("Logs"));
         m_engine->rootContext()->setContextProperty("ControlManager", manager_factory.get<View::Managers::Control>("Control"));
         m_engine->rootContext()->setContextProperty("SettingsUpdaterManager", manager_factory.get<View::Managers::SettingsUpdater>("SettingsUpdater"));
+
+        // Graphs
+        m_engine->rootContext()->setContextProperty("GuageOneManager", manager_factory.get<View::Managers::Graphs::PressureVsTime>("GuageOne"));
+        m_engine->rootContext()->setContextProperty("ValveGraphManager", manager_factory.get<View::Managers::Graphs::ValvesVsTime>("ValvesVsTime"));
+
     }
 
 
@@ -176,6 +187,10 @@ namespace App
         manager_factory.get<View::Managers::Logs>("Logs")->makeConnections();
         manager_factory.get<View::Managers::Control>("Control")->makeConnections(hardware);
         manager_factory.get<View::Managers::SettingsUpdater>("SettingsUpdater")->makeConnections();
+
+        // Graphs
+        manager_factory.get<View::Managers::Graphs::PressureVsTime>("GuageOne")->makeConnections(hardware);
+        manager_factory.get<View::Managers::Graphs::ValvesVsTime>("ValvesVsTime")->makeConnections(hardware);
     }
 
 

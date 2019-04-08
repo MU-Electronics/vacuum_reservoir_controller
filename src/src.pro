@@ -82,7 +82,9 @@ SOURCES += \
     App/Experiment/Machines/PumpControl.cpp \
     App/Experiment/Machines/AutomaticControl.cpp \
     App/Experiment/Machines/LeakDetection.cpp \
-    App/Experiment/Machines/ValveControl.cpp
+    App/Experiment/Machines/ValveControl.cpp \
+    App/View/Managers/Graphs/PressureVsTime.cpp \
+    App/View/Managers/Graphs/ValvesVsTime.cpp
 
 # Include all the header files
 HEADERS += \
@@ -142,7 +144,9 @@ HEADERS += \
     App/Experiment/Machines/PumpControl.h \
     App/Experiment/Machines/AutomaticControl.h \
     App/Experiment/Machines/LeakDetection.h \
-    App/Experiment/Machines/ValveControl.h
+    App/Experiment/Machines/ValveControl.h \
+    App/View/Managers/Graphs/PressureVsTime.h \
+    App/View/Managers/Graphs/ValvesVsTime.h
 
 
 # Include the resource file
