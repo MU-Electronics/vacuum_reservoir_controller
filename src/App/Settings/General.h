@@ -22,6 +22,7 @@ namespace App { namespace Settings
             QVariantMap valves();
             QVariantMap pump(int id);
             int defaultPump();
+            bool manualSafetyValve();
 
             // Types
             enum class Type: int
@@ -35,9 +36,13 @@ namespace App { namespace Settings
                 valves = 7,
                 pump_1 = 8,
                 pump_2 = 9,
+                default_pump = 10,
+                manual_safety_valve = 11
             };
 
             void save(Type type, QVariantMap data);
+            void save(Type type, bool data);
+            void save(Type type, int data);
 
         signals:
             void emit_saved();
@@ -47,6 +52,7 @@ namespace App { namespace Settings
             void write(QJsonObject &json) const;
 
             // Chamber data
+            bool m_manualSafetyValve;
             QVariantMap m_chamber1;
             QVariantMap m_chamber2;
             QVariantMap m_chamber3;

@@ -61,6 +61,11 @@ namespace App { namespace Settings
             case Type::pump_2:
                 m_pump2 = data;
             break;
+            case Type::default_pump:
+                m_pump2 = data;
+            break;
+            default:
+                return;
         }
 
         // Trigger private method update
@@ -69,6 +74,48 @@ namespace App { namespace Settings
         // Tell everyone we have saved
         emit emit_saved();
     }
+
+    void General::save(Type type, bool data)
+    {
+        // Updated correct model
+        switch(type)
+        {
+            case Type::manual_safety_valve:
+                m_manualSafetyValve = data;
+            break;
+            default:
+                return;
+        }
+
+        // Trigger private method update
+        update();
+
+        // Tell everyone we have saved
+        emit emit_saved();
+    }
+
+
+    void General::save(Type type, int data)
+    {
+        // Updated correct model
+        switch(type)
+        {
+            case Type::default_pump:
+                m_defaultPump = data;
+            break;
+            default:
+                return;
+        }
+
+        // Trigger private method update
+        update();
+
+        // Tell everyone we have saved
+        emit emit_saved();
+    }
+
+
+
 
 
     /**
@@ -145,6 +192,18 @@ namespace App { namespace Settings
     }
 
 
+    /**
+     * Returns manual safety valve bool
+     *
+     * @brief manualSafetyValve
+     * @return
+     */
+    bool General::manualSafetyValve()
+    {
+        return m_manualSafetyValve;
+    }
+
+
 
 
 
@@ -167,6 +226,7 @@ namespace App { namespace Settings
         m_chamber4 = chambers["4"].toMap();
         m_chamber5 = chambers["5"].toMap();
         m_chamber6 = chambers["6"].toMap();
+        m_manualSafetyValve = chambers["manual_safety_valve"].toBool();
 
         // Valve data
         m_valves = rootMap["valves"].toMap();
@@ -217,10 +277,13 @@ namespace App { namespace Settings
             chamber["leak_max"] = item["leak_max"].toDouble();
             chamber["pumping_time"] = item["pumping_time"].toInt();
             chamber["heavy_load"] = item["heavy_load"].toDouble();
+            chamber["leak_delay"] = item["leak_delay"].toInt();
+            chamber["barrel_delay"] = item["barrel_delay"].toInt();
 
             // Add to main chamber object
             chambers[QString::number(c)] = chamber;
         }
+        chambers["manual_safety_valve"] = m_manualSafetyValve;
 
         // Add chambers to json
         json["chambers"] = chambers;
@@ -263,6 +326,7 @@ namespace App { namespace Settings
             pump["leak_detection"] = item["leak_detection"].toBool();
             pump["leak_period"] = item["leak_period"].toInt();
             pump["leak_max"] = item["leak_max"].toDouble();
+            pump["manifold_delay"] = item["manifold_delay"].toInt();
 
             // Add to main chamber object
             pumps[QString::number(p)] = pump;

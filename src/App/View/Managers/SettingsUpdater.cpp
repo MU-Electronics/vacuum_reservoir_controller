@@ -50,7 +50,8 @@ namespace App { namespace View { namespace Managers
     void SettingsUpdater::updateBarrelSettings(int group, int autoState, int manualstate,
                               int pumpingTime, double heavyLoad,
                               double lowerSetPoint, double upperSetPoint,
-                              int leakDetection, int leakPeriod, double leakFall)
+                              int leakDetection, int leakPeriod, double leakFall,
+                              int leakDelay, int pumpLeakDelay)
     {
         // Get chamber
         auto chamber = m_settings->general()->chamber(group);
@@ -67,6 +68,8 @@ namespace App { namespace View { namespace Managers
         chamber["leak_max"] = leakFall;
         chamber["pumping_time"] = pumpingTime * 1000;
         chamber["heavy_load"] = heavyLoad;
+        chamber["leak_delay"] = leakDelay * 1000;
+        chamber["barrel_delay"] = pumpLeakDelay * 1000;
 
         // Save settings
         if(group == 1)
@@ -85,7 +88,7 @@ namespace App { namespace View { namespace Managers
 
 
     void SettingsUpdater::updatePumpSettings(int group, int autoState, int manualstate,
-                            double alarmPressure, int alarmTime,
+                            int maniFoldLeakDelay,
                             double lowerSetPoint, double upperSetPoint, int warmupTime,
                             int pumpToValve, int pumpToBarrel,
                             int leakDetection, int leakPeriod, double leakFall)
@@ -98,16 +101,15 @@ namespace App { namespace View { namespace Managers
         pump["manual_control_enabled"] = bool(manualstate);
         pump["lower_set_point"] = lowerSetPoint;
         pump["upper_set_point"] = upperSetPoint;
-        pump["alarm_pressure"] = alarmPressure;
-        pump["alarm_time"] = alarmTime;
+        pump["alarm_pressure"] = pump["alarm_pressure"];  // No interface for these atm as they are not used
+        pump["alarm_time"] = pump["alarm_time"];  // No interface for these atm as they are not used
         pump["warm_up"] = warmupTime;
         pump["pump_void"] = pumpToValve;
         pump["pump_manifold_void"] = pumpToBarrel;
         pump["leak_detection"] = bool(leakDetection);
         pump["leak_period"] = leakPeriod;
         pump["leak_max"] = leakFall;
-
-        qDebug() << pump;
+        pump["manifold_delay"] = maniFoldLeakDelay * 1000;
 
         // Save settings
         if(group == 1)
@@ -138,6 +140,23 @@ namespace App { namespace View { namespace Managers
             m_settings->general()->save(Settings::General::Type::chamber_5, chamber);
         else if (group == 6)
             m_settings->general()->save(Settings::General::Type::chamber_6, chamber);
+    }
+
+
+    void SettingsUpdater::updateGeneralSettings(bool valveMode, bool defaultPump)
+    {
+        // Set default pump
+        if(defaultPump)
+        {
+            m_settings->general()->save(Settings::General::Type::default_pump, 1);
+        }
+        else
+        {
+            m_settings->general()->save(Settings::General::Type::default_pump, 2);
+        }
+
+        // Set valve mode
+        m_settings->general()->save(Settings::General::Type::manual_safety_valve, valveMode);
     }
 
 }}}

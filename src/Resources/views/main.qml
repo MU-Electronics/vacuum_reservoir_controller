@@ -145,15 +145,29 @@ FluidControls.ApplicationWindow {
         }
 
         FluidControls.Tab {
+            title: qsTr("Settings")
+
+            Loader {
+                id: settingsTab
+                width: parent.width
+                source: "pages/Settings.qml"
+                active: (mainTab.currentIndex === 2) ? true : false
+                asynchronous: true
+                visible: (status == Loader.Ready && mainTab.currentIndex == 2) ? true : false
+            }
+
+        }
+
+        FluidControls.Tab {
             title: qsTr("System logs")
 
             Loader {
                 id: systemLogsTab
                 width: parent.width
                 source: "pages/SystemLogs.qml" // SystemLogs
-                active: (mainTab.currentIndex === 2) ? true : false
+                active: (mainTab.currentIndex === 3) ? true : false
                 asynchronous: true
-                visible: (status == Loader.Ready && mainTab.currentIndex == 2) ? true : false
+                visible: (status == Loader.Ready && mainTab.currentIndex == 3) ? true : false
             }
         }
     }

@@ -1,6 +1,7 @@
 {
     "chambers":
     {
+        "manual_safety_valve": false,
         "1":
         {
             "auto_control_enabled": true,
@@ -19,6 +20,9 @@
             "leak_period": 10000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
+
             "pumping_time": 10000
         },
         "2":
@@ -39,8 +43,10 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
 
-            "pumping_time": 10000
+            "pumping_time": 11000
         },
         "3":
         {
@@ -60,6 +66,8 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
 
             "pumping_time": 10000
         },
@@ -81,6 +89,8 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
 
             "pumping_time": 10000
         },
@@ -102,6 +112,8 @@
             "leak_period": 15000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
 
             "pumping_time": 10000
         },
@@ -123,6 +135,8 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
+            "leak_delay": 5000,
+            "barrel_delay": 2000,
 
             "pumping_time": 10000
         }
@@ -156,7 +170,8 @@
 
             "leak_detection": true,
             "leak_period": 10000,
-            "leak_max": 10
+            "leak_max": 10,
+            "manifold_delay": 3000
         },
 
         "2":
@@ -178,7 +193,8 @@
 
             "leak_detection": true,
             "leak_period": 10000,
-            "leak_max": 10
+            "leak_max": 10,
+            "manifold_delay": 3000
         }
     }
 }

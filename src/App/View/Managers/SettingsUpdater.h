@@ -41,11 +41,11 @@ namespace App { namespace View { namespace Managers
             void updateBarrelSettings(int group, int autoState, int manualstate,
                                       int pumpingTime, double heavyLoad,
                                       double lowerSetPoint, double upperSetPoint,
-                                      int leakDetection, int leakPeriod, double leakFall);
-            void updatePumpSettings(int group, int autoState, int manualstate,
-                                    double alarmPressure, int alarmTime,
+                                      int leakDetection, int leakPeriod, double leakFall, int leakDelay, int pumpLeakDelay);
+            void updatePumpSettings(int group, int autoState, int manualstate, int maniFoldLeakDelay,
                                     double lowerSetPoint, double upperSetPoint, int warmupTime, int pumpToValve, int pumpToBarrel, int leakDetection, int leakPeriod, double leakFall);
             void updateCommentSettings(int group, QString comment);
+            void updateGeneralSettings(bool valveMode, bool defaultPump);
 
         private:
             QQmlApplicationEngine* m_root;

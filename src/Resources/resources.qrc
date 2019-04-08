@@ -31,5 +31,6 @@
         <file>views/parts/BusyPopup.qml</file>
         <file>views/parts/DecimalSpinner.qml</file>
         <file>views/parts/DualColumnLabel.qml</file>
+        <file>views/pages/Settings.qml</file>
     </qresource>
 </RCC>

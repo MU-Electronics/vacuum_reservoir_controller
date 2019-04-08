@@ -132,78 +132,6 @@ Popup {
         }
 
 
-        // Alarm
-        Rectangle{
-            id: sensors
-            width: parent.width + 20
-            height: popup.rowHeights
-            color: "#f2f2f2"
-            anchors.left: parent.left
-            anchors.leftMargin: -10
-            anchors.top: enables.bottom
-            anchors.topMargin: 1
-
-            Row
-            {
-                width: parent.width
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 2
-
-
-                Label{
-                    text: "Alarm (mbar)"
-                    width: 165
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
-                }
-
-                DecimalSpinner{
-                    id: pumpAlarmState
-                    width: 150
-                    from: 0
-                    to: 500 * factor
-                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_pressure"] * factor
-                }
-
-                Item{
-                    width: 20
-                    height: 50
-                    Rectangle{
-                        width:2
-                        height: 50
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#f9f9f9"
-                    }
-                }
-
-                Label{
-                    text: "Alarm time (sec)"
-                    width: 160
-                    Materials.Material.accent: Materials.Material.foreground
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    font.pointSize: 11
-                }
-
-                SpinBox {
-                    id: pumpAlarmTimeState
-                    width: 200
-                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_time"]
-                    from:0
-                    to:1000
-                }
-            }
-        }
-
 
 
 
@@ -212,10 +140,10 @@ Popup {
             id: targets
             width: parent.width + 20
             height: popup.rowHeights
-            color: "#f9f9f9"
+            color: "#f2f2f2"
             anchors.left: parent.left
             anchors.leftMargin: -10
-            anchors.top: sensors.bottom
+            anchors.top: enables.bottom
             anchors.topMargin: 1
 
             Row
@@ -301,7 +229,7 @@ Popup {
             id: pumpingTimings
             width: parent.width + 20
             height: popup.rowHeights
-            color: "#f2f2f2"
+            color: "#f9f9f9"
             anchors.left: parent.left
             anchors.leftMargin: -10
             anchors.top: targets.bottom
@@ -365,7 +293,7 @@ Popup {
             id: leaks
             width: parent.width + 20
             height: popup.rowHeights
-            color: "#f9f9f9"
+            color: "#f2f2f2"
             anchors.left: parent.left
             anchors.leftMargin: -10
             anchors.top: pumpingTimings.bottom
@@ -450,6 +378,87 @@ Popup {
         }
 
 
+
+
+
+
+        // More leak settings
+        Rectangle{
+            id: leakExtra
+            width: parent.width + 20
+            height: popup.rowHeights
+            color: "#f9f9f9"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: leaks.bottom
+            anchors.topMargin: 1
+
+            Row
+            {
+                width: parent.width
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+
+                Label{
+                    text: "Manifold leak delay (secs)"
+                    width: 190
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                SpinBox{
+                    id: pumpManiFoldLeak
+                    width: 120
+                    from: 1
+                    to: 99
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_manifold_delay"] / 1000
+                }
+
+                /*Item{
+                    width: 20
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f9f9f9"
+                    }
+                }
+
+                Label{
+                    text: "Alarm time (sec)"
+                    width: 160
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                SpinBox {
+                    id: pumpAlarmTimeState
+                    width: 200
+                    value: SystemValuesManager.pumpSettings[popup.pumpId + "_alarm_time"]
+                    from:0
+                    to:1000
+                }*/
+            }
+        }
+
+
+
+
+
+
         // Save / Cancel
         Rectangle{
             id: commands
@@ -488,7 +497,7 @@ Popup {
                 onClicked: {
                     // Save values
                     SettingsUpdaterManager.updatePumpSettings(popup.pumpId, pumpAutoState.currentIndex, pumpManualState.currentIndex,
-                                                              (pumpAlarmState.value / pumpAlarmState.factor), pumpAlarmTimeState.value,
+                                                              pumpManiFoldLeak.value,
                                                               (lowerPumpSetPoint.value / lowerPumpSetPoint.factor), (pumpUpperSetPointState.value/ pumpUpperSetPointState.factor), pumpWarmupState.value,
                                                               pumpMaxPumpValveTime.value, pumpMaxPumpBarrelsTime.value,
                                                               pumpLeakDetection.currentIndex, (pumpLeakPeriod.value*1000), (pumpLeakFall.value / pumpLeakFall.factor));

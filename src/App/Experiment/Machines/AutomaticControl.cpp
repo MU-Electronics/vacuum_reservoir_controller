@@ -437,7 +437,7 @@ namespace App { namespace Experiment { namespace Machines
     {
         // Pumping
         auto chamber = m_settings->general()->chamber(m_currentBarrel);
-        m_pumpingLeakDetection.setParams(m_currentBarrel, chamber["pumping_time"].toInt(), chamber["leak_max"].toDouble(), 20, 2000);
+        m_pumpingLeakDetection.setParams(m_currentBarrel, chamber["pumping_time"].toInt(), chamber["leak_max"].toDouble(), (chamber["barrel_delay"].toInt() / 1000), chamber["barrel_delay"].toInt());
         m_pumpingLeakDetection.start();
     }
 
@@ -503,7 +503,7 @@ namespace App { namespace Experiment { namespace Machines
         qDebug() << "Barrel leak detector on : "<<m_currentBarrel;
         auto barrel = m_settings->general()->chamber(m_currentBarrel);
 
-        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), 4, 5000);
+        m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), (barrel["leak_delay"].toInt() / 1000), barrel["leak_delay"].toInt());
         m_barrelLeakDetection.start();
     }
 
@@ -635,7 +635,7 @@ namespace App { namespace Experiment { namespace Machines
     {
         qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
         auto pump = m_settings->general()->pump(m_currentPump);
-        m_manifoldLeakDetection.setParams((m_currentPump + 6), pump["leak_max"].toInt(), pump["leak_max"].toDouble(), 20, 3000);
+        m_manifoldLeakDetection.setParams((m_currentPump + 6), pump["leak_period"].toInt(), pump["leak_max"].toDouble(), (pump["manifold_delay"].toInt() / 1000), pump["manifold_delay"].toInt());
         m_manifoldLeakDetection.start();
     }
 

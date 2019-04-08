@@ -21,10 +21,10 @@ Popup {
 
     property var settingsLoaderAliase: 0
 
-    property int rowHeights: 70
+    property int rowHeights: 65
 
     width: 720
-    height: 390
+    height: 440
     //contentWidth: view.implicitWidth
     //contentHeight: view.implicitHeight
     x: {
@@ -43,7 +43,7 @@ Popup {
         if(popup.settingy != 0)
             return popup.settingy
 
-        return -170
+        return -200
     }
     closePolicy: Popup.NoAutoClose
     modal: true
@@ -139,7 +139,7 @@ Popup {
             id: targets
             width: parent.width + 20
             height: 70
-            color: "#f9f9f9"
+            color: "#f2f2f2"
             anchors.left: parent.left
             anchors.leftMargin: -10
             anchors.top: enables.bottom
@@ -304,15 +304,94 @@ Popup {
 
 
 
+
+
         // Pumping settings
         Rectangle{
-            id: sensors
+            id: pumpingLeakDelays
             width: parent.width + 20
             height: 70
             color: "#f2f2f2"
             anchors.left: parent.left
             anchors.leftMargin: -10
             anchors.top: leaks.bottom
+            anchors.topMargin: 1
+
+            Row
+            {
+                width: parent.width
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+                Label{
+                    text: "Barrel leak delay (sec)"
+                    width: 170
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                SpinBox{
+                    id: barrelLeakDelay
+                    width: 150
+                    from: 1
+                    to: 999
+                    value: SystemValuesManager.barrelSettings[popup.set + "_leak_delay"] / 1000
+                }
+
+
+                Item{
+                    width: 20
+                    height: 50
+                    Rectangle{
+                        width:2
+                        height: 50
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "#f1f1f1"
+                    }
+                }
+
+                Label{
+                    text: "Pumping leak delay (sec)"
+                    width: 200
+                    Materials.Material.accent: Materials.Material.foreground
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    font.pointSize: 11
+                }
+
+                SpinBox{
+                    id: barrelPumpLeakDelay
+                    width: 150
+                    from: 1
+                    to: 999
+                    value: SystemValuesManager.barrelSettings[popup.set + "_barrel_delay"] / 1000
+                }
+            }
+        }
+
+
+
+
+
+
+        // Pumping settings
+        Rectangle{
+            id: pumpTimings
+            width: parent.width + 20
+            height: 70
+            color: "#f9f9f9"
+            anchors.left: parent.left
+            anchors.leftMargin: -10
+            anchors.top: pumpingLeakDelays.bottom
             anchors.topMargin: 1
 
             Row
@@ -388,7 +467,7 @@ Popup {
             id: commands
 
             width: popup.width
-            height: 70
+            height: rowHeights
 
             anchors.bottom: parent.bottom
             anchors.bottomMargin: -12
@@ -423,7 +502,8 @@ Popup {
                     SettingsUpdaterManager.updateBarrelSettings(popup.set, barrelAutoState.currentIndex, barrelManualState.currentIndex,
                                                                 barrelPumpingTime.value, (barrelHeavyLoad.value / barrelHeavyLoad.factor),
                                                                 (barrelLowerSetPoint.value / barrelLowerSetPoint.factor), (barrelUpperSetPointstate.value / barrelUpperSetPointstate.factor),
-                                                                barrelLeakDetection.currentIndex, (barrelLeakPeriod.value * 1000), (barrelLeakFall.value / barrelLowerSetPoint.factor));
+                                                                barrelLeakDetection.currentIndex, (barrelLeakPeriod.value * 1000), (barrelLeakFall.value / barrelLowerSetPoint.factor),
+                                                                barrelLeakDelay.value, barrelPumpLeakDelay.value);
 
                     // Close popup
                     settingsLoaderAliase.active = false
