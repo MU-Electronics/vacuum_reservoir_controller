@@ -67,7 +67,6 @@ namespace App { namespace Hardware
         // Connect Valvs HAL connections
         connect(m_halContainer.valves().data(), &HAL::Valves::emit_valveData, this, &Access::proccessDataFromHals);
 
-
         // Open com port for all devices
         connectDevices();
     }

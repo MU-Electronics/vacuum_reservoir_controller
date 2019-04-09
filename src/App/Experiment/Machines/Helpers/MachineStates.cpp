@@ -61,7 +61,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         ,   ssm_stopAsFailed(&shutDownMachine)
     {
         // Connect object signals to hardware slots and visa versa
-        // connect(this, &MachineStates::hardwareRequest, &m_hardware, &Hardware::Access::hardwareAccess);
+        connect(this, &MachineStates::hardwareRequest, &m_hardware, &Hardware::Access::hardwareAccess);
 
         // Connect the states to functions
         connectStatesToMethods();

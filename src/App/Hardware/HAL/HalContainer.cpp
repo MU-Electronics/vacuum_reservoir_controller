@@ -34,6 +34,7 @@ namespace App { namespace Hardware { namespace HAL
             setupValves();
             setupEmergancyStop();
             setuptemperatureSensor();
+            setupRemote();
         }
 
 
