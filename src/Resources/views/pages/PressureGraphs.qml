@@ -82,6 +82,18 @@ Item
         }
     }
 
+    BusyIndicator {
+        id: loadingRing
+        running: (graphLoader.status == Loader.Loading) ? true : false
+        width: 100
+        height: 100
+        anchors.top: testingModeTabBar.bottom
+        anchors.topMargin: ((window.height-150) / 2) - 50
+        anchors.left: testingModeTabBar.left
+        anchors.leftMargin: (parent.width / 2) - 50
+        visible: (graphLoader.status == Loader.Loading) ? true : false
+    }
+
     Loader {
         id: graphLoader
         source: "parts/GuageGraph.qml"

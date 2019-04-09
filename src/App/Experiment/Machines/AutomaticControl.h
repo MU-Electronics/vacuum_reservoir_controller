@@ -168,6 +168,8 @@ namespace App { namespace Experiment { namespace Machines
             int m_disabledPump1 = 0;
             int m_disabledPump2 = 0;
 
+            int samplesPerSecond = 3;
+
             void generateChamberTransitions(int id);
             void majorLeakDetection();
 

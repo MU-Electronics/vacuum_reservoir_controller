@@ -77,7 +77,7 @@ Item
             delegate: FluidControls.ListItem{
                 text: modelData["type"] + " at " + modelData["timestamp"] + " in " + modelData["category"]
                 subText: modelData["message"]
-                height: 88
+                height: 95
                 maximumLineCount: 4
             }
 
