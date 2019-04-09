@@ -683,8 +683,8 @@ namespace App { namespace View { namespace Managers
         }
         else if(type == "manual_auto" && !state)
         {
-            // @TODO check machine running
-            m_experimentEngine->machines().stopAutoControl();
+            if(m_experimentEngine->machines().isRunningAutoControl())
+                m_experimentEngine->machines().stopAutoControl();
         }
     }
 

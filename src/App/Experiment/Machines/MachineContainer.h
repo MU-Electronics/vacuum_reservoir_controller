@@ -58,6 +58,7 @@ namespace App { namespace Experiment { namespace Machines
             // Auto control state machine control
             void startAutoControl();
             void stopAutoControl();
+            bool isRunningAutoControl();
 
 
 

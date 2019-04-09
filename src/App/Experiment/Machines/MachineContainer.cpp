@@ -156,6 +156,10 @@ namespace App { namespace Experiment { namespace Machines
     {
         m_autoControl.cancelStateMachine();
     }
+    bool MachineContainer::isRunningAutoControl()
+    {
+        return m_autoControl.machine.isRunning();
+    }
 
 
 }}}
