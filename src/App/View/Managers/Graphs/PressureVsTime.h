@@ -47,7 +47,14 @@ namespace App { namespace View { namespace Managers { namespace Graphs
             void makeConnections(Hardware::Access& hardware);
 
         signals:
-            void emit_newPressureGraphData();
+            void emit_newGuageOneGraphData();
+            void emit_newGuageTwoGraphData();
+            void emit_newGuageThreeGraphData();
+            void emit_newGuageFourGraphData();
+            void emit_newGuageFiveGraphData();
+            void emit_newGuageSixGraphData();
+            void emit_newGuageSevenGraphData();
+            void emit_newGuageEightGraphData();
 
         public slots:
             void update(int i, QAbstractSeries *series);
@@ -86,6 +93,34 @@ namespace App { namespace View { namespace Managers { namespace Graphs
             int currentGuageEightId = 0;
 
             int m_guageId;
+
+            int trackGraphing = -1;
+
+
+            /**
+             * Update x-axis when guage being graphed has changed
+             *
+             * @brief hasGraphChanged
+             * @param id
+             */
+            void hasGraphChanged(int id)
+            {
+                if(trackGraphing == -1)
+                {
+                    trackGraphing = id;
+                    return;
+                }
+
+                if(id != trackGraphing)
+                {
+                    // Append correct x axis limits
+                    QDateTime current = QDateTime::currentDateTime();
+                    graphMinX(current);
+                    graphMaxX(current.addSecs(hold));
+
+                    trackGraphing = id;
+                }
+            }
     };
 }}}}
 

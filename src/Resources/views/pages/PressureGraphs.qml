@@ -8,7 +8,11 @@ import "parts"
 
 Item
 {
+    id: pressureGraphsContainer
+
     anchors.fill: parent
+
+    property int toLoad: 1
 
     Pane
     {
@@ -32,25 +36,45 @@ Item
             id: listLogPane
 
             anchors.fill: parent
-            currentIndex: 1
+            currentIndex:  pressureGraphsContainer.toLoad - 1;
+
+            Component.onCompleted: {
+                if(SystemValuesManager.barrelState["1_enabled"])
+                    pressureGraphsContainer.toLoad = 1;
+                else if(SystemValuesManager.barrelState["2_enabled"])
+                    pressureGraphsContainer.toLoad = 2;
+                else if(SystemValuesManager.barrelState["3_enabled"])
+                    pressureGraphsContainer.toLoad = 3;
+                else if(SystemValuesManager.barrelState["4_enabled"])
+                    pressureGraphsContainer.toLoad = 4;
+                else if(SystemValuesManager.barrelState["5_enabled"])
+                    pressureGraphsContainer.toLoad = 5;
+                else if(SystemValuesManager.barrelState["6_enabled"])
+                    pressureGraphsContainer.toLoad = 6;
+                else if(SystemValuesManager.pumpState["1_enabled"])
+                    pressureGraphsContainer.toLoad = 7;
+                else if(SystemValuesManager.pumpState["2_enabled"])
+                    pressureGraphsContainer.toLoad = 8;
+            }
 
             model: [
-                { name: "P1",  enabled: SystemValuesManager.barrelState["1_enabled"] },
-                { name: "P2",  enabled: SystemValuesManager.barrelState["2_enabled"] },
-                { name: "P3",  enabled: SystemValuesManager.barrelState["3_enabled"] },
-                { name: "P4",  enabled: SystemValuesManager.barrelState["4_enabled"] },
-                { name: "P5",  enabled: SystemValuesManager.barrelState["5_enabled"] },
-                { name: "P6",  enabled: SystemValuesManager.barrelState["6_enabled"] },
-                { name: "P7",  enabled: SystemValuesManager.pumpState["1_enabled"] },
-                { name: "P8",  enabled: SystemValuesManager.pumpState["2_enabled"] },
+                { name: "P1", id: 1, enabled: SystemValuesManager.barrelState["1_enabled"] },
+                { name: "P2", id: 2, enabled: SystemValuesManager.barrelState["2_enabled"] },
+                { name: "P3", id: 3, enabled: SystemValuesManager.barrelState["3_enabled"] },
+                { name: "P4", id: 4, enabled: SystemValuesManager.barrelState["4_enabled"] },
+                { name: "P5", id: 5, enabled: SystemValuesManager.barrelState["5_enabled"] },
+                { name: "P6", id: 6, enabled: SystemValuesManager.barrelState["6_enabled"] },
+                { name: "P7", id: 7, enabled: SystemValuesManager.pumpState["1_enabled"] },
+                { name: "P8", id: 8, enabled: SystemValuesManager.pumpState["2_enabled"] }
             ]
 
             delegate: FluidControls.ListItem{
                 text: modelData["name"]
-                highlighted: ListView.isCurrentItem
+                highlighted: (pressureGraphsContainer.toLoad === modelData["id"]) ? true : false
                 enabled: modelData["enabled"]
                 onClicked: {
-
+                    pressureGraphsContainer.toLoad = modelData["id"];
+                    graphLoader.reload();
                 }
             }
 
@@ -58,8 +82,13 @@ Item
         }
     }
 
-    GuageOneGraph
-    {
+    Loader {
+        id: graphLoader
+        source: "parts/GuageGraph.qml"
+        // active: (mainTab.currentIndex === 3) ? true : false
+        asynchronous: true
+        //visible: (status == Loader.Ready && mainTab.currentIndex == 3) ? true : false
+
         anchors.left: logList.right
         anchors.leftMargin: 0
         anchors.top: parent.top
@@ -67,39 +96,18 @@ Item
 
         width: 800 - 10 - logList.width
         height: 470
+
+        onLoaded: {
+            item.guageId = pressureGraphsContainer.toLoad;
+        }
+
+        function reload() {
+            source = "";
+            source = "parts/GuageGraph.qml";
+        }
     }
 
-//    Item {
-//        anchors.left: logList.right
-//        anchors.leftMargin: 10
-//        anchors.top: parent.top
-//        anchors.topMargin: 10
 
-//        width: 800 - 10 - logList.width
-//        height: 400
-
-//        ListView
-//        {
-//            id: logViewer
-
-//            anchors.fill: parent
-
-//            model: LogsManager.logData
-
-//            header: FluidControls.Subheader {
-//               text: "Viewing Log: " + LogsManager.viewingLog
-//            }
-
-//            delegate: FluidControls.ListItem{
-//                text: modelData["type"] + " at " + modelData["timestamp"] + " in " + modelData["category"]
-//                subText: modelData["message"]
-//                height: 88
-//                maximumLineCount: 4
-//            }
-
-//            ScrollBar.vertical: ScrollBar {}
-//        }
-//    }
 }
 
 

@@ -61,6 +61,10 @@ namespace App { namespace View { namespace Managers { namespace Graphs
         // If series not null
         if (series)
         {
+            // Update x axis if guage has been changed
+            hasGraphChanged(i);
+
+            // Update graph data
             switch(i)
             {
                 case 1:
@@ -109,44 +113,48 @@ namespace App { namespace View { namespace Managers { namespace Graphs
             case 1:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageOneData);
                 updateAxis(m_GuageOneData);
+                emit emit_newGuageOneGraphData();
             break;
             case 2:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageTwoData);
                 updateAxis(m_GuageTwoData);
+                emit emit_newGuageTwoGraphData();
             break;
             case 3:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageThreeData);
                 updateAxis(m_GuageThreeData);
+                emit emit_newGuageThreeGraphData();
             break;
             case 4:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageFourData);
                 updateAxis(m_GuageFourData);
+                emit emit_newGuageFourGraphData();
             break;
             case 5:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageFiveData);
                 updateAxis(m_GuageFiveData);
+                emit emit_newGuageFiveGraphData();
             break;
             case 6:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageSixData);
                 updateAxis(m_GuageSixData);
+                emit emit_newGuageSixGraphData();
             break;
             case 7:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageSevenData);
                 updateAxis(m_GuageSevenData);
+                emit emit_newGuageSevenGraphData();
             break;
             case 8:
                 updateTimedData(package["pressure_mbar"].toReal(), m_GuageEightData);
                 updateAxis(m_GuageEightData);
+                emit emit_newGuageEightGraphData();
             break;
         }
-
 
         // has data
         if(!hasData())
             hasData(true);
-
-        // Emit we have new data
-        emit emit_newPressureGraphData();
     }
 
 }}}}

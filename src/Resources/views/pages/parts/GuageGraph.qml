@@ -13,8 +13,12 @@ import Fluid.Effects 1.0 as FluidEffects
 
 Item
 {
+    id: rootGraph
+
     // Hold the select value for backing pump mode
     property bool bootup: false
+
+    property int guageId: 1
 
     width: parent.width
     height: parent.height
@@ -22,9 +26,45 @@ Item
     // Redraw diagram on pressure update
     Connections {
         target: GuageOneManager
-        onEmit_newPressureGraphData: {
+
+        onEmit_newGuageOneGraphData: {
             // Load the new data
-            GuageOneManager.update(1, chartView.series("Vacuum"));
+            update(1)
+        }
+        onEmit_newGuageTwoGraphData: {
+            // Load the new data
+            update(2)
+        }
+        onEmit_newGuageThreeGraphData: {
+            // Load the new data
+            update(3)
+        }
+        onEmit_newGuageFourGraphData: {
+            // Load the new data
+            update(4)
+        }
+        onEmit_newGuageFiveGraphData: {
+            // Load the new data
+            update(5)
+        }
+        onEmit_newGuageSixGraphData: {
+            // Load the new data
+            update(6)
+        }
+        onEmit_newGuageSevenGraphData: {
+            // Load the new data
+            update(7)
+        }
+        onEmit_newGuageEightGraphData: {
+            // Load the new data
+            update(8)
+        }
+
+
+        function update(incomming)
+        {
+            if(incomming === rootGraph.guageId)
+                GuageOneManager.update(guageId, chartView.series("Vacuum"));
         }
     }
 
@@ -64,16 +104,12 @@ Item
             // Load the new data
             ValveGraphManager.update(8, chartView.series("V8"));
         }
-        onEmit_newValveNineGraphData: {
-            // Load the new data
-            ValveGraphManager.update(9, chartView.series("V9"));
-        }
     }
 
 
     Component.onCompleted: {
         // Reload the data
-        GuageOneManager.update(1, chartView.series("Vacuum"));
+        GuageOneManager.update(guageId, chartView.series("Vacuum"));
         ValveGraphManager.update(1, chartView.series("V1"));
         ValveGraphManager.update(2, chartView.series("V2"));
         ValveGraphManager.update(3, chartView.series("V3"));

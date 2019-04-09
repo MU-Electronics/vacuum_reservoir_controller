@@ -85,9 +85,9 @@ namespace App { namespace View { namespace Managers { namespace Graphs
     }
 
 
-     /**
-      * Updates the axis limits
-      */
+    /**
+     * Updates the axis limits
+     */
     void Graph::updateAxis(QVector<QPointF> &data)
     {
         // Does the x axis need scaling?

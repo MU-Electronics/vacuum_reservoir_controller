@@ -32,6 +32,6 @@
         <file>views/parts/DecimalSpinner.qml</file>
         <file>views/parts/DualColumnLabel.qml</file>
         <file>views/pages/Settings.qml</file>
-        <file>views/pages/parts/GuageOneGraph.qml</file>
+        <file>views/pages/parts/GuageGraph.qml</file>
     </qresource>
 </RCC>
