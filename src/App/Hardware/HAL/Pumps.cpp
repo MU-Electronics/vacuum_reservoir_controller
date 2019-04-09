@@ -18,9 +18,6 @@ namespace App { namespace Hardware { namespace HAL
         ,   m_pump_2(*new QutiPi::Drivers::DigitalOut(pump2))
 
     {
-        qDebug() << "Pump 1" << static_cast<int>(pump1);
-        qDebug() << "Pump 2" << static_cast<int>(pump2);
-
         m_pump_1.write(0);
         m_pump_2.write(0);
         setup();
@@ -74,7 +71,6 @@ namespace App { namespace Hardware { namespace HAL
         // Set GPIO
         if(m_command["pump_id"] == 1)
         {
-            qDebug() << "Pump 1 enabled";
              m_pump_1.write(1);
              enabled = "1";
         }

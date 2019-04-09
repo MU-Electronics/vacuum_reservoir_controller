@@ -125,28 +125,34 @@ namespace App { namespace Services
             // Get the current date and time
             messageArray.insert("1_Timestamp", QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"));
 
+            // Type
+            messageArray.insert("2_Type", messageArray.find("0").value());
+
             // Append the catergory
-            messageArray.insert("2_Category", QString::fromUtf8(context.category));
+            messageArray.insert("3_Category", QString::fromUtf8(context.category));
         }
         else if(type == QtDebugMsg || type == QtFatalMsg)
         {
             // Get the current date and time
             messageArray.insert("1_Timestamp", QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"));
 
+            // Type
+            messageArray.insert("2_Type", messageArray.find("0").value());
+
             // Append the catergory
-            messageArray.insert("2_Category", QString::fromUtf8(context.category));
+            messageArray.insert("3_Category", QString::fromUtf8(context.category));
 
             // Append the version number
-            messageArray.insert("3_Version", QString::number(context.version));
+            messageArray.insert("4_Version", QString::number(context.version));
 
             // Append the file
-            messageArray.insert("4_File", QString::fromUtf8(context.file));
+            messageArray.insert("5_File", QString::fromUtf8(context.file));
 
             // Append the function
-            messageArray.insert("5_Function", QString::fromUtf8(context.function));
+            messageArray.insert("6_Function", QString::fromUtf8(context.function));
 
             // Append the line number
-            messageArray.insert("6_Line", QString::number(context.line));
+            messageArray.insert("7_Line", QString::number(context.line));
         }
 
         // Append the message
