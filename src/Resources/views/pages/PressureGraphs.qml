@@ -87,10 +87,10 @@ Item
         running: (graphLoader.status == Loader.Loading) ? true : false
         width: 100
         height: 100
-        anchors.top: testingModeTabBar.bottom
-        anchors.topMargin: ((window.height-150) / 2) - 50
-        anchors.left: testingModeTabBar.left
-        anchors.leftMargin: (parent.width / 2) - 50
+        anchors.top: pressureGraphsContainer.bottom
+        anchors.topMargin: 125
+        anchors.left: logList.right
+        anchors.leftMargin: 300
         visible: (graphLoader.status == Loader.Loading) ? true : false
     }
 
