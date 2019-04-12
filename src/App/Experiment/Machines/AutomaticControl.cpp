@@ -313,19 +313,19 @@ namespace App { namespace Experiment { namespace Machines
         state("selectBarrel", true)->addTransition(this, &AutomaticControl::emit_noBarrelAvailable, state("noBarrelsWait", true));
 
             // Manifold leak detect
-            state("noBarrelsWait", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("selectPump", true));
+            state("noBarrelsWait", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("markPumpFailure", true));
             state("noBarrelsWait", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("selectBarrel", true));
 
         // Check manifold pressure
-        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_possiablePumpManifoldLeak, state("selectPump", true));
+        state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_possiablePumpManifoldLeak, state("markPumpFailure", true));
         state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldNotSufficent, state("manifoldPumpTimer", true));  // state("manifoldPumpTimer", true)
         state("manifoldPressure", true)->addTransition(this, &AutomaticControl::emit_vacuumManifoldSufficent, state("closePumpValve", true));
 
             // How long have we been pumping
             state("manifoldPumpTimer", true)->addTransition(this, &AutomaticControl::emit_totalTimeOk, state("manifoldLeakDetect", true));
-            state("manifoldPumpTimer", true)->addTransition(this, &AutomaticControl::emit_totalTimeExceeded, state("selectPump", true));
+            state("manifoldPumpTimer", true)->addTransition(this, &AutomaticControl::emit_totalTimeExceeded, state("markPumpFailure", true));
 
-            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("selectPump", true));
+            state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFailed, state("markPumpFailure", true));
             state("manifoldLeakDetect", true)->addTransition(&m_manifoldLeakDetection, &LeakDetection::emit_machineFinished, state("manifoldPressure", true));
 
         // Check barrel
