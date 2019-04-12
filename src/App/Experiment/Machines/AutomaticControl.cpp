@@ -120,7 +120,13 @@ namespace App { namespace Experiment { namespace Machines
      *
      */
     void AutomaticControl::setParams(bool ignoreCurrentTrips)
-    {       
+    {
+        // Reset old leak& heavy load params
+        m_leaked.clear();
+        m_heavyLoad.clear();
+        m_error.clear();
+        m_enabled.clear();
+
         // Set enabled valves
         for(int i : {1,2,3,4,5,6})
         {
@@ -141,10 +147,6 @@ namespace App { namespace Experiment { namespace Machines
         {
             m_tripped = m_trippedRecorder;
         }
-
-        // Reset old leak& heavy load params
-        m_leaked.clear();
-        m_heavyLoad.clear();
 
         // Set starting pump position
         m_currentPump = (m_settings->general()->defaultPump() == 1) ? 0 : 1;
@@ -226,7 +228,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownPumpController()
     {
-        qDebug() << "Stopping pump controller";
+        //qDebug() << "Stopping pump controller";
         if(m_pumpController.machine.isRunning())
         {
             m_pumpController.cancelStateMachine();
@@ -238,7 +240,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownBarrelLeakDetector()
     {
-        qDebug() << "Stopping shutdown barrel leak dector";
+        //qDebug() << "Stopping shutdown barrel leak dector";
         if(m_barrelLeakDetection.machine.isRunning())
         {
             m_barrelLeakDetection.cancelStateMachine();
@@ -250,7 +252,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownManiFoldLeakDetector()
     {
-        qDebug() << "Stopping shutdown manifold leak dector";
+        //qDebug() << "Stopping shutdown manifold leak dector";
         if(m_manifoldLeakDetection.machine.isRunning())
         {
             m_manifoldLeakDetection.cancelStateMachine();
@@ -262,7 +264,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::shutdownPumpingLeakDetector()
     {
-        qDebug() << "Stopping shutdown pumping leak dector";
+       // qDebug() << "Stopping shutdown pumping leak dector";
         if(m_pumpingLeakDetection.machine.isRunning())
         {
             m_pumpingLeakDetection.cancelStateMachine();
@@ -450,7 +452,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::closeBarrelValve()
     {
-        qDebug() << "Closing barrel valve" << m_currentBarrel;
+        //qDebug() << "Closing barrel valve" << m_currentBarrel;
 
         switch(m_currentBarrel)
         {
@@ -480,7 +482,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::failureMarkBarrel()
     {
-        qDebug() << "Marking barrel as leaked" << m_currentBarrel;
+        //qDebug() << "Marking barrel as leaked" << m_currentBarrel;
 
         if(!m_leaked.contains(m_currentBarrel))
             m_leaked.append(m_currentBarrel);
@@ -490,7 +492,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::openPumpValve()
     {
-        qDebug() << "Opening pump valve" << (m_currentPump + 6);
+       // qDebug() << "Opening pump valve" << (m_currentPump + 6);
         if((m_currentPump + 6) == 7)
         {
             valves()->openGroup7();
@@ -506,7 +508,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::startBarrelLeakDetect()
     {
-        qDebug() << "Barrel leak detector on : "<<m_currentBarrel;
+       // qDebug() << "Barrel leak detector on : "<<m_currentBarrel;
         auto barrel = m_settings->general()->chamber(m_currentBarrel);
 
         m_barrelLeakDetection.setParams(m_currentBarrel, barrel["leak_period"].toInt(), barrel["leak_max"].toInt(), ((barrel["leak_delay"].toInt() / 1000) * samplesPerSecond), barrel["leak_delay"].toInt());
@@ -516,7 +518,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::validateOpenBarrelValve()
     {
-        qDebug() << "Validating valve" << m_currentBarrel;
+       // qDebug() << "Validating valve" << m_currentBarrel;
 
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
@@ -527,7 +529,7 @@ namespace App { namespace Experiment { namespace Machines
             // Get the package data from the instance
             QVariantMap package = command->package;
 
-            qDebug() << package;
+            //qDebug() << package;
 
             // Check valve is the same
             if(package.value("group").toInt() == m_currentBarrel && true == package.value("value").toBool())
@@ -547,7 +549,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::openBarrelValve()
     {
-        qDebug() << "Opening valve" << m_currentBarrel;
+        //qDebug() << "Opening valve" << m_currentBarrel;
         switch(m_currentBarrel)
         {
             case 1:
@@ -576,7 +578,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::validateClosePumpValve()
     {
-        qDebug() << "Validating close pump valve" << (m_currentPump + 6);
+        //qDebug() << "Validating close pump valve" << (m_currentPump + 6);
 
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
@@ -587,7 +589,7 @@ namespace App { namespace Experiment { namespace Machines
             // Get the package data from the instance
             QVariantMap package = command->package;
 
-            qDebug() << package;
+            //qDebug() << package;
 
             // Check valve is the same
             if(package.value("group").toInt() == (m_currentPump + 6) && false == package.value("value").toBool())
@@ -608,7 +610,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::closePumpValve()
     {
-        qDebug() << "Closing pump valve" << (m_currentPump + 6);
+        //qDebug() << "Closing pump valve" << (m_currentPump + 6);
         if((m_currentPump + 6) == 7)
         {
             valves()->closeGroup7();
@@ -626,7 +628,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::isRunningManifoldPumpTimer()
     {
-        qDebug() << "Manifold pumping timer" << (m_currentPump + 6);
+        //qDebug() << "Manifold pumping timer" << (m_currentPump + 6);
         if(t_pumpManifold.isActive())
         {
             emit emit_totalTimeOk();
@@ -639,7 +641,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void AutomaticControl::manifoldLeakDetection()
     {
-        qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
+        //qDebug() << "Check for manifold leak:" << (m_currentPump + 6);
         auto pump = m_settings->general()->pump(m_currentPump);
         m_manifoldLeakDetection.setParams((m_currentPump + 6), pump["leak_period"].toInt(), pump["leak_max"].toDouble(), ((pump["manifold_delay"].toInt() / 1000) * samplesPerSecond), pump["manifold_delay"].toInt());
         m_manifoldLeakDetection.start();
@@ -652,12 +654,12 @@ namespace App { namespace Experiment { namespace Machines
         auto currentBarrel = m_pressures[m_currentBarrel];
         auto currentPump  = m_pressures[m_currentPump + 6];
 
-        qDebug() <<"Mani pressure: "<< currentPump << "Barrel Pressure:" << currentBarrel;
+        //qDebug() <<"Mani pressure: "<< currentPump << "Barrel Pressure:" << currentBarrel;
 
 
         if(!m_manifoldTimerStarted)
         {
-            qDebug() << "Starting mani timer" << t_pumpManifold.interval();
+            //qDebug() << "Starting mani timer" << t_pumpManifold.interval();
             t_pumpManifold.setSingleShot(true);
             t_pumpManifold.start();
             m_manifoldTimerStarted = true;
@@ -715,22 +717,37 @@ namespace App { namespace Experiment { namespace Machines
             {
                 // Check barrel pressure above lower set point (pressure in mbar, settings in mbar)
                 if(m_pressures[a] <= m_settings->general()->chamber(a)["lower_set_point"].toDouble())
+                {
+                    qDebug()<< "barrel " << a << "pressure too low";
                     continue;
+                }
 
                 // Check barrel guage has not tripped
                 if(m_tripped.contains(a))
+                {
+                    qDebug()<< "barrel " << a << "contains trip";
                     continue;
+                }
 
                 // Check barrel is not marked as leaked
                 if(m_leaked.contains(a))
+                {
+                    qDebug()<< "barrel " << a << "containes leak";
                     continue;
+                }
 
                 // Check barrel is not marked as heavy load
-                if(m_heavyLoad.contains(a))
-                    continue;
+                //if(m_heavyLoad.contains(a))
+                //{
+                //    qDebug()<< "barrel " << a << "containes heavy load";
+                //    continue;
+                //}
 
                 if(m_error.contains(a))
+                {
+                    qDebug()<< "barrel " << a << "containes error";
                     continue;
+                }
 
                 // We have found a barrel that we can work on next
                 foundBarrel = true;
@@ -752,6 +769,7 @@ namespace App { namespace Experiment { namespace Machines
         if(!foundBarrel)
         {
             qDebug() << "No barrel found";
+            m_currentBarrel = 0;
             emit emit_noBarrelAvailable();
             return;
         }
@@ -925,7 +943,7 @@ namespace App { namespace Experiment { namespace Machines
         int error = package.value("view_status").toInt();
 
         // Save current pressure value
-        m_pressures.insert(group, value);
+        m_pressures[group] = value;
 
         // Was there an error in reading of the guage
         int find = m_error.indexOf(group);

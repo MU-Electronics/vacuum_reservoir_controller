@@ -241,7 +241,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Helpers
         }
         else if(!error && !shutDownMachines)
         {
-            qDebug() << "Shutdown with success";
+            //qDebug() << "Shutdown with success";
             // Tell every we have stopped becuase machine finished
             emit emit_machineFinished(errorDetails);
         }

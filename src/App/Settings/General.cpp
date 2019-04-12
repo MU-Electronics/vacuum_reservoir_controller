@@ -284,7 +284,7 @@ namespace App { namespace Settings
             chamber["auto_control_enabled"] = item["auto_control_enabled"].toBool();
             chamber["manual_control_enabled"] = item["manual_control_enabled"].toBool();
             chamber["comment"] = item["comment"].toString();
-            chamber["lower_set_point"] = item["manual_control_enabled"].toDouble();
+            chamber["lower_set_point"] = item["lower_set_point"].toDouble();
             chamber["upper_set_point"] = item["upper_set_point"].toDouble();
             chamber["alarm_pressure"] = item["alarm_pressure"].toDouble();
             chamber["alarm_time"] = item["alarm_time"].toInt();
@@ -335,7 +335,7 @@ namespace App { namespace Settings
             // Add only the data we expect
             pump["auto_control_enabled"] = item["auto_control_enabled"].toBool();
             pump["manual_control_enabled"] = item["manual_control_enabled"].toBool();
-            pump["lower_set_point"] = item["manual_control_enabled"].toDouble();
+            pump["lower_set_point"] = item["lower_set_point"].toDouble();
             pump["upper_set_point"] = item["upper_set_point"].toDouble();
             pump["alarm_pressure"] = item["alarm_pressure"].toDouble();
             pump["alarm_time"] = item["alarm_time"].toInt();
@@ -346,6 +346,7 @@ namespace App { namespace Settings
             pump["leak_period"] = item["leak_period"].toInt();
             pump["leak_max"] = item["leak_max"].toDouble();
             pump["manifold_delay"] = item["manifold_delay"].toInt();
+
 
             // Add to main chamber object
             pumps[QString::number(p)] = pump;

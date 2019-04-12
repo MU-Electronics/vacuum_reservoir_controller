@@ -36,7 +36,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
     void PumpFunctions::validatePumpHelper(int pumpId, bool state)
     {
-        qDebug() << "validateing pump";
+        //qDebug() << "validateing pump";
         // Get the validator state instance
         Helpers::CommandValidatorState* command = dynamic_cast<Helpers::CommandValidatorState*>(sender());
 
@@ -56,7 +56,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 // Tell everyone the signal was wrong
                 emit emit_validationWrongId(errorDetails);
-                qDebug() << "wrong id";
+                //qDebug() << "wrong id";
                 // Do nothing else
                 return;
             }
@@ -74,7 +74,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
                 // Emit safe to proceed
                 emit emit_validationSuccess(successPackage);
-                qDebug() << "emit success";
+                //qDebug() << "emit success";
 
                 // More helpful emit
                 if(pumpId == 1)
@@ -107,7 +107,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
         // Emit not safe to proceed
         emit emit_validationFailed(errorDetails);
 
-        qDebug() << "emit fail";
+        //qDebug() << "emit fail";
     }
 
 

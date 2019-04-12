@@ -84,10 +84,10 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::enabled
      * @param package
      */
-    void Guages::enabled()
+    QStringList Guages::enabled(QVariantMap commands)
     {
         // Get requested port
-        switch(m_command["guage_id"].toInt())
+        switch(commands["guage_id"].toInt())
         {
             case 1:
                 m_active_1.write(QutiPi::Hardware::GPIO::MCP23008::Port::One, QutiPi::Hardware::GPIO::MCP23008::State::High);
@@ -121,9 +121,9 @@ namespace App { namespace Hardware { namespace HAL
         // Create simple package
         QStringList data;
         data.append(QString::number(1));
-
+        return data;
         // Emit the data
-        emit emit_guageData("Guages", "enabled", m_command, data);
+        //emit emit_guageData("Guages", "enabled", commands, data);
     }
 
 
@@ -133,10 +133,10 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::enabled
      * @param package
      */
-    void Guages::disabled()
+    QStringList Guages::disabled(QVariantMap commands)
     {
         // Get requested port
-        switch(m_command["guage_id"].toInt())
+        switch(commands["guage_id"].toInt())
         {
             case 1:
                 m_active_1.write(QutiPi::Hardware::GPIO::MCP23008::Port::One, QutiPi::Hardware::GPIO::MCP23008::State::Low);
@@ -170,9 +170,9 @@ namespace App { namespace Hardware { namespace HAL
         // Create simple package
         QStringList data;
         data.append(QString::number(0));
-
+        return data;
         // Emit the data
-        emit emit_guageData("Guages", "disabled", m_command, data);
+        //emit emit_guageData("Guages", "disabled", commands, data);
     }
 
 
@@ -182,11 +182,11 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::readVacuum
      * @param package
      */
-    void Guages::readVacuum()
+    QStringList Guages::readVacuum(QVariantMap commands)
     {
         // Get requested port
         double voltage = 0;
-        switch(m_command["guage_id"].toInt())
+        switch(commands["guage_id"].toInt())
         {
             case 1:
                 voltage = m_readings_1.read(QutiPi::Hardware::ADC::MCP3424::Port::One, QutiPi::Hardware::ADC::MCP3424::Type::VoltageSigleEnded);
@@ -221,11 +221,13 @@ namespace App { namespace Hardware { namespace HAL
         QStringList data;
         data.append(QString::number(voltage));
 
-        //qDebug() << "Reading vacuum: " << data << " Command: "<<m_command;
+        //if(commands["guage_id"].toInt() == 1)
+        //    qDebug() << "Reading vacuum: " << data << " Command: "<<commands;
 
-
+        return data;
         // Emit the data
-        emit emit_guageData("Guages", "readVacuum", m_command, data);
+        // qDebug() << commands;
+        //emit emit_guageData("Guages", "readVacuum", commands, data);
     }
 
 
@@ -235,11 +237,11 @@ namespace App { namespace Hardware { namespace HAL
      * @brief Guages::readTrip
      * @param package
      */
-    void Guages::readTrip()
+    QStringList Guages::readTrip(QVariantMap commands)
     {
         // Get requested port
         int logic = 0;
-        switch(m_command["guage_id"].toInt())
+        switch(commands["guage_id"].toInt())
         {
             case 1:
                 logic = m_trip_1_1.read();
@@ -273,9 +275,9 @@ namespace App { namespace Hardware { namespace HAL
         // Create simple package
         QStringList data;
         data.append(QString::number(logic));
-
+        return data;
         // Emit the data
-        emit emit_guageData("Guages", "readTrip", m_command, data);
+        //emit emit_guageData("Guages", "readTrip", commands, data);
     }
 
 

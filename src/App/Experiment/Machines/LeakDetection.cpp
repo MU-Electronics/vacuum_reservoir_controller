@@ -81,7 +81,7 @@ namespace App { namespace Experiment { namespace Machines
      */
     void LeakDetection::beforeStart()
     {
-        qDebug() << "Leak detector" << shutDownMachines;
+        //qDebug() << "Leak detector" << shutDownMachines;
     }
 
 
@@ -140,7 +140,7 @@ namespace App { namespace Experiment { namespace Machines
             // Get the package data from the instance
             QVariantMap package = command->package;
 
-            qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
+            //qDebug() << "Checking pressure:" << package << " at fall:" << params["fall"].toDouble();
 
             // Guage id
             int guageId = package["guage_id"].toInt();
@@ -178,16 +178,16 @@ namespace App { namespace Experiment { namespace Machines
             }
 
             // Max change
-            double maxFall = params["fall"].toDouble() + package["tolerance_upper"].toDouble();
+            double maxFall = params["fall"].toDouble() + (pressure * package["tolerance_upper"].toDouble());
 
-            qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<maxFall;
+            //qDebug() << "Checking for pressure drop:"<<(pressure - m_pressure)<<" is less than"<<maxFall;
 
             // Only update and alert if value has changed
             if((pressure - m_pressure) >= maxFall && params["sample"].toInt() >= m_count)
             {
                 // Guage tripped emit
                 emit emit_leakDetected();
-                //qDebug() << "Leak detected";
+                qDebug() << "Leak detected as "<<(pressure - m_pressure)<<" is more than"<<maxFall<<"on barrel"<<params["group"].toInt();
                 return;
             }
 
@@ -215,7 +215,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void LeakDetection::startInitDelay()
     {
-        qDebug()<< "inital delay of" <<t_initDelay.interval();
+        //qDebug()<< "inital delay of" <<t_initDelay.interval();
         t_initDelay.setSingleShot(true);
         t_initDelay.start();
     }

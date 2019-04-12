@@ -11,8 +11,8 @@
 
             "comment": "Turbo Charger 1918957487A",
 
-            "lower_set_point": 1,
-            "upper_set_point": 10,
+            "lower_set_point": 0.1,
+            "upper_set_point": 1,
 
             "alarm_pressure": 20,
             "alarm_time": 120,
@@ -21,21 +21,21 @@
             "leak_period": 10000,
             "leak_max": 10,
             "heavy_load": 5,
-            "leak_delay": 5000,
-            "barrel_delay": 2000,
+            "leak_delay": 6000,
+            "barrel_delay": 4000,
 
-            "pumping_time": 10000
+            "pumping_time": 30000
         },
         "2":
         {
-            "auto_control_enabled": false,
+            "auto_control_enabled": true,
             "manual_control_enabled": true,
             "remote_control_enabled": true,
 
             "comment": "Inlet 2",
 
-            "lower_set_point": 15,
-            "upper_set_point": 1200,
+            "lower_set_point": 0.1,
+            "upper_set_point": 1,
 
             "alarm_pressure": 20,
             "alarm_time": 120,
@@ -44,21 +44,21 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
-            "leak_delay": 5000,
-            "barrel_delay": 2000,
+            "leak_delay": 6000,
+            "barrel_delay": 4000,
 
-            "pumping_time": 11000
+            "pumping_time": 30000
         },
         "3":
         {
-            "auto_control_enabled": false,
+            "auto_control_enabled": true,
             "manual_control_enabled": true,
             "remote_control_enabled": true,
 
             "comment": "Turbo 3",
 
-            "lower_set_point": 15,
-            "upper_set_point": 100,
+            "lower_set_point": 0.1,
+            "upper_set_point": 1,
 
             "alarm_pressure": 20,
             "alarm_time": 120,
@@ -67,15 +67,15 @@
             "leak_period": 5000,
             "leak_max": 10,
             "heavy_load": 5,
-            "leak_delay": 5000,
-            "barrel_delay": 2000,
+            "leak_delay": 6000,
+            "barrel_delay": 4000,
 
-            "pumping_time": 10000
+            "pumping_time": 30000
         },
         "4":
         {
             "auto_control_enabled": false,
-            "manual_control_enabled": true,
+            "manual_control_enabled": false,
             "remote_control_enabled": true,
 
             "comment": "Turbo 4",
@@ -98,7 +98,7 @@
         "5":
         {
             "auto_control_enabled": false,
-            "manual_control_enabled": true,
+            "manual_control_enabled": false,
             "remote_control_enabled": true,
 
             "comment": "Turbo 5",

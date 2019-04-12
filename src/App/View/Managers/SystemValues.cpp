@@ -232,7 +232,7 @@ namespace App { namespace View { namespace Managers
             auto chamber = m_settings->general()->chamber(guageId);
 
             // Get pressure boundies
-            int upper = chamber["upper_set_point"].toInt();
+            double upper = chamber["upper_set_point"].toDouble();
             // int lower = chamber["lower_set_point"].toInt();
 
             // Are we within pressure?
@@ -244,7 +244,7 @@ namespace App { namespace View { namespace Managers
             auto pump = m_settings->general()->pump(guageId - 6);
 
             // Get pressure boundies
-            int upper = pump["upper_set_point"].toInt();
+            double upper = pump["upper_set_point"].toDouble();
             // int lower = pump["lower_set_point"].toInt();
 
             // Are we within pressure?

@@ -158,7 +158,7 @@ namespace App { namespace Experiment { namespace Machines
 
     void PumpControl::shutdownLeakDetector()
     {
-        qDebug() << "Stopping leak dector on pump controller";
+        //qDebug() << "Stopping leak dector on pump controller";
         if(m_leakDetection.machine.isRunning())
         {
             m_leakDetection.cancelStateMachine();
@@ -287,11 +287,11 @@ namespace App { namespace Experiment { namespace Machines
     {
         if(m_pumpId == 1)
         {
-            qDebug() << "Pump1";
+           // qDebug() << "Pump1";
             emit emit_usingPump1();
             return;
         }
-            qDebug() << "Pump2";
+          //  qDebug() << "Pump2";
         emit emit_usingPump2();
     }
 
@@ -310,7 +310,7 @@ namespace App { namespace Experiment { namespace Machines
             // Guage id
             int guageId = package["guage_id"].toInt();
 
-            qDebug() << "Vacuum check:"<<guageId<<m_pumpId;
+            //qDebug() << "Vacuum check:"<<guageId<<m_pumpId;
 
             // Check correct valve
             if(guageId != (m_pumpId + 6))

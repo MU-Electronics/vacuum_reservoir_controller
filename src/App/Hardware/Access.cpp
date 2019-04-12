@@ -221,10 +221,13 @@ namespace App { namespace Hardware
         else if(hardware == "Guages")
         {
             // Set the method params
-            m_halContainer.guages().data()->setParams(command);
+            // m_halContainer.guages().data()->setParams(command);
+            // qDebug()<<command;
 
             // Run the method in the HAL and cache the status
-            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.guages().data(), method.toLatin1().data(), Qt::DirectConnection)) ? true : false;
+            QStringList returnData;
+            status["resulting_status"] = (QMetaObject::invokeMethod(m_halContainer.guages().data(), method.toLatin1().data(), Qt::DirectConnection, Q_RETURN_ARG(QStringList, returnData), Q_ARG(QVariantMap, command))) ? true : false;
+            proccessDataFromHals("Guages", method.toLatin1().data(), command, returnData);
         }
         else if(hardware == "Pumps")
         {

@@ -162,13 +162,13 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
     void ValveFunctions::openGroup7()
     {
-        qDebug() << "opening valve 7";
+        //qDebug() << "opening valve 7";
         valveHelper(7, true);
     }
 
     void ValveFunctions::openGroup8()
     {
-        qDebug() << "opening valve 8";
+        //qDebug() << "opening valve 8";
         valveHelper(8, true);
     }
 
@@ -260,13 +260,13 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
 
     void ValveFunctions::validateOpenGroup7()
     {
-        qDebug() << "validating opne group 7";
+        //qDebug() << "validating opne group 7";
         validateValveHelper(7, true);
     }
 
     void ValveFunctions::validateOpenGroup8()
     {
-        qDebug() << "validating opne group 8";
+        //qDebug() << "validating opne group 8";
         validateValveHelper(8, true);
     }
 

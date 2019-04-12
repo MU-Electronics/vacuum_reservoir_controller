@@ -166,6 +166,7 @@ namespace App { namespace Experiment { namespace Machines { namespace Functions
                 QVariantMap successPackage;
 
                 // Data to pass on
+                successPackage.insert("guage_id", package.value("guage_id").toInt());
                 successPackage.insert("requested_gauge_group", group);
                 successPackage.insert("pressure", package.value("pressure_mbar").toDouble());
                 successPackage.insert("voltage", package.value("voltage").toDouble());

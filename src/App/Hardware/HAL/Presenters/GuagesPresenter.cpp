@@ -127,8 +127,12 @@ namespace App { namespace Hardware { namespace HAL { namespace Presenters
         presented["method"] = "emit_guageReadVacuum";
         presented["guage_id"] = commands["guage_id"];
 
-        double voltage = (package.at(0).toDouble() / 0.201793722);
+        //double voltage = (package.at(0).toDouble() / 0.201793722);
+        double voltage = (package.at(0).toDouble() * 5.016666667);
         int id = presented["guage_id"].toInt();
+
+        //if(id == 1)
+        //    qDebug() << "Voltage: " << voltage << " Command: "<< commands << package;
 
         // Check drop gradient not too sharp (invalid reading)
         bool skipReading = false;
